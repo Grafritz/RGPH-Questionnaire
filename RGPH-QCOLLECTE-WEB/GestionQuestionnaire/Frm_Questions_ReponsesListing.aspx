@@ -192,8 +192,8 @@
                         </div>
                     </div>
                     <span class="pull-right box-tools">
-                        <asp:LinkButton ID="rbtnClearFilters" runat="server" CssClass="btn btn-sm btn-default" CausesValidation="false"> 
-        <i class="fa fa-ban on fa-filter" ></i> Clear Filters
+                        <asp:LinkButton ID="rbtnClearFilters" runat="server" CssClass="btn btn-sm btn-default" CausesValidation="false">         
+                            <i class="fa fa-ban on fa-filter" ></i> Clear Filters
                         </asp:LinkButton>
                     </span>
                     

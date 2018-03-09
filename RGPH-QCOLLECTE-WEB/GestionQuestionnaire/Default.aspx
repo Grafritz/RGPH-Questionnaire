@@ -153,7 +153,7 @@
 
                     <div class="stats_bar">
 
-                        <div class="butpro butstyle" runat="server" id="DIV_Module_JSON_DATA" >
+                        <div class="butpro butstyle" runat="server" id="DIV_Module_JSON_DATA">
                             <div class="sub">
                                 <span id="total_clientes">Module</span>
                             </div>
@@ -162,7 +162,7 @@
                             </div>
                         </div>
 
-                        <div class="butpro butstyle" runat="server" id="DIV_CategorieQuestion" >
+                        <div class="butpro butstyle" runat="server" id="DIV_CategorieQuestion">
                             <div class="sub">
                                 <span>Catégorie Question</span>
                             </div>
@@ -171,7 +171,7 @@
                             </div>
                         </div>
 
-                        <div class="butpro butstyle" runat="server" id="DIV_Questions" >
+                        <div class="butpro butstyle" runat="server" id="DIV_Questions">
                             <div class="sub">
                                 <span>Questions</span>
                             </div>
@@ -180,7 +180,7 @@
                             </div>
                         </div>
 
-                        <div class="butpro butstyle" runat="server" id="DIV_Reponses" >
+                        <div class="butpro butstyle" runat="server" id="DIV_Reponses">
                             <div class="sub">
                                 <span>Réponses</span>
                             </div>
@@ -189,7 +189,7 @@
                             </div>
                         </div>
 
-                        <div class="butpro butstyle" runat="server" id="DIV_FormulaireCollecte" >
+                        <div class="butpro butstyle" runat="server" id="DIV_FormulaireCollecte">
                             <div class="sub">
                                 <span>Formulaire Collecte</span>
                             </div>
@@ -208,6 +208,13 @@
                                 <asp:Label ID="Label2" runat="server" />
                             </small>
                         </h3>
+                        <br />
+                        <asp:CheckBoxList ID="CheckBoxList_Module" runat="server"></asp:CheckBoxList>
+                        <br />
+                        <asp:LinkButton ID="LinkButton_ExporterQuestionsEtReponses" runat="server" CssClass="btn btn-success" ValidationGroup="GPSave">
+                            <i class="fa fa-save" ></i> Exporter Questions et Réponses
+                        </asp:LinkButton>
+                        <asp:Label ID="label_Module" runat="server"></asp:Label>
                     </section>
                 </asp:Panel>
                 <!-- FORM LOGIN -->

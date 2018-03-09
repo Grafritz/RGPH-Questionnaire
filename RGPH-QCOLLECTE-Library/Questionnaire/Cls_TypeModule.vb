@@ -58,6 +58,13 @@ Public Class Cls_TypeModule
         End Get
     End Property
 
+    Public ReadOnly Property TypeModuleSTR As String
+        Get
+            Dim col As Long = Cls_Questions.Get_CountQuestion_ByTypeModule(_id)
+            Return _TypeModule & " ( <span style='color:" & IIf(col > 0, "green", "red") & ";' > " & col & " Questions</span> ) "
+        End Get
+    End Property
+
     ReadOnly Property IsDataDirty() As Boolean
         Get
             Return _isdirty
@@ -161,18 +168,14 @@ Public Class Cls_TypeModule
             Dim ds As Data.DataSet = SqlHelper.ExecuteDataset(SqlHelperParameterCache.BuildConfigDB(), "SP_ListAll_TypeModule")
             For Each r In ds.Tables(0).Rows
                 Dim obj As New Cls_TypeModule
-
                 obj.SetProperties(r)
-
                 objs.Add(obj)
             Next r
             Return objs
-
         Catch ex As Exception
             Throw ex
         End Try
     End Function
-
 
 #End Region
 

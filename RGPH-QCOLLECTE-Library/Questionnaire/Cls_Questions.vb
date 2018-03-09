@@ -637,6 +637,17 @@ Public Class Cls_Questions
         End Try
     End Function
 
+    Public Shared Function Get_CountQuestion_ByTypeModule(ByVal IdTypeModule As Long) As Long
+        Dim Nbr As Long = 0
+        Try
+            Nbr = Convert.ToInt32(SqlHelper.ExecuteScalar(SqlHelperParameterCache.BuildConfigDB(), "SP_Count_Questions_ByIDTypeModule", IdTypeModule))
+            Return Nbr
+        Catch ex As Rezo509Exception
+            'ErreurLog.WriteError("[" & Username & "] -- >(Class:Annonce) - Methode:Get_NumberAnnonces_IsNotAnnuler_ByUser :-->" & ex.Message)
+        End Try
+        Return Nbr
+    End Function
+
 #End Region
 
 #Region " Other Methods "

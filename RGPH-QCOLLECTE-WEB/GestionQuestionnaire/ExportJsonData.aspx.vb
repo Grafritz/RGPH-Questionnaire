@@ -52,6 +52,9 @@ Partial Class GestionQuestionnaire_ExportJsonData
                 Case [Global].DATA_QUESTION_MODULE
                     GetAll_DATA_QUESTION_MODULE()
 
+                Case [Global].DATA_MODULE_QUESTION_REPONSE_PAR_MODULE
+                    GetAll_DATA_MODULE_QUESTION_REPONSE_PAR_MODULE()
+
             End Select
         Catch ex As Threading.ThreadAbortException
         Catch ex As Rezo509Exception
@@ -61,7 +64,6 @@ Partial Class GestionQuestionnaire_ExportJsonData
             '[Global].WriteError(ex, User_Connected)
         End Try
     End Sub
-
 
     Public Shared Function TypeSafeConvertion(ByVal Val As Boolean) As Integer
         Dim _val As Long
@@ -464,9 +466,104 @@ Partial Class GestionQuestionnaire_ExportJsonData
         End Try
     End Sub
 
+    Private Sub GetAll_DATA_MODULE_QUESTION_REPONSE_PAR_MODULE()
+        Dim objs As New List(Of Cls_Questions)
+        Dim Result As String = ""
+        Dim ValJson As String = ""
+        Try
+            'tbl_questions.json
+            objs = Cls_Questions.SearchAll
+            With objs
+                If .Count > 0 Then
+                    For Each item As Cls_Questions In objs
+                        If Result.Equals("") Then
+                            Result = "{"
+                            'Result &= Chr(13)
+                            Result &= """codeQuestion"":""" & item.CodeQuestion.Replace("""", "\""") & """"
+                            'Result &= Chr(13)
+                            Result &= ",""libelle"":""" & item.Libelle.Replace("""", "\""") & """"
+                            'Result &= Chr(13)
+                            Result &= ",""detailsQuestion"":""" & item.DetailsQuestion.Replace("""", "\""") & """"
+                            'Result &= Chr(13)
+                            Result &= ",""codeCategorie"":""" & item.CodeCategorie.Replace("""", "\""") & """"
+                            'Result &= Chr(13)
+                            Result &= ",""nomChamps"":""" & item.NomChamps.Replace("""", "\""") & """"
+                            'Result &= Chr(13)
+                            Result &= ",""typeQuestion"":" & item.TypeQuestion & ""
+                            'Result &= Chr(13)
+                            Result &= ",""caratereAccepte"":" & item.CaratereAccepte & ""
+                            'Result &= Chr(13)
+                            Result &= ",""nbreValeurMinimal"":" & item.NbreValeurMinimal & ""
+                            'Result &= Chr(13)
+                            Result &= ",""nbreCaratereMaximal"":" & item.NbreCaratereMaximal & ""
+                            'Result &= Chr(13)
+                            Result &= ",""estSautReponse"":" & IIf(item.EstSautReponse, "true", "false") & ""
+                            'Result &= Chr(13)
+                            Result &= ",""qPrecedent"":""" & item.QPrecedent.Replace("""", "\""") & """"
+                            'Result &= Chr(13)
+                            Result &= ",""qSuivant"":""" & item.QSuivant.Replace("""", "\""") & """"
+                            'Result &= Chr(13)
+                            Result &= "}"
+                        Else
+                            Result &= Chr(13)
+                            Result &= ",{"
+                            'Result &= Chr(13)
+                            Result &= """codeQuestion"":""" & item.CodeQuestion.Replace("""", "\""") & """"
+                            'Result &= Chr(13)
+                            Result &= ",""libelle"":""" & item.Libelle.Replace("""", "\""") & """"
+                            'Result &= Chr(13)
+                            Result &= ",""detailsQuestion"":""" & item.DetailsQuestion.Replace("""", "\""") & """"
+                            'Result &= Chr(13)
+                            Result &= ",""codeCategorie"":""" & item.CodeCategorie.Replace("""", "\""") & """"
+                            'Result &= Chr(13)
+                            Result &= ",""nomChamps"":""" & item.NomChamps.Replace("""", "\""") & """"
+                            'Result &= Chr(13)
+                            Result &= ",""typeQuestion"":" & item.TypeQuestion & ""
+                            'Result &= Chr(13)
+                            Result &= ",""caratereAccepte"":" & item.CaratereAccepte & ""
+                            'Result &= Chr(13)
+                            Result &= ",""nbreValeurMinimal"":" & item.NbreValeurMinimal & ""
+                            'Result &= Chr(13)
+                            Result &= ",""nbreCaratereMaximal"":" & item.NbreCaratereMaximal & ""
+                            'Result &= Chr(13)
+                            Result &= ",""estSautReponse"":" & IIf(item.EstSautReponse, "true", "false") & ""
+                            'Result &= Chr(13)
+                            Result &= ",""qPrecedent"":""" & item.QPrecedent.Replace("""", "\""") & """"
+                            'Result &= Chr(13)
+                            Result &= ",""qSuivant"":""" & item.QSuivant.Replace("""", "\""") & """"
+                            'Result &= Chr(13)
+                            Result &= "}"
+                        End If
+                    Next
+
+                    ValJson &= "["
+                    ValJson &= Chr(13)
+                    ValJson &= Result
+                    ValJson &= Chr(13)
+                    ValJson &= "]"
+
+                    Response.Buffer = True
+                    Response.Charset = ""
+                    Response.Cache.SetCacheability(HttpCacheability.NoCache)
+                    Response.ContentType = "application/octet-stream"
+                    Response.AddHeader("content-disposition", "attachment;filename=tbl_questions.json")
+
+                    Response.Write(ValJson)
+
+                    Response.Flush()
+                    Response.End()
+                End If
+            End With
 
 
-
+        Catch ex As Threading.ThreadAbortException
+        Catch ex As Rezo509Exception
+            MessageToShow(ex.Message)
+        Catch ex As Exception
+            MessageToShow(ex.Message)
+            '[Global].WriteError(ex, User_Connected)
+        End Try
+    End Sub
 #End Region
 
 End Class

@@ -1,0 +1,18 @@
+
+Chemin Erreur : 
+03/09/2018 14:36:53
+Erreur dans: http://localhost/RGPH-Questionnaire/GestionQuestionnaire/Default.aspx. Message Erreur:[Admin ] : Property accessor 'TypeModuleSTR' on object 'RGPH_QCOLLECTE_Library.Cls_TypeModule' threw the following exception:'Conversion from string "BATIMENT" to type 'Long' is not valid.'System.Reflection.TargetInvocationException: Property accessor 'TypeModuleSTR' on object 'RGPH_QCOLLECTE_Library.Cls_TypeModule' threw the following exception:'Conversion from string "BATIMENT" to type 'Long' is not valid.' ---> System.InvalidCastException: Conversion from string "BATIMENT" to type 'Long' is not valid. ---> System.FormatException: Input string was not in a correct format.
+   at Microsoft.VisualBasic.CompilerServices.Conversions.ParseDecimal(String Value, NumberFormatInfo NumberFormat)
+   at Microsoft.VisualBasic.CompilerServices.Conversions.ToLong(String Value)
+   --- End of inner exception stack trace ---
+   at Microsoft.VisualBasic.CompilerServices.Conversions.ToLong(String Value)
+   at RGPH_QCOLLECTE_Library.Cls_TypeModule.get_TypeModuleSTR() in C:\_Travaux\IHSI\ProjetWEB\RGPH-Questionnaire\RGPH-QCOLLECTE-Library\Questionnaire\Cls_TypeModule.vb:line 63
+   --- End of inner exception stack trace ---
+   at System.ComponentModel.ReflectPropertyDescriptor.GetValue(Object component)
+   at System.Web.UI.DataBinder.GetPropertyValue(Object container, String propName)
+   at System.Web.UI.DataBinder.GetPropertyValue(Object container, String propName, String format)
+   at System.Web.UI.WebControls.ListControl.PerformDataBinding(IEnumerable dataSource)
+   at System.Web.UI.WebControls.ListControl.OnDataBinding(EventArgs e)
+   at System.Web.UI.WebControls.ListControl.PerformSelect()
+   at GestionQuestionnaire_Default.FillCombo_TypeModule() in C:\_Travaux\IHSI\ProjetWEB\RGPH-Questionnaire\RGPH-QCOLLECTE-WEB\GestionQuestionnaire\Default.aspx.vb:line 170
+__________________________
