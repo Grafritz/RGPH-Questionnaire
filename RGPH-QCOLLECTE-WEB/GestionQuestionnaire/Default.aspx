@@ -151,8 +151,30 @@
 
                 <asp:Panel runat="server" ID="Panel_First" Style="margin: 5px;">
 
-                    <div class="stats_bar">
+                    <div class="stats_bar" id="Section_DIVSession" runat="server">
+                        <div class="butpro butstyle" runat="server" id="DIV_Module_QuestionSession">
+                            <div class="sub">
+                                <h2>QUESTIONS</h2>
+                                <span>
+                                    <asp:Literal ID="Literal_QuestionSession" runat="server" Text="Exporter" /></span>
+                            </div>
+                            <div class="stat">
+                                <asp:Literal ID="Literal_QuestionSession2" runat="server" Text="Exporter" />
+                            </div>
+                        </div>
 
+                        <div class="butpro butstyle" runat="server" id="DIV_Module_ReponseSession">
+                            <div class="sub">
+                                <h2>RÉPONSES</h2>
+                                <span>
+                                    <asp:Literal ID="Literal_ReponseSession" runat="server" Text="Exporter" /></span>
+                            </div>
+                            <div class="stat">
+                                <asp:Literal ID="Literal_ReponseSessionq" runat="server" Text="Exporter" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stats_bar" id="Section0" runat="server">
                         <div class="butpro butstyle" runat="server" id="DIV_Module_JSON_DATA">
                             <div class="sub">
                                 <span id="total_clientes">Module</span>
@@ -197,24 +219,72 @@
                                 Export JSON data
                             </div>
                         </div>
-
-
                     </div>
                     <section class="page-head" id="Section1" runat="server">
                         <h3>
                             <i class="fa fa-dashboard"></i>
-                            <asp:Label ID="Label1" runat="server" Text=" Questions  Reponses / Module" />
+                            <asp:CheckBox runat="server" ID="CBX_Questions" Text="Questions" AutoPostBack="true" Checked="true" />
+                            <asp:CheckBox runat="server" ID="CBX_Reponse" Text="Réponses" AutoPostBack="true" Checked="true" />
+                            <asp:Label ID="Label1" runat="server" Text="  / Module" />
                             <small id="Small1" runat="server">
                                 <asp:Label ID="Label2" runat="server" />
                             </small>
                         </h3>
                         <br />
-                        <asp:CheckBoxList ID="CheckBoxList_Module" runat="server"></asp:CheckBoxList>
+                        <div class="col-sm-4 col-md-4">
+                            <div class="block">
+                                <div class="header no-border">
+                                    <h2>Type Module</h2>
+                                </div>
+                                <div class="content">
+                                    <asp:CheckBoxList ID="CheckBoxList_TypeModule" runat="server" />
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="col-sm-8 col-md-8">
+                            <telerik:RadGrid ID="RadGrid1" AllowPaging="false" AllowSorting="false" PageSize="50"
+                                runat="server" AutoGenerateColumns="False" GridLines="None" AllowFilteringByColumn="false"
+                                Culture="fr-FR" ShowGroupPanel="false"
+                                EnableViewState="true" AllowMultiRowSelection="false" GroupingSettings-CaseSensitive="false">
+                                <ExportSettings HideStructureColumns="true" />
+                                <MasterTableView CommandItemDisplay="None" GridLines="None" DataKeyNames="ID" NoDetailRecordsText="Pas d'enregistrement"
+                                    NoMasterRecordsText="Pas d'enregistrement">
+                                    <CommandItemSettings ShowAddNewRecordButton="false" ShowRefreshButton="false" ShowExportToExcelButton="true"
+                                        ExportToExcelText="Exporter en excel" />
+                                    <PagerStyle Mode="NextPrevAndNumeric"></PagerStyle>
+                                    <Columns>
+                                        <telerik:GridBoundColumn DataField="ID" UniqueName="ID" Display="false" />
+                                        <telerik:GridTemplateColumn HeaderText="Type Module" UniqueName="Type_Module">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="CheckBox_TypeModule" runat="server" Text='<%#Bind("TypeModuleSTR") %>' />
+                                            </ItemTemplate>
+                                        </telerik:GridTemplateColumn>
+                                        <telerik:GridTemplateColumn HeaderText="Formulaire(Module)" UniqueName="Module">
+                                            <ItemTemplate>
+                                                <asp:CheckBoxList ID="CheckBoxList_Module_Formulaire" runat="server"  />
+                                            </ItemTemplate>
+                                        </telerik:GridTemplateColumn>
+                                    </Columns>
+                                    <RowIndicatorColumn FilterControlAltText="Filter RowIndicator column"></RowIndicatorColumn>
+                                    <ExpandCollapseColumn FilterControlAltText="Filter ExpandColumn column"></ExpandCollapseColumn>
+                                </MasterTableView>
+                                <GroupingSettings CaseSensitive="False" />
+                                <ClientSettings AllowDragToGroup="false" AllowColumnsReorder="false">
+                                    <%--<ClientEvents OnRowContextMenu="RowContextMenu" OnRowDblClick="RowDblClick" />--%>
+                                    <Selecting AllowRowSelect="true" />
+                                </ClientSettings>
+                                <HeaderContextMenu CssClass="GridContextMenu GridContextMenu_Default" />
+                                <PagerStyle PageSizeControlType="RadComboBox" />
+                                <FilterMenu EnableImageSprites="False"></FilterMenu>
+                            </telerik:RadGrid>
+                            <div class="clear"></div>
+                        </div>
                         <br />
                         <asp:LinkButton ID="LinkButton_ExporterQuestionsEtReponses" runat="server" CssClass="btn btn-success" ValidationGroup="GPSave">
-                            <i class="fa fa-save" ></i> Exporter Questions et Réponses
-                        </asp:LinkButton>
-                        <asp:Label ID="label_Module" runat="server"></asp:Label>
+                            <i class="fa fa-save"></i>
+                            <asp:Literal ID="Literal_ExporterQuestionsEtReponses" runat="server" Text="Exporter" />
+                        </asp:LinkButton><asp:Label ID="label_Module" runat="server"></asp:Label>
                     </section>
                 </asp:Panel>
                 <!-- FORM LOGIN -->

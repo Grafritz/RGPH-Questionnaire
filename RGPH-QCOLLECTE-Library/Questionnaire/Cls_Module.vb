@@ -87,6 +87,29 @@ Public Class Cls_Module
         End Set
     End Property
 
+    Public ReadOnly Property Code_NomModuleSTR1 As String
+        Get
+            If _EstActif Then
+                Return _NomModule & " [ <span style='color:green;'>" & _CodeModule & "</span> ] "
+            Else
+                Return "<span style='text-decoration: line-through;color:gray;'>" & _NomModule & " [ <span style=''>" & _CodeModule & "</span> ] </span>"
+            End If
+        End Get
+    End Property
+
+    Public ReadOnly Property Code_NomModuleSTR As String
+        Get
+            Dim col As Long = Cls_Questions.Get_CountQuestion_ByCodeModule(_CodeModule)
+            Dim Qte As String = " ( <span style='color:" & IIf(col > 0, "green", "red") & ";' > " & col & " Questions</span> ) "
+
+            If _EstActif Then
+                Return _NomModule & " [ <span style='color:gray;'>" & _CodeModule & "</span> ] " & Qte
+            Else
+                Return "<span style='text-decoration: line-through;color:gray;'>" & _NomModule & " [ <span style=''>" & _CodeModule & "</span> ] </span>" & Qte
+            End If
+        End Get
+    End Property
+
     Public Property TypeModuleOBJ As Cls_TypeModule
         Get
             If Not (__TypeModule Is Nothing) Then

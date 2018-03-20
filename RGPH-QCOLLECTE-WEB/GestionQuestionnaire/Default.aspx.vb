@@ -42,20 +42,30 @@ Partial Class GestionQuestionnaire_Default
         '--- Si l'utilisateur n'a Access a la page les informations ne sont pas charger dans la Page_Load 
         If Is_Acces_Page Then
             If Not IsPostBack Then
-                Label_Titre.Text = PAGE_TITLE
-                'Btn_ADD_Questions_Reponses.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?" & [Global].ACTION & "=" & [Global].HideMenuHeader & "', 950, 650)); return false;")
-                'Btn_ADD_Questions_Reponses.Attributes.Add("onclick", "javascript:Open_Window('Frm_Questions_ReponsesADD.aspx', '_self',500,400); return false;") 
-                'BindGrid()
+                Dim _action As String = TypeSafeConversion.NullSafeString(Request.QueryString([Global].ACTION))
+                If _action.Equals([Global].DATA_MODULE_QUESTION_REPONSE_PAR_MODULE) Then
+                    Section0.Visible = False
+                    'Section1.Visible = False
+                Else
+                    Section_DIVSession.Visible = False
 
-                DIV_Module_JSON_DATA.Attributes.Add("onclick", "javascript:OpenWindow('ExportJsonData.aspx?" & [Global].ACTION & "=" & [Global].DATA_MODULE & "'); return false;")
-                DIV_CategorieQuestion.Attributes.Add("onclick", "javascript:OpenWindow('ExportJsonData.aspx?" & [Global].ACTION & "=" & [Global].DATA_CATEGORIE_QUESTION & "'); return false;")
-                DIV_Questions.Attributes.Add("onclick", "javascript:OpenWindow('ExportJsonData.aspx?" & [Global].ACTION & "=" & [Global].DATA_QUESTION & "'); return false;")
-                DIV_Reponses.Attributes.Add("onclick", "javascript:OpenWindow('ExportJsonData.aspx?" & [Global].ACTION & "=" & [Global].DATA_REPONSE & "'); return false;")
-                DIV_FormulaireCollecte.Attributes.Add("onclick", "javascript:OpenWindow('ExportJsonData.aspx?" & [Global].ACTION & "=" & [Global].DATA_QUESTION_MODULE & "'); return false;")
+                    Label_Titre.Text = PAGE_TITLE
+                    'Btn_ADD_Questions_Reponses.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?" & [Global].ACTION & "=" & [Global].HideMenuHeader & "', 950, 650)); return false;")
+                    'Btn_ADD_Questions_Reponses.Attributes.Add("onclick", "javascript:Open_Window('Frm_Questions_ReponsesADD.aspx', '_self',500,400); return false;") 
+                    'BindGrid()
 
-                FillCombo_TypeModule()
+                    DIV_Module_JSON_DATA.Attributes.Add("onclick", "javascript:OpenWindow('ExportJsonData.aspx?" & [Global].ACTION & "=" & [Global].DATA_MODULE & "'); return false;")
+                    DIV_CategorieQuestion.Attributes.Add("onclick", "javascript:OpenWindow('ExportJsonData.aspx?" & [Global].ACTION & "=" & [Global].DATA_CATEGORIE_QUESTION & "'); return false;")
+                    DIV_Questions.Attributes.Add("onclick", "javascript:OpenWindow('ExportJsonData.aspx?" & [Global].ACTION & "=" & [Global].DATA_QUESTION & "'); return false;")
+                    DIV_Reponses.Attributes.Add("onclick", "javascript:OpenWindow('ExportJsonData.aspx?" & [Global].ACTION & "=" & [Global].DATA_REPONSE & "'); return false;")
+                    DIV_FormulaireCollecte.Attributes.Add("onclick", "javascript:OpenWindow('ExportJsonData.aspx?" & [Global].ACTION & "=" & [Global].DATA_QUESTION_MODULE & "'); return false;")
+
+                    FillCombo_TypeModule()
+                    BindGrid()
+                    setValueButon()
+                End If
             End If
-        End If
+            End If
     End Sub
 
 
@@ -159,30 +169,6 @@ Partial Class GestionQuestionnaire_Default
 #End Region
 
 #Region "Other Method"
-
-    Private Sub FillCombo_TypeModule()
-        Try
-            Dim objs1 As List(Of Cls_TypeModule) = Cls_TypeModule.SearchAll
-            With CheckBoxList_Module
-                .DataSource = objs1
-                .DataValueField = "ID"
-                .DataTextField = "TypeModuleSTR"
-                .DataBind()
-                '.Items.Insert(0, New ListItem(" - TOUS LES TYPE (TOTAL:" & objs1.Count & ") - ", 0))
-                '.SelectedIndex = -1
-                '.Items.Sort()
-                '.Items.Insert(0, New RadComboBoxItem(" - Choisir -", ""))
-                '.SelectedIndex = 0
-                '.EmptyMessage = "- Choisir -"
-            End With
-        Catch ex As Threading.ThreadAbortException
-        Catch ex As Rezo509Exception
-            MessageToShow(ex.Message)
-        Catch ex As Exception
-            MessageToShow(ex.Message)
-            [Global].WriteError(ex, User_Connected)
-        End Try
-    End Sub
 #End Region
 
 #Region "Other Method"
@@ -204,118 +190,237 @@ Partial Class GestionQuestionnaire_Default
     End Sub
 
     Private Sub LinkButton_ExporterQuestionsEtReponses_Click(sender As Object, e As EventArgs) Handles LinkButton_ExporterQuestionsEtReponses.Click
-        'Response.Redirect("~/GestionQuestionnaire/ExportJsonData.aspx?" & [Global].ACTION & "=" & [Global].DATA_MODULE_QUESTION_REPONSE_PAR_MODULE & "")
-        GetAll_DATA_MODULE_QUESTION_REPONSE_PAR_MODULE()
+        GetAll_DATA_MODULE_QUESTION_OU_REPONSE_PAR_MODULE()
     End Sub
 #End Region
 
 #Region "Load DATA"
 
-    Private Sub GetAll_DATA_MODULE_QUESTION_REPONSE_PAR_MODULE()
-        Dim objs As New List(Of Cls_Questions)
-        Dim Result As String = ""
-        Dim ValJson As String = ""
+    Private Sub FillCombo_TypeModule()
         Try
-            'tbl_questions.json
-            objs = Cls_Questions.SearchAll
-            With objs
-                If .Count > 0 Then
-                    For Each item As Cls_Questions In objs
-                        If Result.Equals("") Then
-                            Result = "{"
-                            'Result &= Chr(13)
-                            Result &= """codeQuestion"":""" & item.CodeQuestion.Replace("""", "\""") & """"
-                            'Result &= Chr(13)
-                            Result &= ",""libelle"":""" & item.Libelle.Replace("""", "\""") & """"
-                            'Result &= Chr(13)
-                            Result &= ",""detailsQuestion"":""" & item.DetailsQuestion.Replace("""", "\""") & """"
-                            'Result &= Chr(13)
-                            Result &= ",""codeCategorie"":""" & item.CodeCategorie.Replace("""", "\""") & """"
-                            'Result &= Chr(13)
-                            Result &= ",""nomChamps"":""" & item.NomChamps.Replace("""", "\""") & """"
-                            'Result &= Chr(13)
-                            Result &= ",""typeQuestion"":" & item.TypeQuestion & ""
-                            'Result &= Chr(13)
-                            Result &= ",""caratereAccepte"":" & item.CaratereAccepte & ""
-                            'Result &= Chr(13)
-                            Result &= ",""nbreValeurMinimal"":" & item.NbreValeurMinimal & ""
-                            'Result &= Chr(13)
-                            Result &= ",""nbreCaratereMaximal"":" & item.NbreCaratereMaximal & ""
-                            'Result &= Chr(13)
-                            Result &= ",""estSautReponse"":" & IIf(item.EstSautReponse, "true", "false") & ""
-                            'Result &= Chr(13)
-                            Result &= ",""qPrecedent"":""" & item.QPrecedent.Replace("""", "\""") & """"
-                            'Result &= Chr(13)
-                            Result &= ",""qSuivant"":""" & item.QSuivant.Replace("""", "\""") & """"
-                            'Result &= Chr(13)
-                            Result &= "}"
-                        Else
-                            Result &= Chr(13)
-                            Result &= ",{"
-                            'Result &= Chr(13)
-                            Result &= """codeQuestion"":""" & item.CodeQuestion.Replace("""", "\""") & """"
-                            'Result &= Chr(13)
-                            Result &= ",""libelle"":""" & item.Libelle.Replace("""", "\""") & """"
-                            'Result &= Chr(13)
-                            Result &= ",""detailsQuestion"":""" & item.DetailsQuestion.Replace("""", "\""") & """"
-                            'Result &= Chr(13)
-                            Result &= ",""codeCategorie"":""" & item.CodeCategorie.Replace("""", "\""") & """"
-                            'Result &= Chr(13)
-                            Result &= ",""nomChamps"":""" & item.NomChamps.Replace("""", "\""") & """"
-                            'Result &= Chr(13)
-                            Result &= ",""typeQuestion"":" & item.TypeQuestion & ""
-                            'Result &= Chr(13)
-                            Result &= ",""caratereAccepte"":" & item.CaratereAccepte & ""
-                            'Result &= Chr(13)
-                            Result &= ",""nbreValeurMinimal"":" & item.NbreValeurMinimal & ""
-                            'Result &= Chr(13)
-                            Result &= ",""nbreCaratereMaximal"":" & item.NbreCaratereMaximal & ""
-                            'Result &= Chr(13)
-                            Result &= ",""estSautReponse"":" & IIf(item.EstSautReponse, "true", "false") & ""
-                            'Result &= Chr(13)
-                            Result &= ",""qPrecedent"":""" & item.QPrecedent.Replace("""", "\""") & """"
-                            'Result &= Chr(13)
-                            Result &= ",""qSuivant"":""" & item.QSuivant.Replace("""", "\""") & """"
-                            'Result &= Chr(13)
-                            Result &= "}"
-                        End If
-                    Next
-
-                    ValJson &= "["
-                    ValJson &= Chr(13)
-                    ValJson &= Result
-                    ValJson &= Chr(13)
-                    ValJson &= "]"
-
-                    'Response.Buffer = True
-                    'Response.Charset = ""
-                    'Response.Cache.SetCacheability(HttpCacheability.NoCache)
-                    'Response.ContentType = "application/octet-stream"
-                    'Response.AddHeader("content-disposition", "attachment;filename=tbl_questions.json")
-
-                    'Response.Write(ValJson)
-                    'label_Module.Text = ValJson
-                    'Response.Flush()
-                    'Response.End()
-                End If
+            Dim objs1 As List(Of Cls_TypeModule) = Cls_TypeModule.SearchAll
+            With CheckBoxList_TypeModule
+                .DataSource = objs1
+                .DataValueField = "ID"
+                .DataTextField = "TypeModuleSTR"
+                .DataBind()
+                '.Items.Insert(0, New ListItem(" - TOUS LES TYPE (TOTAL:" & objs1.Count & ") - ", 0))
+                '.SelectedIndex = -1
+                '.Items.Sort()
+                '.Items.Insert(0, New RadComboBoxItem(" - Choisir -", ""))
+                '.SelectedIndex = 0
+                '.EmptyMessage = "- Choisir -"
             End With
-
-
         Catch ex As Threading.ThreadAbortException
         Catch ex As Rezo509Exception
             MessageToShow(ex.Message)
         Catch ex As Exception
             MessageToShow(ex.Message)
-            '[Global].WriteError(ex, User_Connected)
+            [Global].WriteError(ex, User_Connected)
+        End Try
+    End Sub
+
+    Private Sub FillCombo_Module(CheckBoxList_Module_Formulaire As CheckBoxList, ByVal ID_TypeModule As Long)
+        Try
+            Dim objs1 As List(Of Cls_Module) = Cls_Module.SearchAllBy_TypeModule(ID_TypeModule)
+            With CheckBoxList_Module_Formulaire
+                .DataSource = objs1
+                .DataValueField = "CodeModule"
+                .DataTextField = "Code_NomModuleSTR"
+                .DataBind()
+            End With
+        Catch ex As Threading.ThreadAbortException
+        Catch ex As Rezo509Exception
+            MessageToShow(ex.Message)
+        Catch ex As Exception
+            MessageToShow(ex.Message)
+            [Global].WriteError(ex, User_Connected)
+        End Try
+    End Sub
+
+    Private Sub BindGrid(Optional ByVal _refresh As Boolean = True)
+        Dim objs As List(Of Cls_TypeModule)
+        Dim _ret As Long = 0
+        Try
+            objs = Cls_TypeModule.SearchAll
+            RadGrid1.DataSource = objs
+            If _refresh Then
+                RadGrid1.DataBind()
+            End If
+            _ret = objs.Count
+            'Label_Titre.Text = PAGE_TITLE & "  <small class=""badge badge-primary"">" & _ret & "</small>"
+        Catch ex As Threading.ThreadAbortException
+        Catch ex As Rezo509Exception
+            MessageToShow(ex.Message)
+        Catch ex As Exception
+            MessageToShow(ex.Message)
+            [Global].WriteError(ex, User_Connected)
+        End Try
+    End Sub
+
+    Private Sub GetAll_DATA_MODULE_QUESTION_OU_REPONSE_PAR_MODULE()
+
+        Dim _questionList As New List(Of Cls_Questions)
+        Dim _ReponseList As New List(Of Cls_Questions_Reponses)
+        Dim onElementCheck As Boolean = False
+        'Dim ValJson As String = ""
+        Try
+            REM Test pour voir si la case Question est cocher
+            'If CBX_Questions.Checked Then
+            REM Parcourt CheckBoxList Formulaire
+            For Each _item As ListItem In CheckBoxList_TypeModule.Items
+                Dim _qList As List(Of Cls_Questions)
+                If _item.Selected Then
+                    'onElementCheck = True
+
+                    _qList = Cls_Questions.SearchAll(TypeSafeConversion.NullSafeLong(_item.Value))
+                    If _qList IsNot Nothing OrElse _qList.Count > 0 Then 'Verification pour la liste des questions
+                        For Each _quest As Cls_Questions In _qList 'Parcourt de la liste des questions
+                            If CBX_Questions.Checked Then
+                                _questionList.Add(_quest)
+                            End If
+                            If CBX_Reponse.Checked Then 'Test pour voir si la case Reponse est cocher
+                                Dim _repList As List(Of Cls_Questions_Reponses) = Cls_Questions_Reponses.SearchAllBy_CodeQuestion(_quest.CodeQuestion)
+                                If _repList IsNot Nothing OrElse _repList.Count > 0 Then 'Verification pour la liste des Reponses
+                                    For Each _reponse As Cls_Questions_Reponses In _repList 'Parcourt de la liste des Reponses
+                                        _ReponseList.Add(_reponse)
+                                    Next
+                                End If
+                            End If
+                        Next
+                    End If
+                End If
+            Next
+            'End If
+
+            REM Gestion des sessions  
+            DIV_Module_QuestionSession.Visible = False
+            If _questionList.Count > 0 Then
+                onElementCheck = True
+                Me.Session([Global].DATA_MODULE_QUESTION_SESSION) = _questionList
+                DIV_Module_QuestionSession.Visible = True
+                DIV_Module_QuestionSession.Attributes.Add("onclick", "javascript:OpenWindow('ExportJsonData.aspx?" & [Global].ACTION & "=" & [Global].DATA_MODULE_QUESTION_SESSION & "'); return false;")
+                Literal_QuestionSession.Text = " [ " & _questionList.Count & " ]"
+            End If
+
+            DIV_Module_ReponseSession.Visible = False
+            If _ReponseList.Count > 0 Then
+                onElementCheck = True
+                Me.Session([Global].DATA_MODULE_REPONSES_SESSION) = _ReponseList
+                DIV_Module_ReponseSession.Visible = True
+                DIV_Module_ReponseSession.Attributes.Add("onclick", "javascript:OpenWindow('ExportJsonData.aspx?" & [Global].ACTION & "=" & [Global].DATA_MODULE_REPONSES_SESSION & "'); return false;")
+                Literal_ReponseSession.Text = "  [ " & _ReponseList.Count & " ]"
+            End If
+
+            If onElementCheck Then
+                Section0.Visible = False
+                Section_DIVSession.Visible = True
+            End If
+        Catch ex As Threading.ThreadAbortException
+        Catch ex As Rezo509Exception
+            MessageToShow(ex.Message)
+        Catch ex As Exception
+            MessageToShow(ex.Message)
+            [Global].WriteError(ex, User_Connected)
         End Try
     End Sub
 #End Region
 
 #Region "EVENTS CONTROLS"
 
+    Private Sub CBX_Questions_CheckedChanged(sender As Object, e As EventArgs) Handles CBX_Questions.CheckedChanged
+        setValueButon()
+    End Sub
+
+    Private Sub setValueButon()
+        Dim val As String = "Valider "
+
+        val += IIf(CBX_Questions.Checked, " Question ", "")
+        val += IIf(CBX_Reponse.Checked AndAlso CBX_Questions.Checked, " Et ", "")
+        val += IIf(CBX_Reponse.Checked, " Réponse ", "")
+
+        Literal_ExporterQuestionsEtReponses.Text = val
+    End Sub
+
+    Private Sub CBX_Reponse_CheckedChanged(sender As Object, e As EventArgs) Handles CBX_Reponse.CheckedChanged
+        setValueButon()
+    End Sub
+
 #End Region
 
 #Region "ACTIONS / METHODES"
+
+#End Region
+
+#Region "RADGRID EVENTS"
+    Protected Sub rdgContrainte_ItemCommand(ByVal sender As Object, ByVal e As Telerik.Web.UI.GridCommandEventArgs) Handles RadGrid1.ItemCommand
+        Try
+            Dim _id As Long = TypeSafeConversion.NullSafeLong(e.CommandArgument)
+            Select Case e.CommandName
+                Case "delete"
+                    'Dim obj As New Cls_Contrainte(_id)
+                    'obj.Delete()
+                    'User_Connected.Activite_Utilisateur_InRezo("DELETE " & PAGE_TITLE, obj.LogData(obj), Request.UserHostAddress)
+                    ''User_Connected.Activite_Utilisateur_InRezo("DELETE Contrainte ", obj.ID & " - Code:" & obj.Titrerapport & " Prop:", Request.UserHostAddress)
+                    'MessageToShow([Global].Msg_Information_Supprimee_Avec_Succes, "S")
+                    'RadGrid1.Rebind()
+            End Select
+        Catch ex As Threading.ThreadAbortException
+        Catch ex As Rezo509Exception
+            MessageToShow(ex.Message)
+        Catch ex As Exception
+            MessageToShow(ex.Message)
+            [Global].WriteError(ex, User_Connected)
+        End Try
+    End Sub
+
+    Protected Sub rdgContrainte_ItemDataBound(ByVal sender As Object, ByVal e As Telerik.Web.UI.GridItemEventArgs) Handles RadGrid1.ItemDataBound
+        Try
+            Dim gridDataItem = TryCast(e.Item, GridDataItem)
+            If e.Item.ItemType = GridItemType.Item Or e.Item.ItemType = GridItemType.AlternatingItem Then
+                'Dim _lnk As HyperLink = DirectCast(gridDataItem.FindControl("hlk"), HyperLink)
+                'Dim _lbl_ID As Label = DirectCast(gridDataItem.FindControl("lbl_ID"), Label)
+                '_lnk.Attributes.Clear()
+                '_lnk.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_ContrainteADD.aspx?ID=" & CLng(_lbl_ID.Text) & "', 750, 400));")
+            End If
+
+            If (gridDataItem IsNot Nothing) Then
+                Dim item As GridDataItem = gridDataItem
+                'CType(item.FindControl("lbOrder"), Label).Text = RadGrid1.PageSize * RadGrid1.CurrentPageIndex + (item.RowIndex / 2)
+                Dim ID_TypeModule As Long = CType(DataBinder.Eval(e.Item.DataItem, "ID"), Long)
+                Dim CheckBoxList_Module_Formulaire As CheckBoxList = CType(item.FindControl("CheckBoxList_Module_Formulaire"), CheckBoxList)
+                FillCombo_Module(CheckBoxList_Module_Formulaire, ID_TypeModule)
+                '<%#Bind("EstActif_Image") %>'
+            End If
+        Catch ex As Threading.ThreadAbortException
+        Catch ex As Rezo509Exception
+            MessageToShow(ex.Message)
+        Catch ex As Exception
+            MessageToShow(ex.Message)
+            [Global].WriteError(ex, User_Connected)
+        End Try
+    End Sub
+
+    Protected Sub rdgContrainte_NeedDataSource(ByVal sender As Object, ByVal e As Telerik.Web.UI.GridNeedDataSourceEventArgs) Handles RadGrid1.NeedDataSource
+        If IsPostBack Then
+            BindGrid(False)
+        End If
+    End Sub
+
+    Protected Sub RadAjaxManager1_AjaxRequest(ByVal sender As Object, ByVal e As Telerik.Web.UI.AjaxRequestEventArgs) Handles RadAjaxManager1.AjaxRequest
+        Try
+            Select Case e.Argument
+                Case "Reload"
+                    BindGrid(True)
+            End Select
+        Catch ex As Threading.ThreadAbortException
+        Catch ex As Rezo509Exception
+            MessageToShow(ex.Message)
+        Catch ex As Exception
+            MessageToShow(ex.Message)
+            [Global].WriteError(ex, User_Connected)
+        End Try
+    End Sub
 
 #End Region
 

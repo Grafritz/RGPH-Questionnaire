@@ -101,24 +101,24 @@
 
             function refreshMe() {
                 $find("<%= RadAjaxManager1.ClientID %>").ajaxRequest("Reload");
-}
+            }
 
-function closeWindow() {
-    GetRadWindow().BrowserWindow.refreshMe();
-    GetRadWindow().close();
-}
+            function closeWindow() {
+                GetRadWindow().BrowserWindow.refreshMe();
+                GetRadWindow().close();
+            }
 
-function CloseAndRefreshListe() {
-    GetRadWindow().BrowserWindow.refreshMe();
-    GetRadWindow().close();
-}
+            function CloseAndRefreshListe() {
+                GetRadWindow().BrowserWindow.refreshMe();
+                GetRadWindow().close();
+            }
 
-function GetRadWindow() {
-    var oWindow = null;
-    if (window.radWindow) oWindow = window.radWindow; //Will work in Moz in all cases, including clasic dialog
-    else if (window.frameElement.radWindow) oWindow = window.frameElement.radWindow; //IE (and Moz as well)
-    return oWindow;
-}
+            function GetRadWindow() {
+                var oWindow = null;
+                if (window.radWindow) oWindow = window.radWindow; //Will work in Moz in all cases, including clasic dialog
+                else if (window.frameElement.radWindow) oWindow = window.frameElement.radWindow; //IE (and Moz as well)
+                return oWindow;
+            }
 
         </script>
     </telerik:RadCodeBlock>
