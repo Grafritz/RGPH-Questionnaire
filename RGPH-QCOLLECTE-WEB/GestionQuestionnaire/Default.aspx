@@ -113,16 +113,16 @@
     <%--<telerik:RadScriptManager ID="RadScriptManager1"  runat="server"> </telerik:RadScriptManager>--%>
     <telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>
-            <telerik:AjaxSetting AjaxControlID="RadAjaxManager1">
+            <%--<telerik:AjaxSetting AjaxControlID="RadAjaxManager1">
                 <UpdatedControls>
                     <telerik:AjaxUpdatedControl ControlID="Panel_First" LoadingPanelID="RadAjaxLoadingPanel1" />
                 </UpdatedControls>
-            </telerik:AjaxSetting>
-            <telerik:AjaxSetting AjaxControlID="rbtnClearFilters">
+            </telerik:AjaxSetting>--%>
+            <%--<telerik:AjaxSetting AjaxControlID="rbtnClearFilters">
                 <UpdatedControls>
                     <telerik:AjaxUpdatedControl ControlID="rdgQuestions_Reponses" LoadingPanelID="RadAjaxLoadingPanel1" />
                 </UpdatedControls>
-            </telerik:AjaxSetting>
+            </telerik:AjaxSetting>--%>
         </AjaxSettings>
     </telerik:RadAjaxManager>
     <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" />
@@ -152,8 +152,28 @@
                 <asp:Panel runat="server" ID="Panel_First" Style="margin: 5px;">
 
                     <div class="stats_bar" id="Section_DIVSession" runat="server">
-                        <div class="butpro butstyle" runat="server" id="DIV_Module_QuestionSession">
+                        <div class="butpro butstyle" runat="server" id="DIV_Module_ModuleSession">
                             <div class="sub">
+                                <h2>MODULE</h2>
+                                <span>
+                                    <asp:Literal ID="Literal_ModuleSession" runat="server" Text="Exporter" /></span>
+                            </div>
+                            <div class="stat">
+                                <asp:Literal ID="Literal_ModuleSession2" runat="server" Text="Exporter" />
+                            </div>
+                        </div>
+                        <div class="butpro butstyle" runat="server" id="DIV_Question_Module_Session">
+                            <div class="sub">
+                                <h2>QUESTION / MODULE</h2>
+                                <span>
+                                    <asp:Literal ID="Literal_Question_ModuleSession" runat="server" Text="Exporter" /></span>
+                            </div>
+                            <div class="stat">
+                                <asp:Literal ID="Literal_Question_ModuleSession2" runat="server" Text="Exporter" />
+                            </div>
+                        </div>
+                        <div class="butpro butstyle" runat="server" id="DIV_Module_QuestionSession">
+                            <div class="sub stat-blue">
                                 <h2>QUESTIONS</h2>
                                 <span>
                                     <asp:Literal ID="Literal_QuestionSession" runat="server" Text="Exporter" /></span>
@@ -193,7 +213,7 @@
                             </div>
                         </div>
 
-                        <div class="butpro butstyle" runat="server" id="DIV_Questions">
+                        <div class="butpro butstyle stat-blue" runat="server" id="DIV_Questions">
                             <div class="sub">
                                 <span>Questions</span>
                             </div>
@@ -231,7 +251,7 @@
                             </small>
                         </h3>
                         <br />
-                        <div class="col-sm-4 col-md-4">
+                        <div class="col-sm-4 col-md-4" runat="server" id="DIVaa_TypeModule" visible="false">
                             <div class="block">
                                 <div class="header no-border">
                                     <h2>Type Module</h2>
@@ -243,7 +263,10 @@
                             <div class="clear"></div>
                         </div>
                         <div class="col-sm-8 col-md-8">
-                            <telerik:RadGrid ID="RadGrid1" AllowPaging="false" AllowSorting="false" PageSize="50"
+                            <asp:LinkButton ID="LinkButton_ExporterQuestionsEtReponses2" runat="server" CssClass="btn btn-success" ValidationGroup="GPSave">
+                                <i class="fa fa-save"></i>
+                                <asp:Literal ID="Literal_ExporterQuestionsEtReponses2" runat="server" Text="Exporter" />
+                            </asp:LinkButton><telerik:RadGrid ID="RadGrid1" AllowPaging="false" AllowSorting="false" PageSize="50"
                                 runat="server" AutoGenerateColumns="False" GridLines="None" AllowFilteringByColumn="false"
                                 Culture="fr-FR" ShowGroupPanel="false"
                                 EnableViewState="true" AllowMultiRowSelection="false" GroupingSettings-CaseSensitive="false">
@@ -258,11 +281,9 @@
                                         <telerik:GridTemplateColumn HeaderText="Type Module" UniqueName="Type_Module">
                                             <ItemTemplate>
                                                 <asp:CheckBox ID="CheckBox_TypeModule" runat="server" Text='<%#Bind("TypeModuleSTR") %>' />
-                                            </ItemTemplate>
-                                        </telerik:GridTemplateColumn>
-                                        <telerik:GridTemplateColumn HeaderText="Formulaire(Module)" UniqueName="Module">
+                                                <asp:TextBox ID="txt_IDTypeModule" runat="server" Text='<%#Bind("ID") %>' Visible="false"></asp:TextBox></ItemTemplate></telerik:GridTemplateColumn><telerik:GridTemplateColumn HeaderText="Formulaire(Module)" UniqueName="Module">
                                             <ItemTemplate>
-                                                <asp:CheckBoxList ID="CheckBoxList_Module_Formulaire" runat="server"  />
+                                                <asp:CheckBoxList ID="CheckBoxList_Module_Formulaire" runat="server" />
                                             </ItemTemplate>
                                         </telerik:GridTemplateColumn>
                                     </Columns>
@@ -280,22 +301,16 @@
                             </telerik:RadGrid>
                             <div class="clear"></div>
                         </div>
+                        <div class="clear"></div>
                         <br />
                         <asp:LinkButton ID="LinkButton_ExporterQuestionsEtReponses" runat="server" CssClass="btn btn-success" ValidationGroup="GPSave">
                             <i class="fa fa-save"></i>
                             <asp:Literal ID="Literal_ExporterQuestionsEtReponses" runat="server" Text="Exporter" />
-                        </asp:LinkButton><asp:Label ID="label_Module" runat="server"></asp:Label>
-                    </section>
-                </asp:Panel>
-                <!-- FORM LOGIN -->
-                <BRAIN:CULogin2 runat="server" ID="LoginWUC" Visible="false" />
+                        </asp:LinkButton><asp:Label ID="label_Module" runat="server"></asp:Label></section></asp:Panel><!-- FORM LOGIN --><BRAIN:CULogin2 runat="server" ID="LoginWUC" Visible="false" />
                 <div class="md-overlay"></div>
             </section>
 
-            <asp:Literal runat="server" ID="LiteralStyleCSS"></asp:Literal>
-        </div>
-    </div>
-    <telerik:RadWindowManager ID="RadWindowManager1" runat="server" VisibleStatusbar="false" EnableViewState="false">
+            <asp:Literal runat="server" ID="LiteralStyleCSS"></asp:Literal></div></div><telerik:RadWindowManager ID="RadWindowManager1" runat="server" VisibleStatusbar="false" EnableViewState="false">
         <Windows>
             <telerik:RadWindow ID="AddUpdateDialog" runat="server" Title="" IconUrl="~/Images/favicon.ico" Left="75px" ReloadOnShow="true"
                 ShowContentDuringLoad="false" Modal="true" OnClientClose="RadWindowClosing" Behaviors="Reload, Move, Resize, Maximize, Close"
@@ -309,5 +324,37 @@
         </Items>
     </telerik:RadContextMenu>
     <input id="txtWindowPage" type="hidden" />
+    <style type="text/css">
+        .colorprimary, .colorinfo, .colorwarning, .colorsuccess, .colordanger {
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+            color: #FFF;
+        }
+
+        .colorprimary {
+            background-color: #4e9dff;
+            border-color: #357ebd;
+        }
+
+        .colorinfo {
+            background-color: #5BC0DE;
+            border-color: #28a1c4;
+        }
+
+        .colorwarning {
+            border-color: #D68000;
+            background: #FC9700;
+        }
+
+        .colorsuccess {
+            border-color: #54A754;
+            background: #60C060;
+        }
+
+        .colordanger {
+            border-color: #ca452e;
+            background: #da4932;
+        }
+    </style>
 </asp:Content>
 

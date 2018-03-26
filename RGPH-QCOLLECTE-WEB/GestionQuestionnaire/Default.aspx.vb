@@ -42,12 +42,12 @@ Partial Class GestionQuestionnaire_Default
         '--- Si l'utilisateur n'a Access a la page les informations ne sont pas charger dans la Page_Load 
         If Is_Acces_Page Then
             If Not IsPostBack Then
-                Dim _action As String = TypeSafeConversion.NullSafeString(Request.QueryString([Global].ACTION))
-                If _action.Equals([Global].DATA_MODULE_QUESTION_REPONSE_PAR_MODULE) Then
-                    Section0.Visible = False
-                    'Section1.Visible = False
-                Else
-                    Section_DIVSession.Visible = False
+                'Dim _action As String = TypeSafeConversion.NullSafeString(Request.QueryString([Global].ACTION))
+                'If _action.Equals([Global].DATA_MODULE_QUESTION_REPONSE_PAR_MODULE) Then
+                '    Section0.Visible = False
+                '    'Section1.Visible = False
+                'Else
+                Section_DIVSession.Visible = False
 
                     Label_Titre.Text = PAGE_TITLE
                     'Btn_ADD_Questions_Reponses.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?" & [Global].ACTION & "=" & [Global].HideMenuHeader & "', 950, 650)); return false;")
@@ -63,7 +63,7 @@ Partial Class GestionQuestionnaire_Default
                     FillCombo_TypeModule()
                     BindGrid()
                     setValueButon()
-                End If
+                'End If
             End If
             End If
     End Sub
@@ -188,10 +188,6 @@ Partial Class GestionQuestionnaire_Default
             Style_Division(Icon_Msg, "fa  fa-thumbs-down")
         End If
     End Sub
-
-    Private Sub LinkButton_ExporterQuestionsEtReponses_Click(sender As Object, e As EventArgs) Handles LinkButton_ExporterQuestionsEtReponses.Click
-        GetAll_DATA_MODULE_QUESTION_OU_REPONSE_PAR_MODULE()
-    End Sub
 #End Region
 
 #Region "Load DATA"
@@ -258,8 +254,7 @@ Partial Class GestionQuestionnaire_Default
         End Try
     End Sub
 
-    Private Sub GetAll_DATA_MODULE_QUESTION_OU_REPONSE_PAR_MODULE()
-
+    Private Sub SetAll_DATA_MODULE_QUESTION_OU_REPONSE()
         Dim _questionList As New List(Of Cls_Questions)
         Dim _ReponseList As New List(Of Cls_Questions_Reponses)
         Dim onElementCheck As Boolean = False
@@ -324,6 +319,131 @@ Partial Class GestionQuestionnaire_Default
             [Global].WriteError(ex, User_Connected)
         End Try
     End Sub
+
+    Private Sub SetAll_DATA_Question_Or_Reponse_From_RadGrid()
+        Dim _questionList As New List(Of Cls_Questions)
+        Dim _ReponseList As New List(Of Cls_Questions_Reponses)
+        Dim onElementCheck As Boolean = False
+        Try
+            REM Test pour voir si la case Question est cocher
+            REM Parcourt CheckBox du type de Module dans le RadGrid
+            For Each lign As GridDataItem In RadGrid1.Items
+                Dim _CheckBox_TypeModule As CheckBox = CType(lign.FindControl("CheckBox_TypeModule"), CheckBox)
+                Dim _txt_IDTypeModule As TextBox = CType(lign.FindControl("txt_IDTypeModule"), TextBox)
+
+                Dim _qList As List(Of Cls_Questions)
+                REM Parcourt CheckBoxList Formulaire
+                If _CheckBox_TypeModule.Checked Then
+                    _qList = Cls_Questions.SearchAll(TypeSafeConversion.NullSafeLong(_txt_IDTypeModule.Text))
+                    If _qList IsNot Nothing OrElse _qList.Count > 0 Then 'Verification pour la liste des questions
+                        For Each _quest As Cls_Questions In _qList 'Parcourt de la liste des questions
+                            If CBX_Questions.Checked Then
+                                _questionList.Add(_quest)
+                            End If
+                            If CBX_Reponse.Checked Then 'Test pour voir si la case Reponse est cocher
+                                Dim _repList As List(Of Cls_Questions_Reponses) = Cls_Questions_Reponses.SearchAllBy_CodeQuestion(_quest.CodeQuestion)
+                                If _repList IsNot Nothing OrElse _repList.Count > 0 Then 'Verification pour la liste des Reponses
+                                    For Each _reponse As Cls_Questions_Reponses In _repList 'Parcourt de la liste des Reponses
+                                        _ReponseList.Add(_reponse)
+                                    Next
+                                End If
+                            End If
+                        Next
+                    End If
+                End If
+            Next
+
+            REM Gestion des sessions  
+            DIV_Module_QuestionSession.Visible = False
+            If _questionList.Count > 0 Then
+                onElementCheck = True
+                Me.Session([Global].DATA_MODULE_QUESTION_SESSION) = _questionList
+                DIV_Module_QuestionSession.Visible = True
+                DIV_Module_QuestionSession.Attributes.Add("onclick", "javascript:OpenWindow('ExportJsonData.aspx?" & [Global].ACTION & "=" & [Global].DATA_MODULE_QUESTION_SESSION & "'); return false;")
+                Literal_QuestionSession.Text = " [ " & _questionList.Count & " ]"
+            End If
+
+            DIV_Module_ReponseSession.Visible = False
+            If _ReponseList.Count > 0 Then
+                onElementCheck = True
+                Me.Session([Global].DATA_MODULE_REPONSES_SESSION) = _ReponseList
+                DIV_Module_ReponseSession.Visible = True
+                DIV_Module_ReponseSession.Attributes.Add("onclick", "javascript:OpenWindow('ExportJsonData.aspx?" & [Global].ACTION & "=" & [Global].DATA_MODULE_REPONSES_SESSION & "'); return false;")
+                Literal_ReponseSession.Text = "  [ " & _ReponseList.Count & " ]"
+            End If
+
+            If onElementCheck Then
+                Section0.Visible = False
+                Section_DIVSession.Visible = True
+            End If
+        Catch ex As Threading.ThreadAbortException
+        Catch ex As Rezo509Exception
+            MessageToShow(ex.Message)
+        Catch ex As Exception
+            MessageToShow(ex.Message)
+            [Global].WriteError(ex, User_Connected)
+        End Try
+    End Sub
+
+    Private Sub SetAll_DATA_Module_ET_Formulaire_From_RadGrid()
+        Dim _ModuleList As New List(Of Cls_Module)
+        Dim _QuestionModuleList As New List(Of Cls_Question_Module)
+        Dim onElementCheck As Boolean = False
+        Try
+            REM Test pour voir si la case Question est cocher
+            REM Parcourt CheckBox du type de Module dans le RadGrid
+            For Each lign As GridDataItem In RadGrid1.Items
+                Dim _CheckBoxList_Module_Formulaire As CheckBoxList = CType(lign.FindControl("CheckBoxList_Module_Formulaire"), CheckBoxList)
+
+                Dim _mod As New Cls_Module
+                For Each _item As ListItem In _CheckBoxList_Module_Formulaire.Items REM Parcourt CheckBoxList Formulaire
+                    If _item.Selected Then
+                        _mod = New Cls_Module(TypeSafeConversion.NullSafeString(_item.Value))
+                        If _mod.ID > 0 Then 'Verification pour le Module
+                            _ModuleList.Add(_mod)
+                            REM recherche des Questions par Module
+                            Dim _qmList As List(Of Cls_Question_Module) = Cls_Question_Module.SearchAllBy_CodeModule(_mod.CodeModule)
+                            If _qmList IsNot Nothing OrElse _qmList.Count > 0 Then 'Verification pour la liste des Reponses
+                                For Each _qmod As Cls_Question_Module In _qmList 'Parcourt de la liste des Reponses
+                                    _QuestionModuleList.Add(_qmod)
+                                Next
+                            End If
+                        End If
+                    End If
+                Next
+            Next
+
+            REM Gestion des sessions  
+            DIV_Module_ModuleSession.Visible = False
+            If _ModuleList.Count > 0 Then
+                onElementCheck = True
+                Me.Session([Global].DATA_MODULE_SESSION) = _ModuleList
+                DIV_Module_ModuleSession.Visible = True
+                DIV_Module_ModuleSession.Attributes.Add("onclick", "javascript:OpenWindow('ExportJsonData.aspx?" & [Global].ACTION & "=" & [Global].DATA_MODULE_SESSION & "'); return false;")
+                Literal_ModuleSession.Text = " [ " & _ModuleList.Count & " ]"
+            End If
+
+            DIV_Question_Module_Session.Visible = False
+            If _QuestionModuleList.Count > 0 Then
+                onElementCheck = True
+                Me.Session([Global].DATA_QUESTION_MODULE_SESSION) = _QuestionModuleList
+                DIV_Question_Module_Session.Visible = True
+                DIV_Question_Module_Session.Attributes.Add("onclick", "javascript:OpenWindow('ExportJsonData.aspx?" & [Global].ACTION & "=" & [Global].DATA_QUESTION_MODULE_SESSION & "'); return false;")
+                Literal_Question_ModuleSession.Text = "  [ " & _QuestionModuleList.Count & " ]"
+            End If
+
+            If onElementCheck Then
+                Section0.Visible = False
+                Section_DIVSession.Visible = True
+            End If
+        Catch ex As Threading.ThreadAbortException
+        Catch ex As Rezo509Exception
+            MessageToShow(ex.Message)
+        Catch ex As Exception
+            MessageToShow(ex.Message)
+            [Global].WriteError(ex, User_Connected)
+        End Try
+    End Sub
 #End Region
 
 #Region "EVENTS CONTROLS"
@@ -340,10 +460,17 @@ Partial Class GestionQuestionnaire_Default
         val += IIf(CBX_Reponse.Checked, " Réponse ", "")
 
         Literal_ExporterQuestionsEtReponses.Text = val
+        Literal_ExporterQuestionsEtReponses2.Text = val
     End Sub
 
     Private Sub CBX_Reponse_CheckedChanged(sender As Object, e As EventArgs) Handles CBX_Reponse.CheckedChanged
         setValueButon()
+    End Sub
+
+    Private Sub LinkButton_ExporterQuestionsEtReponses_Click(sender As Object, e As EventArgs) Handles LinkButton_ExporterQuestionsEtReponses.Click, LinkButton_ExporterQuestionsEtReponses2.Click
+        'SetAll_DATA_MODULE_QUESTION_OU_REPONSE()
+        SetAll_DATA_Question_Or_Reponse_From_RadGrid()
+        SetAll_DATA_Module_ET_Formulaire_From_RadGrid()
     End Sub
 
 #End Region
@@ -353,7 +480,7 @@ Partial Class GestionQuestionnaire_Default
 #End Region
 
 #Region "RADGRID EVENTS"
-    Protected Sub rdgContrainte_ItemCommand(ByVal sender As Object, ByVal e As Telerik.Web.UI.GridCommandEventArgs) Handles RadGrid1.ItemCommand
+    Protected Sub RadGrid1_ItemCommand(ByVal sender As Object, ByVal e As Telerik.Web.UI.GridCommandEventArgs) Handles RadGrid1.ItemCommand
         Try
             Dim _id As Long = TypeSafeConversion.NullSafeLong(e.CommandArgument)
             Select Case e.CommandName
@@ -374,7 +501,7 @@ Partial Class GestionQuestionnaire_Default
         End Try
     End Sub
 
-    Protected Sub rdgContrainte_ItemDataBound(ByVal sender As Object, ByVal e As Telerik.Web.UI.GridItemEventArgs) Handles RadGrid1.ItemDataBound
+    Protected Sub RadGrid1_ItemDataBound(ByVal sender As Object, ByVal e As Telerik.Web.UI.GridItemEventArgs) Handles RadGrid1.ItemDataBound
         Try
             Dim gridDataItem = TryCast(e.Item, GridDataItem)
             If e.Item.ItemType = GridItemType.Item Or e.Item.ItemType = GridItemType.AlternatingItem Then
@@ -401,7 +528,7 @@ Partial Class GestionQuestionnaire_Default
         End Try
     End Sub
 
-    Protected Sub rdgContrainte_NeedDataSource(ByVal sender As Object, ByVal e As Telerik.Web.UI.GridNeedDataSourceEventArgs) Handles RadGrid1.NeedDataSource
+    Protected Sub RadGrid1_NeedDataSource(ByVal sender As Object, ByVal e As Telerik.Web.UI.GridNeedDataSourceEventArgs) Handles RadGrid1.NeedDataSource
         If IsPostBack Then
             BindGrid(False)
         End If

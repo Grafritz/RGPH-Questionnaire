@@ -54,11 +54,17 @@ Partial Class GestionQuestionnaire_ExportJsonData
                 Case [Global].DATA_QUESTION_MODULE
                     GetAll_DATA_QUESTION_MODULE()
 
+                Case [Global].DATA_MODULE_SESSION
+                    GetAll_DATA_MODULE_SESSION()
+
+                Case [Global].DATA_QUESTION_MODULE_SESSION
+                    GetAll_DATA_QUESTION_MODULE_SESSION()
+
                 Case [Global].DATA_MODULE_QUESTION_SESSION
-                    GetAll_DATA_MODULE_QUESTION_SESSION()
+                    GetAll_DATA_QUESTION_SESSION()
 
                 Case [Global].DATA_MODULE_REPONSES_SESSION
-                    GetAll_DATA_MODULE_REPONSES_SESSION()
+                    GetAll_DATA_REPONSES_SESSION()
 
             End Select
         Catch ex As Threading.ThreadAbortException
@@ -381,7 +387,57 @@ Partial Class GestionQuestionnaire_ExportJsonData
 
 #Region "SESSION"
 
-    Private Sub GetAll_DATA_MODULE_QUESTION_SESSION()
+    Private Sub GetAll_DATA_MODULE_SESSION()
+        Dim objs As New List(Of Cls_Module)
+        Dim Result As String = ""
+        Dim ValJson As String = ""
+        Try
+            'tbl_module.json
+            'objs = Cls_Module.SearchAll
+            If Session([Global].DATA_MODULE_SESSION) IsNot Nothing Then
+                objs = CType(Session([Global].DATA_MODULE_SESSION), List(Of Cls_Module))
+            End If
+            With objs
+                If .Count > 0 Then
+                    For Each item As Cls_Module In objs
+                        If Result.Equals("") Then
+                            Result = getStringJSON_Module(item)
+                        Else
+                            Result &= Chr(13)
+                            Result &= "," & getStringJSON_Module(item)
+                        End If
+                    Next
+
+                    ValJson &= "["
+                    ValJson &= Chr(13)
+                    ValJson &= Result
+                    ValJson &= Chr(13)
+                    ValJson &= "]"
+
+                    Response.Buffer = True
+                    Response.Charset = ""
+                    Response.Cache.SetCacheability(HttpCacheability.NoCache)
+                    Response.ContentType = "application/octet-stream"
+                    Response.AddHeader("content-disposition", "attachment;filename=tbl_module.json")
+
+                    Response.Write(ValJson)
+
+                    Response.Flush()
+                    Response.End()
+                End If
+            End With
+
+
+        Catch ex As Threading.ThreadAbortException
+        Catch ex As Rezo509Exception
+            MessageToShow(ex.Message)
+        Catch ex As Exception
+            MessageToShow(ex.Message)
+            '[Global].WriteError(ex, User_Connected)
+        End Try
+    End Sub
+
+    Private Sub GetAll_DATA_QUESTION_SESSION()
         Dim _questionList As New List(Of Cls_Questions)
         Dim Result As String = ""
         Dim ValJson As String = ""
@@ -431,7 +487,7 @@ Partial Class GestionQuestionnaire_ExportJsonData
         End Try
     End Sub
 
-    Private Sub GetAll_DATA_MODULE_REPONSES_SESSION()
+    Private Sub GetAll_DATA_REPONSES_SESSION()
         Dim _reponseList As New List(Of Cls_Questions_Reponses)
         Dim Result As String = ""
         Dim ValJson As String = ""
@@ -479,8 +535,91 @@ Partial Class GestionQuestionnaire_ExportJsonData
         End Try
     End Sub
 
+    Private Sub GetAll_DATA_QUESTION_MODULE_SESSION()
+        Dim objs As New List(Of Cls_Question_Module)
+        Dim Result As String = ""
+        Dim ValJson As String = ""
+        Try
+            'tbl_questions_module.json
+            'objs = Cls_Question_Module.SearchAll
+            If Session([Global].DATA_QUESTION_MODULE_SESSION) IsNot Nothing Then
+                objs = CType(Session([Global].DATA_QUESTION_MODULE_SESSION), List(Of Cls_Question_Module))
+            End If
+            With objs
+                If .Count > 0 Then
+                    For Each item As Cls_Question_Module In objs
+                        If Result.Equals("") Then
+                            Result = getStringJSON_Question_Module(item)
+                        Else
+                            Result &= Chr(13)
+                            Result &= "," & getStringJSON_Question_Module(item)
+                        End If
+                    Next
+
+                    ValJson &= "["
+                    ValJson &= Chr(13)
+                    ValJson &= Result
+                    ValJson &= Chr(13)
+                    ValJson &= "]"
+
+                    Response.Buffer = True
+                    Response.Charset = ""
+                    Response.Cache.SetCacheability(HttpCacheability.NoCache)
+                    Response.ContentType = "application/octet-stream"
+                    Response.AddHeader("content-disposition", "attachment;filename=tbl_questions_module.json")
+
+                    Response.Write(ValJson)
+
+                    Response.Flush()
+                    Response.End()
+                End If
+            End With
+
+
+        Catch ex As Threading.ThreadAbortException
+        Catch ex As Rezo509Exception
+            MessageToShow(ex.Message)
+        Catch ex As Exception
+            MessageToShow(ex.Message)
+            '[Global].WriteError(ex, User_Connected)
+        End Try
+    End Sub
 #End Region
 
+
+    Private Function getStringJSON_Question_Module(item As Cls_Question_Module) As String
+        Dim Result As String = "{"
+        Result &= Chr(13)
+        Result &= """ordre"":""" & item.ID & """"
+        Result &= Chr(13)
+        Result &= ",""codeModule"":""" & item.CodeModule.Replace("""", "\""") & """"
+        Result &= Chr(13)
+        Result &= ",""codeQuestion"":""" & item.CodeQuestion.Replace("""", "\""") & """"
+        Result &= Chr(13)
+        Result &= ",""estDebut"":" & IIf(item.EstDebut, "true", "false") & ""
+        Result &= Chr(13)
+        Result &= "}"
+
+        Return Result
+    End Function
+
+    Private Function getStringJSON_Module(item As Cls_Module) As String
+        Dim Result As String = "{"
+        Result &= Chr(13)
+        Result &= """codeModule"":""" & item.CodeModule.Replace("""", "\""") & """"
+        Result &= Chr(13)
+        Result &= ",""nomModule"":""" & item.NomModule.Replace("""", "\""") & """"
+        Result &= Chr(13)
+        Result &= ",""typeModule"":" & item.TypeModule & ""
+        Result &= Chr(13)
+        Result &= ",""description"":""" & item.Description.Replace("""", "\""") & """"
+        Result &= Chr(13)
+        Result &= ",""estActif"":" & IIf(item.EstActif, "true", "false") & ""
+        Result &= Chr(13)
+        Result &= "}"
+
+        Return Result
+    End Function
 
     Private Function getStringJSON_Question(item As Cls_Questions) As String
         Dim Result As String = "{"
