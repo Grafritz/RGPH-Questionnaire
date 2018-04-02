@@ -131,12 +131,12 @@ Partial Class Login
                     Response.Redirect(Request.QueryString("RedirectUrl"))
                 End If
 
-                Dim PageDefault As String = User_Connected.GroupeUser.PageDefault
-                If Not PageDefault.Trim.Equals("") Then
-                    Response.Redirect(PageDefault)
-                Else
-                    Response.Redirect("~/GestionQuestionnaire/Frm_QuestionsListing.aspx")
-                End If
+                'Dim PageDefault As String = User_Connected.GroupeUser.PageDefault
+                'If Not PageDefault.Trim.Equals("") Then
+                '    Response.Redirect(PageDefault)
+                'Else
+                Response.Redirect("~/GestionQuestionnaire/Frm_QuestionsListing.aspx")
+                'End If
 
                 'Panel_Msg.Visible = True
             Else

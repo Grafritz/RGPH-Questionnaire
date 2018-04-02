@@ -362,14 +362,20 @@
                     <asp:Panel runat="server" ID="PanelChoixReponse" Visible="false">
                         <div class="tab-container">
                             <ul class="nav nav-tabs">
-                                <li class="active">
-                                    <a href="#home" data-toggle="tab"><i class="fa fa-tasks "></i>
+                                <li runat="server" ID="LI_Reponse"  class="active">
+                                    <a href="#Reponses" data-toggle="tab"><i class="fa fa-tasks "></i>
                                         <asp:Label runat="server" ID="LabelReponseTitre" Text="Réponse"></asp:Label>
+                                    </a>
+                                </li>
+                                <li runat="server" ID="LI_Specifications"  >
+                                    <a href="#Specifications" data-toggle="tab"><i class="fa fa-tasks "></i>
+                                        Spécifications de Controle
+                                        <asp:Literal runat="server" ID="Literal_Specifications" />
                                     </a>
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane cont active" id="home">
+                                <div class="tab-pane cont active" id="Reponses">
                                     <div runat="server" id="divLiteralMsg" visible="false" class="alert alert-warning alert-white rounded">
                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                         <div class="icon"><i class="fa fa-info-circle"></i></div>
@@ -378,14 +384,12 @@
                                     <asp:Panel ID="PanelListePossibiliteReponse" runat="server">
                                         <asp:LinkButton ID="LinkButton_NewReponse" runat="server" CssClass="btn btn-info" Style="margin-bottom: 5px;">
                                             <i class="fa fa-plus-square-o"></i> Ajouter élément de Réponse </asp:LinkButton>
-
-
                                         <telerik:RadGrid ID="rdgQuestions_Reponses" AllowPaging="True" AllowSorting="True" PageSize="20"
                                             runat="server" AutoGenerateColumns="False" GridLines="None" AllowFilteringByColumn="true"
                                             Culture="fr-FR" ShowGroupPanel="True"
                                             EnableViewState="true" AllowMultiRowSelection="false" GroupingSettings-CaseSensitive="false">
                                             <ExportSettings HideStructureColumns="true" />
-                                            <MasterTableView CommandItemDisplay="Top" GridLines="None" DataKeyNames="ID" NoDetailRecordsText="Pas d'enregistrement"
+                                            <MasterTableView CommandItemDisplay="None" GridLines="None" DataKeyNames="ID" NoDetailRecordsText="Pas d'enregistrement"
                                                 NoMasterRecordsText="Pas d'enregistrement">
                                                 <CommandItemSettings ShowAddNewRecordButton="false" ShowRefreshButton="false" ShowExportToExcelButton="true"
                                                     ExportToExcelText="Exporter en excel" />
@@ -455,6 +459,69 @@
                                         </telerik:RadGrid>
                                     </asp:Panel>
                                 </div>
+                                <div class="tab-pane" id="Specifications">                                   
+                                    <asp:Panel ID="PanelListeSpecifications" runat="server">
+                                        <asp:LinkButton ID="LinkButton_NewSpecifications" runat="server" CssClass="btn btn-warning" Style="margin-bottom: 5px;">
+                                            <i class="fa fa-plus-square-o"></i> Ajouter Spécifications de Controle </asp:LinkButton>
+                                        <telerik:RadGrid ID="RadGridSpecifications" AllowPaging="True" AllowSorting="True" PageSize="20"
+                                            runat="server" AutoGenerateColumns="False" GridLines="None" AllowFilteringByColumn="true"
+                                            Culture="fr-FR" ShowGroupPanel="True"
+                                            EnableViewState="true" AllowMultiRowSelection="false" GroupingSettings-CaseSensitive="false">
+                                            <ExportSettings HideStructureColumns="true" />
+                                            <MasterTableView CommandItemDisplay="None" GridLines="None" DataKeyNames="ID" NoDetailRecordsText="Pas d'enregistrement"
+                                                NoMasterRecordsText="Pas d'enregistrement">
+                                                <CommandItemSettings ShowAddNewRecordButton="false" ShowRefreshButton="false" ShowExportToExcelButton="true"
+                                                    ExportToExcelText="Exporter en excel" />
+                                                <PagerStyle Mode="NextPrevAndNumeric"></PagerStyle>
+                                                <Columns>
+                                                    <telerik:GridBoundColumn DataField="ID" UniqueName="ID" Display="false" />
+                                                    <telerik:GridTemplateColumn Visible="true" ShowFilterIcon="false" AllowFiltering="false" HeaderText="#" UniqueName="Compteur">
+                                                        <ItemTemplate>
+                                                            <asp:Label Visible="true" ID="lbOrder" runat="server" />
+                                                        </ItemTemplate>
+                                                        <HeaderStyle HorizontalAlign="Center" Width="16px" />
+                                                        <ItemStyle HorizontalAlign="Center" Width="16px" />
+                                                    </telerik:GridTemplateColumn>
+                                                    <telerik:GridBoundColumn DataField="Instructions" UniqueName="Instructions" HeaderText="Instructions"
+                                                        FilterControlAltText="Filter Instructions column" FilterControlWidth="95%" ShowFilterIcon="false"
+                                                        AllowFiltering="true" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains">
+                                                    </telerik:GridBoundColumn>
+                                                    <telerik:GridBoundColumn DataField="Controles" UniqueName="Controles" HeaderText="Controles"
+                                                        FilterControlAltText="Filter Controles column" FilterControlWidth="95%" ShowFilterIcon="false"
+                                                        AllowFiltering="true" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains">
+                                                    </telerik:GridBoundColumn>
+                                                    <telerik:GridBoundColumn DataField="Messages" UniqueName="Messages" HeaderText="Messages"
+                                                        FilterControlAltText="Filter Messages column" FilterControlWidth="95%" ShowFilterIcon="false"
+                                                        AllowFiltering="true" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains">
+                                                    </telerik:GridBoundColumn>
+                                                    <telerik:GridButtonColumn ButtonType="ImageButton" CommandArgument="ID" CommandName="editer"
+                                                        DataTextField="ID" ImageUrl="~/images/_edit.png"
+                                                        HeaderText="" UniqueName="editer">
+                                                        <HeaderStyle HorizontalAlign="Center" Width="16px" />
+                                                        <ItemStyle HorizontalAlign="Center" Width="16px" />
+                                                    </telerik:GridButtonColumn>
+                                                    <telerik:GridButtonColumn ButtonType="ImageButton" CommandName="delete" DataTextField="ID"
+                                                        ImageUrl="~/images/delete.png"
+                                                        UniqueName="delete" HeaderText="" ConfirmDialogType="RadWindow" ConfirmText="Voulez-vous vraiment supprimer cette information ?"
+                                                        ConfirmTitle="Attention!">
+                                                        <HeaderStyle HorizontalAlign="Center" Width="16px" />
+                                                        <ItemStyle HorizontalAlign="Center" Width="16px" />
+                                                    </telerik:GridButtonColumn>
+                                                </Columns>
+                                                <RowIndicatorColumn FilterControlAltText="Filter RowIndicator column"></RowIndicatorColumn>
+                                                <ExpandCollapseColumn FilterControlAltText="Filter ExpandColumn column"></ExpandCollapseColumn>
+                                            </MasterTableView>
+                                            <GroupingSettings CaseSensitive="False" />
+                                            <ClientSettings AllowDragToGroup="True" AllowColumnsReorder="True">
+                                                <ClientEvents OnRowContextMenu="RowContextMenu" OnRowDblClick="RowDblClick" />
+                                                <Selecting AllowRowSelect="true" />
+                                            </ClientSettings>
+                                            <HeaderContextMenu CssClass="GridContextMenu GridContextMenu_Default" />
+                                            <PagerStyle PageSizeControlType="RadComboBox" />
+                                            <FilterMenu EnableImageSprites="False"></FilterMenu>
+                                        </telerik:RadGrid>
+                                    </asp:Panel>
+                                </div>
                             </div>
                         </div>
                     </asp:Panel>
@@ -478,8 +545,8 @@
 
     <telerik:RadContextMenu ID="ContextMenu" runat="server" OnClientItemClicked="MenuItemClicked" EnableRoundedCorners="true" EnableShadows="true">
         <Items>
-            <telerik:RadMenuItem Visible="true" Value="Editer" Text="Editer" ImageUrl="~/images/_edit.png" HoveredImageUrl="~/images/_edit.png" />
-            <telerik:RadMenuItem Visible="true" Value="Delete" Text="Supprimer" ImageUrl="~/images/delete.png" HoveredImageUrl="~/images/delete.png" />
+            <telerik:RadMenuItem Visible="true" Value="Editer" Text="Visualiser / Modifier" ImageUrl="~/images/_edit.png" HoveredImageUrl="~/images/_edit.png" />
+            <%--<telerik:RadMenuItem Visible="false" Value="Delete" Text="Supprimer" ImageUrl="~/images/delete.png" HoveredImageUrl="~/images/delete.png" />--%>
         </Items>
     </telerik:RadContextMenu>
 

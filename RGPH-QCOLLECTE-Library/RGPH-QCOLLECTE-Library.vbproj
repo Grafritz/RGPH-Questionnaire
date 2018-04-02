@@ -89,6 +89,7 @@
     <Compile Include="Questionnaire\Cls_Contrainte.vb" />
     <Compile Include="Questionnaire\Cls_Module.vb" />
     <Compile Include="Questionnaire\Cls_Questions.vb" />
+    <Compile Include="Questionnaire\Cls_QuestionSpecificationControle.vb" />
     <Compile Include="Questionnaire\Cls_Questions_Reponses.vb" />
     <Compile Include="Questionnaire\Cls_Question_Module.vb" />
     <Compile Include="Questionnaire\Cls_TypeModule.vb" />

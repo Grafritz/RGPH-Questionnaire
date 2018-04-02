@@ -18,10 +18,10 @@ Partial Class Frm_QuestionsListing
     Private _message As String  ' VARIABLE SERVANT A LA RECUPERATION DE TOUS LES MESSAGES D'ECHECS OU DE SUCCES
 
     REM DEFINITION ET INITIALISATION DES CONSTANTE POUR LA SECURITE
-    Private Const Nom_page As String = "PAGE-LISTING-STATUT"  ' POUR LA PAGE
-    Private Const Btn_Save As String = "Bouton-SAVE-STATUT"       ' POUR LE BOUTON D'ENREGISTREMENT
-    Private Const Btn_Edit As String = "Bouton-EDIT-STATUT"       ' POUR LE BOUTON DE MODIFICATION
-    Private Const Btn_Delete As String = "Bouton-DELETE-STATUT"   ' POUR LE BOUTON DE SUPPRESSION
+    Private Const Nom_page As String = "PAGE-LISTING-QUESTIONS"  ' POUR LA PAGE
+    Private Const Btn_Save As String = "Bouton-SAVE-QUESTIONS"       ' POUR LE BOUTON D'ENREGISTREMENT
+    Private Const Btn_Edit As String = "Bouton-EDIT-QUESTIONS"       ' POUR LE BOUTON DE MODIFICATION
+    Private Const Btn_Delete As String = "Bouton-DELETE-QUESTIONS"   ' POUR LE BOUTON DE SUPPRESSION
 
     Dim User_Connected As Cls_User          ' INSTANCE DE LA CLASSE UTILISATEUR - UTILISER POUR L'UTILISATEUR EN SESSION 
     Dim Is_Acces_Page As Boolean = True     ' LA VARIABLE SERVANT DE TEST POUR DONNEER L'ACCES A LA PAGE

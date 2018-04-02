@@ -18,10 +18,20 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
     Private _message As String  ' VARIABLE SERVANT A LA RECUPERATION DE TOUS LES MESSAGES D'ECHECS OU DE SUCCES
 
     REM DEFINITION ET INITIALISATION DES CONSTANTE POUR LA SECURITE
-    Private Const Nom_page As String = "PAGE-LISTING-STATUT"  ' POUR LA PAGE
-    Private Const Btn_Save As String = "Bouton-SAVE-STATUT"       ' POUR LE BOUTON D'ENREGISTREMENT
-    Private Const Btn_Edit As String = "Bouton-EDIT-STATUT"       ' POUR LE BOUTON DE MODIFICATION
-    Private Const Btn_Delete As String = "Bouton-DELETE-STATUT"   ' POUR LE BOUTON DE SUPPRESSION
+    Private Const Nom_page As String = "PAGE-LISTING-QUESTIONS"  ' POUR LA PAGE
+    Private Const Btn_Save As String = "Bouton-SAVE-QUESTIONS"       ' POUR LE BOUTON D'ENREGISTREMENT
+    Private Const Btn_Edit As String = "Bouton-EDIT-QUESTIONS"       ' POUR LE BOUTON DE MODIFICATION
+    Private Const Btn_Delete As String = "Bouton-DELETE-QUESTIONS"   ' POUR LE BOUTON DE SUPPRESSION
+
+    Private Const Nom_pageREPONSES As String = "PAGE-LISTING-REPONSES"  ' POUR LA PAGE
+    Private Const Btn_SaveREPONSES As String = "Bouton-SAVE-REPONSES"       ' POUR LE BOUTON D'ENREGISTREMENT
+    Private Const Btn_EditREPONSES As String = "Bouton-EDIT-REPONSES"       ' POUR LE BOUTON DE MODIFICATION
+    Private Const Btn_DeleteREPONSES As String = "Bouton-DELETE-REPONSES"   ' POUR LE BOUTON DE SUPPRESSION
+
+    Private Const Nom_pageSPECIFICATION As String = "PAGE-LISTING-SPECIFICATION-CONTROLE"  ' POUR LA PAGE
+    Private Const Btn_SaveSPECIFICATION As String = "Bouton-SAVE-SPECIFICATION-CONTROLE"       ' POUR LE BOUTON D'ENREGISTREMENT
+    Private Const Btn_EditSPECIFICATION As String = "Bouton-EDIT-SPECIFICATION-CONTROLE"       ' POUR LE BOUTON DE MODIFICATION
+    Private Const Btn_DeleteSPECIFICATION As String = "Bouton-DELETE-SPECIFICATION-CONTROLE"   ' POUR LE BOUTON DE SUPPRESSION
 
     Dim User_Connected As Cls_User          ' INSTANCE DE LA CLASSE UTILISATEUR - UTILISER POUR L'UTILISATEUR EN SESSION 
     Dim Is_Acces_Page As Boolean = True     ' LA VARIABLE SERVANT DE TEST POUR DONNEER L'ACCES A LA PAGE
@@ -103,6 +113,30 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
                             Btn_SaveInfo.Visible = _check
                         End If
                     End If
+                    _check = Cls_Privilege.VerifyRightOnObject(Nom_pageREPONSES, User_Connected.IdGroupeuser)
+                    PanelListePossibiliteReponse.Visible = _check
+                    If _check Then
+                        _check = Cls_Privilege.VerifyRightOnObject(Btn_SaveREPONSES, User_Connected.IdGroupeuser)
+                        LinkButton_NewReponse.Visible = _check
+                        _check = Cls_Privilege.VerifyRightOnObject(Btn_EditREPONSES, User_Connected.IdGroupeuser)
+                        rdgQuestions_Reponses.MasterTableView.Columns.FindByUniqueNameSafe("editer").Visible = _check
+
+                        _check = Cls_Privilege.VerifyRightOnObject(Btn_DeleteREPONSES, User_Connected.IdGroupeuser)
+                        rdgQuestions_Reponses.MasterTableView.Columns.FindByUniqueNameSafe("delete").Visible = _check
+                    End If
+
+                    _check = Cls_Privilege.VerifyRightOnObject(Nom_pageSPECIFICATION, User_Connected.IdGroupeuser)
+                    PanelListeSpecifications.Visible = _check
+                    If _check Then
+                        _check = Cls_Privilege.VerifyRightOnObject(Btn_SaveSPECIFICATION, User_Connected.IdGroupeuser)
+                        LinkButton_NewSpecifications.Visible = _check
+                        _check = Cls_Privilege.VerifyRightOnObject(Btn_EditSPECIFICATION, User_Connected.IdGroupeuser)
+                        RadGridSpecifications.MasterTableView.Columns.FindByUniqueNameSafe("editer").Visible = _check
+
+                        _check = Cls_Privilege.VerifyRightOnObject(Btn_DeleteSPECIFICATION, User_Connected.IdGroupeuser)
+                        RadGridSpecifications.MasterTableView.Columns.FindByUniqueNameSafe("delete").Visible = _check
+                    End If
+
                 End If
             End If
 
@@ -218,6 +252,7 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
                         SetField_TypeQuestion()
 
                         BindGrid()
+                        BindGrid_Specification()
                     End With
                 End If
             Else
@@ -373,6 +408,27 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
             [Global].WriteError(ex, User_Connected)
         End Try
     End Sub
+
+    Private Sub BindGrid_Specification(Optional ByVal _refresh As Boolean = True)
+        Dim objs As List(Of Cls_QuestionSpecificationControle)
+        Dim _ret As Long = 0
+        Try
+            Dim _CodeQuestion As String = TypeSafeConversion.NullSafeString(txt_CodeQuestion.Text)
+            objs = Cls_QuestionSpecificationControle.SearchAllBy_CodeQuestion(_CodeQuestion)
+            RadGridSpecifications.DataSource = objs
+            If _refresh Then
+                RadGridSpecifications.DataBind()
+            End If
+            _ret = objs.Count
+            Literal_Specifications.Text = " <small class=""badge badge-warning"">" & _ret & "</small>"
+        Catch ex As Threading.ThreadAbortException
+        Catch ex As Rezo509Exception
+            MessageToShow(ex.Message)
+        Catch ex As Exception
+            MessageToShow(ex.Message)
+            [Global].WriteError(ex, User_Connected)
+        End Try
+    End Sub
 #End Region
 
 #Region "METHODES - SAVE"
@@ -432,17 +488,17 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
     End Sub
 
     Protected Sub Btn_Annuler_Click(sender As Object, e As EventArgs) Handles Btn_Annuler.Click
-        PAGE_MERE = TypeSafeConversion.NullSafeLong(Request.QueryString([Global].PAGE_MERE))
-        If Request.QueryString([Global].ACTION) IsNot Nothing Then
-            Select Case Request.QueryString([Global].ACTION)
-                Case [Global].HideMenuHeader
-                    RadAjaxManager1.ResponseScripts.Add("CloseAndRefreshListe();")
-                Case Else
-                    Response.Redirect([Global].GetPath_PageMere(PAGE_MERE))
-            End Select
-        Else
-            Response.Redirect([Global].GetPath_PageMere(PAGE_MERE))
-        End If
+        'PAGE_MERE = TypeSafeConversion.NullSafeLong(Request.QueryString([Global].PAGE_MERE))
+        'If Request.QueryString([Global].ACTION) IsNot Nothing Then
+        '    Select Case Request.QueryString([Global].ACTION)
+        '        Case [Global].HideMenuHeader
+        RadAjaxManager1.ResponseScripts.Add("CloseAndRefreshListeQuestion();")
+        '        Case Else
+        '            Response.Redirect([Global].GetPath_PageMere(PAGE_MERE))
+        '    End Select
+        'Else
+        '    Response.Redirect([Global].GetPath_PageMere(PAGE_MERE))
+        'End If
     End Sub
 
     Private Sub DDL_TypeQuestion_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DDL_TypeQuestion.SelectedIndexChanged
@@ -471,9 +527,10 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
 
 
 #Region "RADGRID EVENTS"
+
+#Region "RADGRID EVENTS REPONSES"
     Protected Sub rdgQuestions_Reponses_ItemCommand(ByVal sender As Object, ByVal e As Telerik.Web.UI.GridCommandEventArgs) Handles rdgQuestions_Reponses.ItemCommand
         Try
-
             Dim _id As Long = TypeSafeConversion.NullSafeLong(e.CommandArgument)
             Select Case e.CommandName
                 Case "delete"
@@ -531,12 +588,20 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
             BindGrid(False)
         End If
     End Sub
+#End Region
 
-    Protected Sub RadAjaxManager1_AjaxRequest(ByVal sender As Object, ByVal e As Telerik.Web.UI.AjaxRequestEventArgs) Handles RadAjaxManager1.AjaxRequest
+#Region "RADGRID EVENTS SPECIFICATIONS"
+    Protected Sub RadGridSpecifications_Reponses_ItemCommand(ByVal sender As Object, ByVal e As Telerik.Web.UI.GridCommandEventArgs) Handles RadGridSpecifications.ItemCommand
         Try
-            Select Case e.Argument
-                Case "Reload"
-                    BindGrid(True)
+            Dim _id As Long = TypeSafeConversion.NullSafeLong(e.CommandArgument)
+            Select Case e.CommandName
+                Case "delete"
+                    Dim obj As New Cls_QuestionSpecificationControle(_id)
+                    obj.Delete()
+                    'User_Connected.Activite_Utilisateur_InRezo("DELETE " & PAGE_TITLE, obj.LogData(obj), Request.UserHostAddress)
+                    'User_Connected.Activite_Utilisateur_InRezo("DELETE Questions_Reponses ", obj.ID & " - Code:" & obj.Titrerapport & " Prop:", Request.UserHostAddress)
+                    MessageToShow([Global].Msg_Information_Supprimee_Avec_Succes, "S")
+                    RadGridSpecifications.Rebind()
             End Select
         Catch ex As Threading.ThreadAbortException
         Catch ex As Rezo509Exception
@@ -547,7 +612,64 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
         End Try
     End Sub
 
+    Protected Sub RadGridSpecifications_Reponses_ItemDataBound(ByVal sender As Object, ByVal e As Telerik.Web.UI.GridItemEventArgs) Handles RadGridSpecifications.ItemDataBound
+        Try
+            Dim gridDataItem = TryCast(e.Item, GridDataItem)
+            If e.Item.ItemType = GridItemType.Item Or e.Item.ItemType = GridItemType.AlternatingItem Then
+                'Dim _lnk As HyperLink = DirectCast(gridDataItem.FindControl("hlk"), HyperLink)
+                'Dim _lbl_ID As Label = DirectCast(gridDataItem.FindControl("lbl_ID"), Label)
+                '_lnk.Attributes.Clear()
+                '_lnk.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?ID=" & CLng(_lbl_ID.Text) & "', 750, 400));")
+            End If
+
+            If (gridDataItem IsNot Nothing) Then
+                Dim item As GridDataItem = gridDataItem
+                CType(item.FindControl("lbOrder"), Label).Text = RadGridSpecifications.PageSize * RadGridSpecifications.CurrentPageIndex + (item.RowIndex / 2)
+
+                Dim imagedelete As ImageButton = CType(item("delete").Controls(0), ImageButton)
+                Dim imageediter As ImageButton = CType(item("editer").Controls(0), ImageButton)
+                imagedelete.ToolTip = "Effacer"
+                imageediter.ToolTip = "Editer"
+                imagedelete.CommandArgument = CType(DataBinder.Eval(e.Item.DataItem, "ID"), String)
+                imageediter.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_QuestionSpecificationControleADD.aspx?ID=" & CType(DataBinder.Eval(e.Item.DataItem, "ID"), Long) & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650));")
+                REM Privilege
+                'imageediter.Visible = Cls_Privilege.VerifyRightOnObject(Btn_Save, User_Connected.IdGroupeuser)
+                'imagedelete.Visible = Cls_Privilege.VerifyRightOnObject(Btn_Delete, User_Connected.IdGroupeuser)
+            End If
+        Catch ex As Threading.ThreadAbortException
+        Catch ex As Rezo509Exception
+            MessageToShow(ex.Message)
+        Catch ex As Exception
+            MessageToShow(ex.Message)
+            [Global].WriteError(ex, User_Connected)
+        End Try
+    End Sub
+
+    Protected Sub RadGridSpecifications_Reponses_NeedDataSource(ByVal sender As Object, ByVal e As Telerik.Web.UI.GridNeedDataSourceEventArgs) Handles RadGridSpecifications.NeedDataSource
+        If IsPostBack Then
+            BindGrid_Specification(False)
+        End If
+    End Sub
+#End Region
 
 #End Region
+
+    Protected Sub RadAjaxManager1_AjaxRequest(ByVal sender As Object, ByVal e As Telerik.Web.UI.AjaxRequestEventArgs) Handles RadAjaxManager1.AjaxRequest
+        Try
+            Select Case e.Argument
+                Case "Reload"
+                    BindGrid(True)
+                Case "ReloadSpecification"
+                    BindGrid_Specification(True)
+            End Select
+        Catch ex As Threading.ThreadAbortException
+        Catch ex As Rezo509Exception
+            MessageToShow(ex.Message)
+        Catch ex As Exception
+            MessageToShow(ex.Message)
+            [Global].WriteError(ex, User_Connected)
+        End Try
+    End Sub
+
 
 End Class
