@@ -250,7 +250,7 @@ function GetRadWindow() {
     <telerik:RadContextMenu ID="ContextMenu" runat="server" OnClientItemClicked="MenuItemClicked" EnableRoundedCorners="true" EnableShadows="true">
         <Items>
             <telerik:RadMenuItem Visible="true" Value="Editer" Text="Editer" ImageUrl="~/images/_edit.png" HoveredImageUrl="~/images/_edit.png" />
-            <telerik:RadMenuItem Visible="true" Value="Delete" Text="Supprimer" ImageUrl="~/images/delete.png" HoveredImageUrl="~/images/delete.png" />
+            <%--<telerik:RadMenuItem Visible="true" Value="Delete" Text="Supprimer" ImageUrl="~/images/delete.png" HoveredImageUrl="~/images/delete.png" />--%>
         </Items>
     </telerik:RadContextMenu>
     <input id="txtWindowPage" type="hidden" />
