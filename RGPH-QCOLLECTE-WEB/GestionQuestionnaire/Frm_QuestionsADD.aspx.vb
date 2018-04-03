@@ -229,6 +229,7 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
                     PanelChoixReponse.Visible = True
                     'rbtnAddPossibiliteReponse.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & ", 850, 550)); return false;")
                     LinkButton_NewReponse.Attributes.Add("onclick", "javascript:void(ShowAddUpdateFormMaximized('Frm_Questions_ReponsesADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
+                    LinkButton_NewSpecifications.Attributes.Add("onclick", "javascript:void(ShowAddUpdateFormMaximized('Frm_QuestionSpecificationControleADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
 
                     Btn_SaveInfo.Visible = Cls_Privilege.VerifyRightOnObject(Btn_Edit, User_Connected.IdGroupeuser)
                     With obj
@@ -470,6 +471,7 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
 
                 PanelChoixReponse.Visible = True
                 LinkButton_NewReponse.Attributes.Add("onclick", "javascript:void(ShowAddUpdateFormMaximized('Frm_Questions_ReponsesADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
+                LinkButton_NewSpecifications.Attributes.Add("onclick", "javascript:void(ShowAddUpdateFormMaximized('Frm_QuestionSpecificationControleADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
                 Btn_SaveInfo.Visible = Cls_Privilege.VerifyRightOnObject(Btn_Edit, User_Connected.IdGroupeuser)
             End If
         Catch ex As Threading.ThreadAbortException
@@ -659,7 +661,7 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
             Select Case e.Argument
                 Case "Reload"
                     BindGrid(True)
-                Case "ReloadSpecification"
+                Case "refreshListeSpecificationControle"
                     BindGrid_Specification(True)
             End Select
         Catch ex As Threading.ThreadAbortException

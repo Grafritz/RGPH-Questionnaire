@@ -379,39 +379,37 @@ Public Class Cls_QuestionSpecificationControle
         'Throw (New Rezo509Exception(" Trop de caractères insérés pour  Instructions  (la longueur doit être inférieure a -1 caractères.  )"))
         'End If
 
-        If _Controles = "" Then
-            Throw (New Rezo509Exception("  Controles Obligatoire"))
-        End If
+        'If _Controles = "" Then
+        '    Throw (New Rezo509Exception("  Controles Obligatoire"))
+        'End If
 
         'If Len(_Controles) > -1 Then
         'Throw (New Rezo509Exception(" Trop de caractères insérés pour  Controles  (la longueur doit être inférieure a -1 caractères.  )"))
         'End If
 
-        If _Messages = "" Then
-            Throw (New Rezo509Exception("  Messages Obligatoire"))
-        End If
+        'If _Messages = "" Then
+        '    Throw (New Rezo509Exception("  Messages Obligatoire"))
+        'End If
 
         'If Len(_Messages) > -1 Then
         'Throw (New Rezo509Exception(" Trop de caractères insérés pour  Messages  (la longueur doit être inférieure a -1 caractères.  )"))
         'End If
 
-        If _CreatedBy = "" Then
-            Throw (New Rezo509Exception("  Created By Obligatoire"))
-        End If
-
-        'If Len(_CreatedBy) > 200 Then
-        'Throw (New Rezo509Exception(" Trop de caractères insérés pour  Created By  (la longueur doit être inférieure a 200 caractères.  )"))
+        'If _CreatedBy = "" Then
+        '    Throw (New Rezo509Exception("  Created By Obligatoire"))
         'End If
 
-        If _ModifBy = "" Then
-            Throw (New Rezo509Exception("  Modif By Obligatoire"))
-        End If
+        ''If Len(_CreatedBy) > 200 Then
+        ''Throw (New Rezo509Exception(" Trop de caractères insérés pour  Created By  (la longueur doit être inférieure a 200 caractères.  )"))
+        ''End If
+
+        'If _ModifBy = "" Then
+        '    Throw (New Rezo509Exception("  Modif By Obligatoire"))
+        'End If
 
         'If Len(_ModifBy) > 200 Then
         'Throw (New Rezo509Exception(" Trop de caractères insérés pour  Modif By  (la longueur doit être inférieure a 200 caractères.  )"))
         'End If
-
-
     End Sub
 
     Public Function Encode(ByVal str As Byte()) As String
