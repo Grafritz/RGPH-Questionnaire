@@ -228,8 +228,8 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
                 If obj.ID > 0 Then
                     PanelChoixReponse.Visible = True
                     'rbtnAddPossibiliteReponse.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & ", 850, 550)); return false;")
-                    LinkButton_NewReponse.Attributes.Add("onclick", "javascript:void(ShowAddUpdateFormMaximized('Frm_Questions_ReponsesADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
-                    LinkButton_NewSpecifications.Attributes.Add("onclick", "javascript:void(ShowAddUpdateFormMaximized('Frm_QuestionSpecificationControleADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
+                    LinkButton_NewReponse.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
+                    LinkButton_NewSpecifications.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_QuestionSpecificationControleADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
 
                     Btn_SaveInfo.Visible = Cls_Privilege.VerifyRightOnObject(Btn_Edit, User_Connected.IdGroupeuser)
                     With obj
