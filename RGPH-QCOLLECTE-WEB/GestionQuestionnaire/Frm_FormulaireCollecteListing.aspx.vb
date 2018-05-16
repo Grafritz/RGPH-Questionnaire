@@ -18,10 +18,10 @@ Partial Class GestionQuestionnaire_Frm_FormulaireCollecteListing
     Private _message As String  ' VARIABLE SERVANT A LA RECUPERATION DE TOUS LES MESSAGES D'ECHECS OU DE SUCCES
 
     REM DEFINITION ET INITIALISATION DES CONSTANTE POUR LA SECURITE
-    Private Const Nom_page As String = "PAGE-LISTING-STATUT"  ' POUR LA PAGE
-    Private Const Btn_Save As String = "Bouton-SAVE-STATUT"       ' POUR LE BOUTON D'ENREGISTREMENT
-    Private Const Btn_Edit As String = "Bouton-EDIT-STATUT"       ' POUR LE BOUTON DE MODIFICATION
-    Private Const Btn_Delete As String = "Bouton-DELETE-STATUT"   ' POUR LE BOUTON DE SUPPRESSION
+    Private Const Nom_page As String = "PAGE-LISTING-FORMULAIRE-COLLECTE"  ' POUR LA PAGE
+    Private Const Btn_Save As String = "Bouton-SAVE-FORMULAIRE-COLLECTE"       ' POUR LE BOUTON D'ENREGISTREMENT
+    Private Const Btn_Edit As String = "Bouton-EDIT-FORMULAIRE-COLLECTE"       ' POUR LE BOUTON DE MODIFICATION
+    Private Const Btn_Delete As String = "Bouton-DELETE-FORMULAIRE-COLLECTE"   ' POUR LE BOUTON DE SUPPRESSION
 
     Dim User_Connected As Cls_User          ' INSTANCE DE LA CLASSE UTILISATEUR - UTILISER POUR L'UTILISATEUR EN SESSION 
     Dim Is_Acces_Page As Boolean = True     ' LA VARIABLE SERVANT DE TEST POUR DONNEER L'ACCES A LA PAGE
@@ -45,6 +45,7 @@ Partial Class GestionQuestionnaire_Frm_FormulaireCollecteListing
                 Label_Titre.Text = PAGE_TITLE
                 Btn_ADD_Question_Module.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_Question_ModuleADD.aspx?" & [Global].ACTION & "=" & [Global].HideMenuHeader & "', 950, 650)); return false;")
                 'Btn_ADD_Question_Module.Attributes.Add("onclick", "javascript:Open_Window('Frm_Question_ModuleADD.aspx', '_self',500,400); return false;") 
+                FillCombo_Module()
                 BindGrid()
             End If
         End If
@@ -174,11 +175,37 @@ Partial Class GestionQuestionnaire_Frm_FormulaireCollecteListing
 #End Region
 
 #Region "Load DATA"
+    Private Sub FillCombo_Module()
+        Try
+            Dim objs1 As List(Of Cls_Module) = Cls_Module.SearchAll
+            With DDL_Module
+                .DataSource = objs1
+                .DataValueField = "CodeModule"
+                .DataTextField = "NomEtCodeModule"
+                .DataBind()
+                .Items.Insert(0, New ListItem(" - TOUS LES MODULES (TOTAL:" & objs1.Count & ") - ", ""))
+                .SelectedIndex = -1
+                '.Items.Sort()
+                '.Items.Insert(0, New RadComboBoxItem(" - Choisir -", ""))
+                '.SelectedIndex = 0
+                '.EmptyMessage = "- Choisir -"
+            End With
+        Catch ex As Threading.ThreadAbortException
+        Catch ex As Rezo509Exception
+            MessageToShow(ex.Message)
+        Catch ex As Exception
+            MessageToShow(ex.Message)
+            [Global].WriteError(ex, User_Connected)
+        End Try
+    End Sub
+
     Private Sub BindGrid(Optional ByVal _refresh As Boolean = True)
         Dim objs As List(Of Cls_Question_Module)
         Dim _ret As Long = 0
+        Dim IDModule = TypeSafeConversion.NullSafeString(DDL_Module.SelectedValue)
         Try
-            objs = Cls_Question_Module.SearchAll
+
+            objs = Cls_Question_Module.SearchAll(IDModule)
             rdgQuestion_Module.DataSource = objs
             If _refresh Then
                 rdgQuestion_Module.DataBind()
@@ -196,6 +223,9 @@ Partial Class GestionQuestionnaire_Frm_FormulaireCollecteListing
 #End Region
 
 #Region "EVENTS CONTROLS"
+    Private Sub DDL_TypeModule_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DDL_Module.SelectedIndexChanged
+        BindGrid()
+    End Sub
 
 #End Region
 
@@ -297,6 +327,25 @@ Partial Class GestionQuestionnaire_Frm_FormulaireCollecteListing
                 Case "Reload"
                     BindGrid(True)
             End Select
+        Catch ex As Threading.ThreadAbortException
+        Catch ex As Rezo509Exception
+            MessageToShow(ex.Message)
+        Catch ex As Exception
+            MessageToShow(ex.Message)
+            [Global].WriteError(ex, User_Connected)
+        End Try
+    End Sub
+
+    Private Sub rdgQuestion_Module_PreRender(sender As Object, e As EventArgs) Handles rdgQuestion_Module.PreRender
+        Try
+            'For i As Integer = 0 To rdgQuestion_Module.Items.Count - 2
+            '    If rdgQuestion_Module.Items(i)(rdgQuestion_Module.Columns(0)).Text = rdgQuestion_Module.Items(i - 1)(rdgQuestion_Module.Columns(0)).Text Then
+            '        rdgQuestion_Module.Items(i - 1)(rdgQuestion_Module.Columns(0)).RowSpan = If(rdgQuestion_Module.Items(i)(rdgQuestion_Module.Columns(0)).RowSpan < 2, 2, rdgQuestion_Module.Items(i)(rdgQuestion_Module.Columns(0)).RowSpan + 1)
+            '        rdgQuestion_Module.Items(i)(rdgQuestion_Module.Columns(0)).Visible = False
+            '        rdgQuestion_Module.Items(i)(rdgQuestion_Module.Columns(0)).Text = "&nbsp"
+            '    End If
+            '    i -= 1
+            'Next
         Catch ex As Threading.ThreadAbortException
         Catch ex As Rezo509Exception
             MessageToShow(ex.Message)

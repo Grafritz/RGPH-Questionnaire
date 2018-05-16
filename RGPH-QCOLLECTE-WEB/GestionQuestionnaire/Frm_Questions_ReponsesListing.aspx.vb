@@ -154,7 +154,6 @@ Partial Class GestionQuestionnaire_Frm_Questions_ReponsesListing
     End Sub
 #End Region
 
-
 #Region "Other Method"
     Private Sub MessageToShow(ByVal _message As String, Optional ByVal E_or_S As String = "E", Optional ByVal ShowPopUp As Boolean = True)
         Panel_Msg.Visible = True

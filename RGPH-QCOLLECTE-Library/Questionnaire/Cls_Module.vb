@@ -87,6 +87,12 @@ Public Class Cls_Module
         End Set
     End Property
 
+    Public ReadOnly Property NomEtCodeModule As String
+        Get
+            Return _NomModule & " [ " & _CodeModule & " ] "
+        End Get
+    End Property
+
     Public ReadOnly Property Code_NomModuleSTR1 As String
         Get
             If _EstActif Then

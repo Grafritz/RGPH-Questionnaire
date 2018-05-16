@@ -22,5 +22,12 @@ RGPH-QCOLLECTE-Library
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
+<member name="M:RGPH_QCOLLECTE_Library.Cls_Enumeration.GetTextFromHtml(System.String)">
+ <summary>Removes the tags from an HTML document.</summary>
+ <param name="htmlText">HTML text to parse.</param>
+ <returns>The text of an HTML document without tags.</returns>
+ <remarks></remarks>
+ 
+</member>
 </members>
 </doc>

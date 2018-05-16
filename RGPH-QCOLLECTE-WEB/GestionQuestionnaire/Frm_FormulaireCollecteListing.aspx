@@ -1,7 +1,7 @@
-﻿<%@ Page Title="" Language="VB" MasterPageFile="~/MasterPages/DashboardCZMasterPage.master" AutoEventWireup="false" CodeFile="Frm_FormulaireCollecteListing.aspx.vb" 
-    Inherits="GestionQuestionnaire_Frm_FormulaireCollecteListing"   MaintainScrollPositionOnPostback="true" %>
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/MasterPages/DashboardCZMasterPage.master" AutoEventWireup="false" CodeFile="Frm_FormulaireCollecteListing.aspx.vb"
+    Inherits="GestionQuestionnaire_Frm_FormulaireCollecteListing" MaintainScrollPositionOnPostback="true" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <telerik:RadCodeBlock ID="RadCodeBlock1" runat="server">
         <script type="text/javascript">
             function ShowAddUpdateForm(strPage, tmpW, tmpH) {
@@ -99,7 +99,7 @@
                 var _id = rdGrid.get_masterTableView().get_dataItems()[listItemIndex].get_element().cells[0].innerHTML
                 ShowAddUpdateForm('Frm_Question_ModuleADD.aspx?ID=' + _id + '&ACTION=HideMenuHeader', 950, 550);
             }
-            
+
             function RadWindowClosing() {
                 $find("<%= RadAjaxManager1.ClientID %>").ajaxRequest("Reload");
             }
@@ -142,6 +142,13 @@
                     <telerik:AjaxUpdatedControl ControlID="rdgQuestion_Module" LoadingPanelID="RadAjaxLoadingPanel1" />
                 </UpdatedControls>
             </telerik:AjaxSetting>
+            <telerik:AjaxSetting AjaxControlID="DDL_TypeModule">
+                <UpdatedControls>
+                    <telerik:AjaxUpdatedControl ControlID="Panel_Msg" LoadingPanelID="RadAjaxLoadingPanel1" />
+                    <telerik:AjaxUpdatedControl ControlID="rdgQuestion_Module" LoadingPanelID="RadAjaxLoadingPanel1" />
+                    <telerik:AjaxUpdatedControl ControlID="PageHeader" />
+                </UpdatedControls>
+            </telerik:AjaxSetting>
         </AjaxSettings>
     </telerik:RadAjaxManager>
     <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" />
@@ -173,14 +180,24 @@
                 </asp:Panel>
 
                 <asp:Panel runat="server" ID="Panel_First" Style="margin: 5px;">
-                    <asp:LinkButton ID="Btn_ADD_Question_Module" runat="server" CssClass="btn btn-primary" CausesValidation="false">
-    <i class="fa fa-plus-circle" ></i>  Ajouter  Question  Module
-                    </asp:LinkButton>
-                    <span class="pull-right box-tools">
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <asp:LinkButton ID="Btn_ADD_Question_Module" runat="server" CssClass="btn btn-primary" CausesValidation="false">
+                                <i class="fa fa-plus-circle" ></i>  Ajouter  Question  Module
+                            </asp:LinkButton>
+                        </div>
+                        <div class="col-sm-4">
+                            <asp:DropDownList ID="DDL_Module" AutoPostBack="true" CssClass="form-control" Width="50%" runat="server">
+                            </asp:DropDownList>
+                        </div>
+                    </div>
+
+                    <div class="pull-right box-tools">
                         <asp:LinkButton ID="rbtnClearFilters" runat="server" CssClass="btn btn-sm btn-default" CausesValidation="false"> 
-        <i class="fa fa-ban on fa-filter" ></i> Clear Filters
+                            <i class="fa fa-ban on fa-filter" ></i> Clear Filters
                         </asp:LinkButton>
-                    </span>
+                    </div>
+                    <div style="clear: both;"></div>
 
 
                     <telerik:RadGrid ID="rdgQuestion_Module" AllowPaging="True" AllowSorting="True" PageSize="20"
@@ -188,11 +205,22 @@
                         Culture="fr-FR" ShowGroupPanel="True"
                         EnableViewState="true" AllowMultiRowSelection="false" GroupingSettings-CaseSensitive="false">
                         <ExportSettings HideStructureColumns="true" />
+
                         <MasterTableView CommandItemDisplay="Top" GridLines="None" DataKeyNames="ID" NoDetailRecordsText="Pas d'enregistrement"
                             NoMasterRecordsText="Pas d'enregistrement">
                             <CommandItemSettings ShowAddNewRecordButton="false" ShowRefreshButton="false" ShowExportToExcelButton="true"
                                 ExportToExcelText="Exporter en excel" />
                             <PagerStyle Mode="NextPrevAndNumeric"></PagerStyle>
+                            <GroupByExpressions>
+                                <telerik:GridGroupByExpression>
+                                    <SelectFields>
+                                        <telerik:GridGroupByField FieldAlias="Formulaire" FieldName="CodeModuleSTR" />
+                                    </SelectFields>
+                                    <GroupByFields>
+                                        <telerik:GridGroupByField FieldName="CodeModuleSTR" SortOrder="None" />
+                                    </GroupByFields>
+                                </telerik:GridGroupByExpression>
+                            </GroupByExpressions>
                             <Columns>
                                 <telerik:GridBoundColumn DataField="ID" UniqueName="ID" Display="false" />
                                 <telerik:GridTemplateColumn Visible="true" ShowFilterIcon="false" AllowFiltering="false" HeaderText="#" UniqueName="Compteur">
@@ -216,30 +244,31 @@
                                     <ItemTemplate>
                                         <asp:Image ID="EstDebut_Image" runat="server" ImageUrl='<%#Bind("EstDebut_Image") %>' />
                                     </ItemTemplate>
-                                    <HeaderStyle HorizontalAlign="Center" Width="16px" />
-                                    <ItemStyle HorizontalAlign="Center" Width="16px" />
+                                    <HeaderStyle HorizontalAlign="Center" Width="16px" Wrap="false" />
+                                    <ItemStyle HorizontalAlign="Center" Width="16px" Wrap="false" />
                                 </telerik:GridTemplateColumn>
                                 <telerik:GridButtonColumn ButtonType="ImageButton" CommandArgument="ID" CommandName="editer"
                                     DataTextField="ID" ImageUrl="~/images/_edit.png"
                                     HeaderText="" UniqueName="editer">
-                                    <HeaderStyle HorizontalAlign="Center" Width="16px" />
-                                    <ItemStyle HorizontalAlign="Center" Width="16px" />
+                                    <HeaderStyle HorizontalAlign="Center" Width="16px" Wrap="false" />
+                                    <ItemStyle HorizontalAlign="Center" Width="16px" Wrap="false" />
                                 </telerik:GridButtonColumn>
                                 <telerik:GridButtonColumn ButtonType="ImageButton" CommandName="delete" DataTextField="ID"
                                     ImageUrl="~/images/delete.png"
                                     UniqueName="delete" HeaderText="" ConfirmDialogType="RadWindow" ConfirmText="Voulez-vous vraiment supprimer cette information ?"
                                     ConfirmTitle="Attention!">
-                                    <HeaderStyle HorizontalAlign="Center" Width="16px" />
-                                    <ItemStyle HorizontalAlign="Center" Width="16px" />
+                                    <HeaderStyle HorizontalAlign="Center" Width="16px" Wrap="false" />
+                                    <ItemStyle HorizontalAlign="Center" Width="16px" Wrap="false" />
                                 </telerik:GridButtonColumn>
                             </Columns>
                             <RowIndicatorColumn FilterControlAltText="Filter RowIndicator column"></RowIndicatorColumn>
                             <ExpandCollapseColumn FilterControlAltText="Filter ExpandColumn column"></ExpandCollapseColumn>
                         </MasterTableView>
-                        <GroupingSettings CaseSensitive="False" />
-                        <ClientSettings AllowDragToGroup="True" AllowColumnsReorder="True">
+                        <GroupingSettings CaseSensitive="False" ShowUnGroupButton="true" />
+                        <ClientSettings AllowDragToGroup="True" AllowColumnsReorder="True" ReorderColumnsOnClient="True">
                             <ClientEvents OnRowContextMenu="RowContextMenu" OnRowDblClick="RowDblClick" />
                             <Selecting AllowRowSelect="true" />
+                            <%--<Resizing AllowRowResize="false" AllowColumnResize="true" EnableRealTimeResize="True"  ResizeGridOnColumnResize="false" />--%>
                         </ClientSettings>
                         <HeaderContextMenu CssClass="GridContextMenu GridContextMenu_Default" />
                         <PagerStyle PageSizeControlType="RadComboBox" />

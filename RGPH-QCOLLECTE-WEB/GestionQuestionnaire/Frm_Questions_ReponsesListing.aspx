@@ -209,21 +209,33 @@
                             <CommandItemSettings ShowAddNewRecordButton="false" ShowRefreshButton="false" ShowExportToExcelButton="true"
                                 ExportToExcelText="Exporter en excel" />
                             <PagerStyle Mode="NextPrevAndNumeric"></PagerStyle>
+                            <GroupByExpressions>
+                                <telerik:GridGroupByExpression>
+                                    <SelectFields>
+                                        <telerik:GridGroupByField FieldAlias="Question" FieldName="CodeEtLibelleQuestionSTR" />
+                                    </SelectFields>
+                                    <GroupByFields>
+                                        <telerik:GridGroupByField FieldName="CodeEtLibelleQuestionSTR"  />
+                                    </GroupByFields>
+                                </telerik:GridGroupByExpression>
+                            </GroupByExpressions>
                             <Columns>
                                 <telerik:GridBoundColumn DataField="ID" UniqueName="ID" Display="false" />
-                                <telerik:GridTemplateColumn Visible="true" ShowFilterIcon="false" AllowFiltering="false" HeaderText="#" UniqueName="Compteur">
+                                <telerik:GridTemplateColumn Visible="false" ShowFilterIcon="false" AllowFiltering="false" HeaderText="#" UniqueName="Compteur">
                                     <ItemTemplate>
                                         <asp:Label Visible="true" ID="lbOrder" runat="server" />
                                     </ItemTemplate>
                                     <HeaderStyle HorizontalAlign="Center" Width="16px" />
                                     <ItemStyle HorizontalAlign="Center" Width="16px" />
                                 </telerik:GridTemplateColumn>
+
                                 <telerik:GridBoundColumn DataField="CodeQuestion" UniqueName="CodeQuestion" HeaderText=" Code Question"
                                     FilterControlAltText="Recherche par  Code Question" FilterControlWidth="95%" ShowFilterIcon="false"
                                     AllowFiltering="true" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains">
                                     <HeaderStyle HorizontalAlign="Center" />
                                     <ItemStyle HorizontalAlign="Center" />
                                 </telerik:GridBoundColumn>
+
                                 <telerik:GridBoundColumn DataField="CodeUniqueReponse" UniqueName="CodeUniqueReponse" HeaderText=" Code Unique Reponse"
                                     FilterControlAltText="Filter CodeUniqueReponse column" FilterControlWidth="95%" ShowFilterIcon="false"
                                     AllowFiltering="true" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains">
@@ -291,10 +303,11 @@
                             <RowIndicatorColumn FilterControlAltText="Filter RowIndicator column"></RowIndicatorColumn>
                             <ExpandCollapseColumn FilterControlAltText="Filter ExpandColumn column"></ExpandCollapseColumn>
                         </MasterTableView>
-                        <GroupingSettings CaseSensitive="False" />
-                        <ClientSettings AllowDragToGroup="True" AllowColumnsReorder="True">
+                        <GroupingSettings CaseSensitive="False" ShowUnGroupButton="true"  />
+                        <ClientSettings AllowDragToGroup="True" AllowColumnsReorder="True" ReorderColumnsOnClient="True">
                             <ClientEvents OnRowContextMenu="RowContextMenu" OnRowDblClick="RowDblClick" />
                             <Selecting AllowRowSelect="true" />
+                            <%--<Resizing AllowColumnResize="true" EnableRealTimeResize="true" />--%>
                         </ClientSettings>
                         <HeaderContextMenu CssClass="GridContextMenu GridContextMenu_Default" />
                         <PagerStyle PageSizeControlType="RadComboBox" />

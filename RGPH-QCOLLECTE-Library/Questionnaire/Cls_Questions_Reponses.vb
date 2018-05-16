@@ -70,7 +70,7 @@ Public Class Cls_Questions_Reponses
     Public Property CodeQuestionOBJ As Cls_Questions
         Get
             If Not (__CodeQuestion Is Nothing) Then
-                If (__CodeQuestion.ID = 0) Or (__CodeQuestion.ID <> _CodeQuestion) Then
+                If (__CodeQuestion.CodeQuestion = "") Or (__CodeQuestion.CodeQuestion <> _CodeQuestion) Then
                     __CodeQuestion = New Cls_Questions(_CodeQuestion)
                 End If
             Else
@@ -82,11 +82,11 @@ Public Class Cls_Questions_Reponses
         Set(ByVal value As Cls_Questions)
             If value Is Nothing Then
                 _isdirty = True
-                _CodeQuestion = 0
+                _CodeQuestion = ""
             Else
-                If __CodeQuestion.ID <> value.ID Then
+                If __CodeQuestion.CodeQuestion <> value.CodeQuestion Then
                     _isdirty = True
-                    _CodeQuestion = value.ID
+                    _CodeQuestion = value.CodeQuestion
                 End If
             End If
         End Set
@@ -96,6 +96,12 @@ Public Class Cls_Questions_Reponses
     Public ReadOnly Property CodeQuestionSTR As String
         Get
             Return CodeQuestionOBJ.CodeQuestion
+        End Get
+    End Property
+
+    Public ReadOnly Property CodeEtLibelleQuestionSTR As String
+        Get
+            Return CodeQuestionSTR & ".- " & CodeQuestionOBJ.Libelle
         End Get
     End Property
 

@@ -285,11 +285,11 @@ Public Class Cls_Question_Module
         Return SearchAll()
     End Function
 
-    Public Shared Function SearchAll() As List(Of Cls_Question_Module)
+    Public Shared Function SearchAll(Optional ByVal _codemodule As String = "") As List(Of Cls_Question_Module)
         Try
             Dim objs As New List(Of Cls_Question_Module)
             Dim r As Data.DataRow
-            Dim ds As Data.DataSet = SqlHelper.ExecuteDataset(SqlHelperParameterCache.BuildConfigDB(), "SP_ListAll_Question_Module")
+            Dim ds As Data.DataSet = SqlHelper.ExecuteDataset(SqlHelperParameterCache.BuildConfigDB(), "SP_ListAll_Question_Module", _codemodule)
             For Each r In ds.Tables(0).Rows
                 Dim obj As New Cls_Question_Module
 

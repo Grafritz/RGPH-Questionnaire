@@ -18,7 +18,7 @@ Partial Class GestionQuestionnaire_Default
     Private _message As String  ' VARIABLE SERVANT A LA RECUPERATION DE TOUS LES MESSAGES D'ECHECS OU DE SUCCES
 
     REM DEFINITION ET INITIALISATION DES CONSTANTE POUR LA SECURITE
-    Private Const Nom_page As String = "PAGE-LISTING-STATUT"  ' POUR LA PAGE
+    Private Const Nom_page As String = "PAGE-API-GENERATE-CODE-JSON"  ' POUR LA PAGE
     Private Const Btn_Save As String = "Bouton-SAVE-STATUT"       ' POUR LE BOUTON D'ENREGISTREMENT
     Private Const Btn_Edit As String = "Bouton-EDIT-STATUT"       ' POUR LE BOUTON DE MODIFICATION
     Private Const Btn_Delete As String = "Bouton-DELETE-STATUT"   ' POUR LE BOUTON DE SUPPRESSION

@@ -1,12 +1,0 @@
-
-Chemin Erreur : 
-04/02/2018 13:39:50
-Erreur dans: http://192.168.1.124/RGPH-Questionnaire/GestionQuestionnaire/Frm_TypeModuleListing.aspx. Message Erreur:[... ] : Utilisateur ou Mot de Passe incorrects.System.Exception: Utilisateur ou Mot de Passe incorrects.
-   at RGPH_QCOLLECTE_Library.Cls_User..ctor(String usr, String Pass) in C:\_Travaux\IHSI\ProjetWEB\RGPH-Questionnaire\RGPH-QCOLLECTE-Library\Securite\Cls_User.vb:line 96
-   at UserControl_WUC_Login2.Connexion(String txt_UserName, String txt_MotdePasse) in C:\_Travaux\IHSI\ProjetWEB\RGPH-Questionnaire\RGPH-QCOLLECTE-WEB\UserControl\WUC_Login2.ascx.vb:line 106
-__________________________
-
-Chemin Erreur : 
-04/02/2018 13:43:52
-Erreur dans: http://192.168.1.124/RGPH-Questionnaire/Administration/Wfrm_UserConnected.aspx. Message Erreur:[ Admin ] Methode -> [ LoadData_GridView_List Utilisateur ] Property accessor 'Lastlogin' on object 'RGPH_QCOLLECTE_Library.Cls_User' threw the following exception:'String was not recognized as a valid DateTime.'
-__________________________

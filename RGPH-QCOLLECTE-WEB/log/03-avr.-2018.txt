@@ -1,22 +1,0 @@
-
-Chemin Erreur : 
-04/03/2018 11:57:38
-Erreur dans: http://localhost/RGPH-Questionnaire/GestionQuestionnaire/Frm_QuestionsListing.aspx. Message Erreur:[... ] : Utilisateur ou Mot de Passe incorrects.System.Exception: Utilisateur ou Mot de Passe incorrects.
-   at RGPH_QCOLLECTE_Library.Cls_User..ctor(String usr, String Pass) in C:\_Travaux\IHSI\ProjetWEB\RGPH-Questionnaire\RGPH-QCOLLECTE-Library\Securite\Cls_User.vb:line 92
-   at UserControl_WUC_Login2.Connexion(String txt_UserName, String txt_MotdePasse) in C:\_Travaux\IHSI\ProjetWEB\RGPH-Questionnaire\RGPH-QCOLLECTE-WEB\UserControl\WUC_Login2.ascx.vb:line 106
-__________________________
-
-Chemin Erreur : 
-04/03/2018 13:25:38
-Erreur dans: http://192.168.1.124/RGPH-Questionnaire/GestionQuestionnaire/Frm_QuestionsListing.aspx. Message Erreur:[... ] : Utilisateur ou Mot de Passe incorrects.System.Exception: Utilisateur ou Mot de Passe incorrects.
-   at RGPH_QCOLLECTE_Library.Cls_User..ctor(String usr, String Pass) in C:\_Travaux\IHSI\ProjetWEB\RGPH-Questionnaire\RGPH-QCOLLECTE-Library\Securite\Cls_User.vb:line 92
-   at UserControl_WUC_Login2.Connexion(String txt_UserName, String txt_MotdePasse) in C:\_Travaux\IHSI\ProjetWEB\RGPH-Questionnaire\RGPH-QCOLLECTE-WEB\UserControl\WUC_Login2.ascx.vb:line 106
-__________________________
-
-Chemin Erreur : 
-04/03/2018 14:01:49
-Erreur dans: http://192.168.1.124/RGPH-Questionnaire/GestionQuestionnaire/Frm_ContrainteADD.aspx?ID=1&ACTION=HideMenuHeader&rwndrnd=0.9286508735284956. Message Erreur:[ihsi ] : The stored procedure 'SP_Select_Contrainte_ByID' doesn't exist.System.InvalidOperationException: The stored procedure 'SP_Select_Contrainte_ByID' doesn't exist.
-   at RGPH_QCOLLECTE_Library.Cls_Contrainte.Read(Int64 _idpass) in C:\_Travaux\IHSI\ProjetWEB\RGPH-Questionnaire\RGPH-QCOLLECTE-Library\Questionnaire\Cls_Contrainte.vb:line 129
-   at RGPH_QCOLLECTE_Library.Cls_Contrainte..ctor(Int64 _idOne) in C:\_Travaux\IHSI\ProjetWEB\RGPH-Questionnaire\RGPH-QCOLLECTE-Library\Questionnaire\Cls_Contrainte.vb:line 30
-   at Frm_ContrainteADD.LOAD_CONTRAINTE() in C:\_Travaux\IHSI\ProjetWEB\RGPH-Questionnaire\RGPH-QCOLLECTE-WEB\GestionQuestionnaire\Frm_ContrainteADD.aspx.vb:line 184
-__________________________

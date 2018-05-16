@@ -130,6 +130,20 @@ Public Class [Global]
     Public Shared URL_PCH As String = getServerName_ForOnline("PCH")
 #End Region
 
+    Public Shared Function getHostServerName() As String
+        Dim Host As String = HttpContext.Current.Request.Url.Host
+        Dim strUrl As String = ""
+        Dim VirtualPath As String = HttpRuntime.AppDomainAppVirtualPath
+        If Not VirtualPath.Trim.Equals("") Then
+            strUrl = Host
+            strUrl &= VirtualPath
+        Else
+            strUrl = Host
+            strUrl &= VirtualPath
+        End If
+        Return strUrl
+    End Function
+
     Public Shared Function getServerName_ForOnline(ByVal _APP As String) As String
         Dim strPathAndQuery As String = HttpContext.Current.Request.Url.PathAndQuery
         Dim strUrl As String = HttpContext.Current.Request.Url.AbsoluteUri.Replace(strPathAndQuery, "/") '.Replace("http://localhost", "http://127.0.0.1")

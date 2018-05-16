@@ -95,9 +95,11 @@
     <Compile Include="Questionnaire\Cls_TypeModule.vb" />
     <Compile Include="Questionnaire\Cls_TypeQuestion.vb" />
     <Compile Include="Securite\Cls_Activite_Utilisateur.vb" />
+    <Compile Include="Securite\Cls_SR_PRIVILEGE_SERVICES.vb" />
     <Compile Include="Securite\Cls_User.vb" />
-    <Compile Include="Securite\Cls_User2.vb" />
     <Compile Include="Utilitaire\Cls_Enumeration.vb" />
+    <Compile Include="Utilitaire\Cls_KeyValue.vb" />
+    <Compile Include="Utilitaire\Cls_Rezo509Logs.vb" />
     <Compile Include="Utilitaire\Cls_SendMail.vb" />
     <Compile Include="Utilitaire\Cls_Statut.vb" />
   </ItemGroup>
@@ -126,6 +128,7 @@
       <Name>PrincipalClassLibrary</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

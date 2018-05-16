@@ -55,11 +55,11 @@ Public Class Cls_StatutFormation
         End Get
     End Property
 
-    Public ReadOnly Property LogData() As String
-        Get
-            Return _LogData
-        End Get
-    End Property
+    'Public ReadOnly Property LogData() As String
+    '    Get
+    '        Return _LogData
+    '    End Get
+    'End Property
 #End Region
 
 #Region " Db Access "
@@ -210,11 +210,16 @@ Public Class Cls_StatutFormation
     End Function
 
     Public Function GetObjectString() As String Implements IGeneral.GetObjectString
-        Dim _old As New Cls_StatutFormation(Me.ID)
-
-        Return LogStringBuilder.BuildLogStringChangesOnly(_old, Me)
+        Return LogData(New Cls_StatutFormation(Me.ID))
     End Function
 
+    Function LogData(obj As Cls_StatutFormation) As String
+        Return LogStringBuilder.BuildLogStringHTML(obj)
+    End Function
+
+    Function LogData() As String
+        Return LogStringBuilder.BuildLogStringHTML(Me)
+    End Function
 #End Region
 
 End Class
