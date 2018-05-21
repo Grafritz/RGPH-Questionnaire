@@ -121,20 +121,21 @@
                 document.getElementById("radGridClickedRowIndex").value = index;
                 listItemIndex = index;
                 var rdGrid = $find("<%=rdgQuestions_Reponses.ClientID %>");
-                 var _id = rdGrid.get_masterTableView().get_dataItems()[listItemIndex].get_element().cells[0].innerHTML
-                 ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?ID=' + _id + '&ACTION=HideMenuHeader', 950, 550);
-             }
+                var _id = rdGrid.get_masterTableView().get_dataItems()[listItemIndex].get_element().cells[0].innerHTML
+                ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?ID=' + _id + '&ACTION=HideMenuHeader', 950, 550);
+            }
         </script>
     </telerik:RadCodeBlock>
     <%--<telerik:RadScriptManager ID="RadScriptManager1"  runat="server"></telerik:RadScriptManager>--%>
     <telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>
             <telerik:AjaxSetting AjaxControlID="RadAjaxManager1">
-           <UpdatedControls>
-               <telerik:AjaxUpdatedControl ControlID="Panel_Msg" LoadingPanelID="RadAjaxLoadingPanel1" />
-               <telerik:AjaxUpdatedControl ControlID="PanelChoixReponse" LoadingPanelID="RadAjaxLoadingPanel1" />
-           </UpdatedControls>
-       </telerik:AjaxSetting>
+                <UpdatedControls>
+                    <telerik:AjaxUpdatedControl ControlID="Panel_Msg" LoadingPanelID="RadAjaxLoadingPanel1" />
+                    <telerik:AjaxUpdatedControl ControlID="DIV_Content_Reponse" LoadingPanelID="RadAjaxLoadingPanel1" />
+                    <telerik:AjaxUpdatedControl ControlID="DIV_Content_Specifications" LoadingPanelID="RadAjaxLoadingPanel1" />
+                </UpdatedControls>
+            </telerik:AjaxSetting>
         </AjaxSettings>
     </telerik:RadAjaxManager>
     <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" />
@@ -167,219 +168,223 @@
                 <asp:ValidationSummary ID="ValidationSummary1" ValidationGroup="GPSave" runat="server" CssClass="alert alert-danger alert-dismissable" ShowMessageBox="true" ShowSummary="true" />
 
                 <asp:Panel ID="Panel_First" runat="server" CssClass="panel panel-default panel-body" Style="margin: 5px;">
-                    <div id="DIV_Panel" class="form-horizontalw group-border-dashed1w" style="border-radius: 0px;">
-
-                        <div class="form-group">
-                            <div class="col-sm-6">
-                                <label>
-                                    Type Module
-                               <asp:RequiredFieldValidator ID="RFV_TypeModule" runat="server" ControlToValidate="DDL_TypeModule"
-                                   ErrorMessage="_ Type Module Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
-                                   ValidationGroup="GPSave" CssClass="text-danger" />
-                                    <asp:RequiredFieldValidator ID="RFV1_TypeModule" runat="server" ControlToValidate="DDL_TypeModule"
-                                        ErrorMessage="Type Module Obligatoire !" InitialValue="0" SetFocusOnError="true" Display="Dynamic" Text="*"
-                                        ValidationGroup="GPSave" CssClass="text-danger" />
-                                </label>
-                                <asp:DropDownList ID="DDL_TypeModule" CssClass="select2" Width="100%" runat="server">
-                                </asp:DropDownList>
-                            </div>
-                            <div style="clear: both;"></div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-3">
-                                <label>
-                                    Code Question
-                               <asp:RequiredFieldValidator ID="RFV_CodeQuestion" runat="server" ControlToValidate="txt_CodeQuestion"
-                                   ErrorMessage="Code Question Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
-                                   ValidationGroup="GPSave" CssClass="text-danger" />
-                                </label>
-                                <asp:TextBox ID="txt_CodeQuestion" CssClass="form-control" Width="100%" runat="server" placeholder="Code Question..."></asp:TextBox>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <label>
-                                    QPrécédent
-                                </label>
-                                <asp:DropDownList ID="DDL_QPrecedent" CssClass="form-control" Width="100%" runat="server">
-                                    <asp:ListItem Value="" Text="-- VIDE --" />
-                                    <asp:ListItem Value="DEBUT" Text="DEBUT" />
-                                </asp:DropDownList>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <label>
-                                    QSuivant
-                                   <asp:RequiredFieldValidator ID="RFV_QSuivant" runat="server" ControlToValidate="RCB_QSuivant"
-                                       ErrorMessage="QSuivant Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
-                                       ValidationGroup="GPSave" CssClass="text-danger" />
-                                </label>
-                                <telerik:RadComboBox runat="server" ID="RCB_QSuivant" Skin="MetroTouch" CssClass="form-control" EmptyMessage="Sélectionnez ou Tapez la question suivante"
-                                    ShowMoreResultsBox="true" EnableLoadOnDemand="true" EnableVirtualScrolling="true" Width="100%">
-                                </telerik:RadComboBox>
-                                <%--<asp:TextBox ID="txt_QSuivant" CssClass="form-control" Width="100%" runat="server" placeholder="QSuivant..."></asp:TextBox>--%>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <label for="ctl00_ContentPlaceHolder1_CB_EstSautReponse">
-                                    Le saut dépend de la réponse?
-                                </label>
-                                <asp:CheckBox ID="CB_EstSautReponse" CssClass="form-control" runat="server" Text=" ( Oui / Non )" Style="border: none;" />
-                            </div>
-                            <div style="clear: both;"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <label>
-                                    Libéllé
-                               <asp:RequiredFieldValidator ID="RFV_Libelle" runat="server" ControlToValidate="txt_Libelle"
-                                   ErrorMessage="Libelle Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
-                                   ValidationGroup="GPSave" CssClass="text-danger" />
-                                </label>
-                                <asp:TextBox ID="txt_Libelle" TextMode="MultiLine" CssClass="form-control" Width="100%" runat="server" placeholder="Libelle..."></asp:TextBox>
-                            </div>
-                            <div style="clear: both;"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <label>
-                                    Details Question
-                                </label>
-                                <asp:TextBox ID="txt_DetailsQuestion" TextMode="MultiLine" CssClass="form-control" Width="100%" runat="server" placeholder="Details Question..."></asp:TextBox>
-                            </div>
-                            <div style="clear: both;"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <label>
-                                    Indications (Aides)
-                                </label>
-                                <asp:TextBox ID="txt_IndicationsQuestion" TextMode="MultiLine" CssClass="form-control" Width="100%" runat="server" placeholder="Indications Question..."></asp:TextBox>
-                            </div>
-                            <div style="clear: both;"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-sm-4">
-                                <label>
-                                    Catégorie 
-                               <asp:RequiredFieldValidator ID="RFV_CodeCategorie" runat="server" ControlToValidate="DDL_CodeCategorie"
-                                   ErrorMessage="_ Code Categorie Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
-                                   ValidationGroup="GPSave" CssClass="text-danger" />
-                                    <asp:RequiredFieldValidator ID="RFV1_CodeCategorie" runat="server" ControlToValidate="DDL_CodeCategorie"
-                                        ErrorMessage="_ Code Categorie Obligatoire !" InitialValue="0" SetFocusOnError="true" Display="Dynamic" Text="*"
-                                        ValidationGroup="GPSave" CssClass="text-danger" />
-                                </label>
-                                <asp:DropDownList ID="DDL_CodeCategorie" CssClass="select2" Width="100%" runat="server">
-                                </asp:DropDownList>
-                            </div>
-
-                            <div class="col-sm-4">
-                                <label>
-                                    Nom Champs
-                               <asp:RequiredFieldValidator ID="RFV_NomChamps" runat="server" ControlToValidate="txt_NomChamps"
-                                   ErrorMessage="Nom Champs Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
-                                   ValidationGroup="GPSave" CssClass="text-danger" />
-                                </label>
-                                <asp:TextBox ID="txt_NomChamps" CssClass="form-control" Width="100%" runat="server" placeholder="Nom Champs..."></asp:TextBox>
-                            </div>
-
-                            <div class="col-sm-4">
-                                <label>
-                                    Type Question
-                                   <%--<asp:RequiredFieldValidator ID="RFV_TypeQuestion" runat="server" ControlToValidate="DDL_TypeQuestion"
-                                       ErrorMessage="_ Type Question Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
-                                       ValidationGroup="GPSave" CssClass="text-danger" />
-                                    <asp:RequiredFieldValidator ID="RFV1_TypeQuestion" runat="server" ControlToValidate="DDL_TypeQuestion"
-                                        ErrorMessage="_ Type Question Obligatoire !" InitialValue="0" SetFocusOnError="true" Display="Dynamic" Text="*"
-                                        ValidationGroup="GPSave" CssClass="text-danger" />--%>
-                                </label>
-                                <asp:DropDownList ID="DDL_TypeQuestion" AutoPostBack="true" CssClass="select2" Width="100%" runat="server">
-                                </asp:DropDownList>
-                            </div>
-                            <div style="clear: both;"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-sm-3" id="DIV_CaratereAccepte" runat="server">
-                                <label>
-                                    Caractère Accepté
-                               <asp:RequiredFieldValidator ID="RFV_CaratereAccepte" runat="server" ControlToValidate="DDL_CaratereAccepte"
-                                   ErrorMessage="_ Caratere Accepte Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
-                                   ValidationGroup="GPSave" CssClass="text-danger" />
-                                </label>
-                                <asp:DropDownList ID="DDL_CaratereAccepte" CssClass="select2" Width="100%" runat="server">
-                                </asp:DropDownList>
-                            </div>
-
-                            <div class="col-sm-3" id="DIV_NbreValeurMinimal" runat="server">
-                                <label>
-                                    Nbre Valeur Minimal
-                               <asp:RequiredFieldValidator ID="RFV_NbreValeurMinimal" runat="server" ControlToValidate="txt_NbreValeurMinimal"
-                                   ErrorMessage="Nbre Valeur Minimal Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
-                                   ValidationGroup="GPSave" CssClass="text-danger" />
-                                </label>
-                                <asp:TextBox ID="txt_NbreValeurMinimal" CssClass="form-control" Width="100%" runat="server" Text="-1" placeholder="Nbre Valeur Minimal..."></asp:TextBox>
-                            </div>
-
-                            <div class="col-sm-3" id="DIV_NbreCaratereMinimum" runat="server" visible="false">
-                                <label>
-                                    Nbre Caratere Minimum
-                               <asp:RequiredFieldValidator ID="RFV_NbreCaratereMinimum" runat="server" ControlToValidate="txt_NbreCaratereMinimum"
-                                   ErrorMessage="Nbre Caratere Minimum Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
-                                   ValidationGroup="GPSave" CssClass="text-danger" />
-                                </label>
-                                <asp:TextBox ID="txt_NbreCaratereMinimum" CssClass="form-control" Width="100%" runat="server" Text="-1" placeholder="Nbre Caratere Minimum..."></asp:TextBox>
-                            </div>
-
-                            <div class="col-sm-3" id="DIV_NbreCaratereMaximal" runat="server">
-                                <label>
-                                    Nbre Caractère Maximal
-                               <asp:RequiredFieldValidator ID="RFV_NbreCaratereMaximal" runat="server" ControlToValidate="txt_NbreCaratereMaximal"
-                                   ErrorMessage="Nbre Caratere Maximal Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
-                                   ValidationGroup="GPSave" CssClass="text-danger" />
-                                </label>
-                                <asp:TextBox ID="txt_NbreCaratereMaximal" CssClass="form-control" Width="100%" runat="server" Text="-1" placeholder="Nbre Caratere Maximal..."></asp:TextBox>
-                            </div>
-                            <div style="clear: both;"></div>
-                        </div>
-
-                        <div style="clear: both;"></div>
-
-                        <div id="DIV_SaveInfo" runat="server" style="margin: 5px 0px; text-align: left;">
-                            <span id="span_SaveInfo" runat="server">
-                                <asp:LinkButton ID="Btn_SaveInfo" runat="server" CssClass="btn btn-primary" ValidationGroup="GPSave">
-                                    <i class="fa fa-save" ></i> Enregistrer
-                                </asp:LinkButton>
-                            </span>
-
-                            &nbsp;
-                            <asp:LinkButton ID="Btn_Annuler" CausesValidation="false" runat="server" CssClass="btn btn-danger">
-                                <i class="fa  fa-reply-all" ></i> Annuler
-                            </asp:LinkButton>
-                        </div>
-                    </div>
-
-                    <hr />
-                    <asp:Panel runat="server" ID="PanelChoixReponse" Visible="false">
+                    <asp:Panel runat="server" ID="PanelChoixReponse">
                         <div class="tab-container">
                             <ul class="nav nav-tabs">
-                                <li runat="server" ID="LI_Reponse"  class="active">
-                                    <a href="#Reponses" data-toggle="tab"><i class="fa fa-tasks "></i>
-                                        <asp:Label runat="server" ID="LabelReponseTitre" Text="Réponse"></asp:Label>
-                                    </a>
+                                <li class="active" id="li_Question" runat="server">
+                                    <asp:LinkButton ID="LinkButton_Question" runat="server">
+                                        <i id="i_Question" runat="server" class="fa fa-tasks"></i>
+                                        Questions
+                                        <asp:Label runat="server" ID="LabelQuestions"></asp:Label>
+                                    </asp:LinkButton>
                                 </li>
-                                <li runat="server" ID="LI_Specifications"  >
-                                    <a href="#Specifications" data-toggle="tab"><i class="fa fa-tasks "></i>
+                                <li id="li_Reponse" runat="server">
+                                    <asp:LinkButton ID="LinkButton_Reponse" runat="server">
+                                        <i id="i_Reponse" runat="server" class="fa fa-tasks"></i>
+                                        Réponse
+                                        <asp:Label runat="server" ID="LabelReponseTitre" Text="Réponse" />
+                                    </asp:LinkButton>
+                                </li>
+                                <li id="li_Specifications" runat="server">
+                                    <asp:LinkButton ID="LinkButton_Specifications" runat="server">
+                                        <i id="i_Specifications" runat="server" class="fa fa-tasks"></i>
                                         Spécifications de Controle
                                         <asp:Literal runat="server" ID="Literal_Specifications" />
-                                    </a>
+                                    </asp:LinkButton>
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane cont active" id="Reponses">
+                                <div id="DIV_Content_Question" runat="server" class="tab-pane cont active">
+                                    <div id="DIV_Panel" class="form-horizontalw group-border-dashed1w" style="border-radius: 0px;">
+
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <label>
+                                                    Type Module
+                               <asp:RequiredFieldValidator ID="RFV_TypeModule" runat="server" ControlToValidate="DDL_TypeModule"
+                                   ErrorMessage="_ Type Module Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
+                                   ValidationGroup="GPSave" CssClass="text-danger" />
+                                                    <asp:RequiredFieldValidator ID="RFV1_TypeModule" runat="server" ControlToValidate="DDL_TypeModule"
+                                                        ErrorMessage="Type Module Obligatoire !" InitialValue="0" SetFocusOnError="true" Display="Dynamic" Text="*"
+                                                        ValidationGroup="GPSave" CssClass="text-danger" />
+                                                </label>
+                                                <asp:DropDownList ID="DDL_TypeModule" CssClass="select2" Width="100%" runat="server">
+                                                </asp:DropDownList>
+                                            </div>
+                                            <div style="clear: both;"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3">
+                                                <label>
+                                                    Code Question
+                               <asp:RequiredFieldValidator ID="RFV_CodeQuestion" runat="server" ControlToValidate="txt_CodeQuestion"
+                                   ErrorMessage="Code Question Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
+                                   ValidationGroup="GPSave" CssClass="text-danger" />
+                                                </label>
+                                                <asp:TextBox ID="txt_CodeQuestion" CssClass="form-control" Width="100%" runat="server" placeholder="Code Question..."></asp:TextBox>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <label>
+                                                    QPrécédent
+                                                </label>
+                                                <asp:DropDownList ID="DDL_QPrecedent" CssClass="form-control" Width="100%" runat="server">
+                                                    <asp:ListItem Value="" Text="-- VIDE --" />
+                                                    <asp:ListItem Value="DEBUT" Text="DEBUT" />
+                                                </asp:DropDownList>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <label>
+                                                    QSuivant
+                                   <asp:RequiredFieldValidator ID="RFV_QSuivant" runat="server" ControlToValidate="RCB_QSuivant"
+                                       ErrorMessage="QSuivant Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
+                                       ValidationGroup="GPSave" CssClass="text-danger" />
+                                                </label>
+                                                <telerik:RadComboBox runat="server" ID="RCB_QSuivant" Skin="MetroTouch" CssClass="form-control" EmptyMessage="Sélectionnez ou Tapez la question suivante"
+                                                    ShowMoreResultsBox="true" EnableLoadOnDemand="true" EnableVirtualScrolling="true" Width="100%">
+                                                </telerik:RadComboBox>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <label for="ctl00_ContentPlaceHolder1_CB_EstSautReponse">
+                                                    Le saut dépend de la réponse?
+                                                </label>
+                                                <asp:CheckBox ID="CB_EstSautReponse" CssClass="form-control" runat="server" Text=" ( Oui / Non )" Style="border: none;" />
+                                            </div>
+                                            <div style="clear: both;"></div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label>
+                                                    Libéllé
+                               <asp:RequiredFieldValidator ID="RFV_Libelle" runat="server" ControlToValidate="txt_Libelle"
+                                   ErrorMessage="Libelle Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
+                                   ValidationGroup="GPSave" CssClass="text-danger" />
+                                                </label>
+                                                <asp:TextBox ID="txt_Libelle" TextMode="MultiLine" CssClass="form-control" Width="100%" runat="server" placeholder="Libelle..."></asp:TextBox>
+                                            </div>
+                                            <div style="clear: both;"></div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label>
+                                                    Details Question
+                                                </label>
+                                                <asp:TextBox ID="txt_DetailsQuestion" TextMode="MultiLine" CssClass="form-control" Width="100%" runat="server" placeholder="Details Question..."></asp:TextBox>
+                                            </div>
+                                            <div style="clear: both;"></div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label>
+                                                    Indications (Aides)
+                                                </label>
+                                                <asp:TextBox ID="txt_IndicationsQuestion" TextMode="MultiLine" CssClass="form-control" Width="100%" runat="server" placeholder="Indications Question..."></asp:TextBox>
+                                            </div>
+                                            <div style="clear: both;"></div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-4">
+                                                <label>
+                                                    Catégorie 
+                               <asp:RequiredFieldValidator ID="RFV_CodeCategorie" runat="server" ControlToValidate="DDL_CodeCategorie"
+                                   ErrorMessage="_ Code Categorie Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
+                                   ValidationGroup="GPSave" CssClass="text-danger" />
+                                                    <asp:RequiredFieldValidator ID="RFV1_CodeCategorie" runat="server" ControlToValidate="DDL_CodeCategorie"
+                                                        ErrorMessage="_ Code Categorie Obligatoire !" InitialValue="0" SetFocusOnError="true" Display="Dynamic" Text="*"
+                                                        ValidationGroup="GPSave" CssClass="text-danger" />
+                                                </label>
+                                                <asp:DropDownList ID="DDL_CodeCategorie" CssClass="form-control" Width="100%" runat="server">
+                                                </asp:DropDownList>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <label>
+                                                    Nom Champs
+                               <asp:RequiredFieldValidator ID="RFV_NomChamps" runat="server" ControlToValidate="txt_NomChamps"
+                                   ErrorMessage="Nom Champs Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
+                                   ValidationGroup="GPSave" CssClass="text-danger" />
+                                                </label>
+                                                <asp:TextBox ID="txt_NomChamps" CssClass="form-control" Width="100%" runat="server" placeholder="Nom Champs..."></asp:TextBox>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <label>
+                                                    Type Question
+                                                </label>
+                                                <asp:DropDownList ID="DDL_TypeQuestion" AutoPostBack="true" CssClass="select2" Width="100%" runat="server">
+                                                </asp:DropDownList>
+                                            </div>
+                                            <div style="clear: both;"></div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-3" id="DIV_CaratereAccepte" runat="server">
+                                                <label>
+                                                    Caractère Accepté
+                               <asp:RequiredFieldValidator ID="RFV_CaratereAccepte" runat="server" ControlToValidate="DDL_CaratereAccepte"
+                                   ErrorMessage="_ Caratere Accepte Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
+                                   ValidationGroup="GPSave" CssClass="text-danger" />
+                                                </label>
+                                                <asp:DropDownList ID="DDL_CaratereAccepte" CssClass="form-control" Width="100%" runat="server">
+                                                </asp:DropDownList>
+                                            </div>
+
+                                            <div class="col-sm-3" id="DIV_NbreValeurMinimal" runat="server">
+                                                <label>
+                                                    Nbre Valeur Minimal
+                               <asp:RequiredFieldValidator ID="RFV_NbreValeurMinimal" runat="server" ControlToValidate="txt_NbreValeurMinimal"
+                                   ErrorMessage="Nbre Valeur Minimal Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
+                                   ValidationGroup="GPSave" CssClass="text-danger" />
+                                                </label>
+                                                <asp:TextBox ID="txt_NbreValeurMinimal" CssClass="form-control" Width="100%" runat="server" Text="-1" placeholder="Nbre Valeur Minimal..."></asp:TextBox>
+                                            </div>
+
+                                            <div class="col-sm-3" id="DIV_NbreCaratereMinimum" runat="server" visible="false">
+                                                <label>
+                                                    Nbre Caratere Minimum
+                               <asp:RequiredFieldValidator ID="RFV_NbreCaratereMinimum" runat="server" ControlToValidate="txt_NbreCaratereMinimum"
+                                   ErrorMessage="Nbre Caratere Minimum Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
+                                   ValidationGroup="GPSave" CssClass="text-danger" />
+                                                </label>
+                                                <asp:TextBox ID="txt_NbreCaratereMinimum" CssClass="form-control" Width="100%" runat="server" Text="-1" placeholder="Nbre Caratere Minimum..."></asp:TextBox>
+                                            </div>
+
+                                            <div class="col-sm-3" id="DIV_NbreCaratereMaximal" runat="server">
+                                                <label>
+                                                    Nbre Caractère Maximal
+                               <asp:RequiredFieldValidator ID="RFV_NbreCaratereMaximal" runat="server" ControlToValidate="txt_NbreCaratereMaximal"
+                                   ErrorMessage="Nbre Caratere Maximal Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
+                                   ValidationGroup="GPSave" CssClass="text-danger" />
+                                                </label>
+                                                <asp:TextBox ID="txt_NbreCaratereMaximal" CssClass="form-control" Width="100%" runat="server" Text="-1" placeholder="Nbre Caratere Maximal..."></asp:TextBox>
+                                            </div>
+                                            <div style="clear: both;"></div>
+                                        </div>
+
+                                        <div style="clear: both;"></div>
+
+                                        <div id="DIV_SaveInfo" runat="server" style="margin: 5px 0px; text-align: left;">
+                                            <span id="span_SaveInfo" runat="server">
+                                                <asp:LinkButton ID="Btn_SaveInfo" runat="server" CssClass="btn btn-primary" ValidationGroup="GPSave">
+                                    <i class="fa fa-save" ></i> Enregistrer
+                                                </asp:LinkButton>
+                                            </span>
+
+                                            &nbsp;
+                            <asp:LinkButton ID="Btn_Annuler" CausesValidation="false" runat="server" CssClass="btn btn-danger">
+                                <i class="fa  fa-reply-all" ></i> Annuler
+                            </asp:LinkButton>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="DIV_Content_Reponse" runat="server" class="tab-pane">
                                     <div runat="server" id="divLiteralMsg" visible="false" class="alert alert-warning alert-white rounded">
                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                         <div class="icon"><i class="fa fa-info-circle"></i></div>
@@ -463,7 +468,8 @@
                                         </telerik:RadGrid>
                                     </asp:Panel>
                                 </div>
-                                <div class="tab-pane" id="Specifications">                                   
+
+                                <div id="DIV_Content_Specifications" runat="server" class="tab-pane">
                                     <asp:Panel ID="PanelListeSpecifications" runat="server">
                                         <asp:LinkButton ID="LinkButton_NewSpecifications" runat="server" CssClass="btn btn-warning" Style="margin-bottom: 5px;">
                                             <i class="fa fa-plus-square-o"></i> Ajouter Spécifications de Controle </asp:LinkButton>
@@ -472,9 +478,9 @@
                                             Culture="fr-FR" ShowGroupPanel="True"
                                             EnableViewState="true" AllowMultiRowSelection="false" GroupingSettings-CaseSensitive="false">
                                             <ExportSettings HideStructureColumns="true" />
-                                            <MasterTableView CommandItemDisplay="None" GridLines="None" DataKeyNames="ID" NoDetailRecordsText="Pas d'enregistrement"
+                                            <MasterTableView CommandItemDisplay="Top" GridLines="None" DataKeyNames="ID" NoDetailRecordsText="Pas d'enregistrement"
                                                 NoMasterRecordsText="Pas d'enregistrement">
-                                                <CommandItemSettings ShowAddNewRecordButton="false" ShowRefreshButton="false" ShowExportToExcelButton="true"
+                                                <CommandItemSettings ShowAddNewRecordButton="false" ShowRefreshButton="true" ShowExportToExcelButton="false"
                                                     ExportToExcelText="Exporter en excel" />
                                                 <PagerStyle Mode="NextPrevAndNumeric"></PagerStyle>
                                                 <Columns>

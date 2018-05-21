@@ -183,6 +183,7 @@ Partial Class GestionQuestionnaire_Frm_QuestionSpecificationControleADD
                     Btn_SaveInfo.Visible = Cls_Privilege.VerifyRightOnObject(Btn_Edit, User_Connected.IdGroupeuser)
                     With obj
                         DDL_CodeQuestion.SelectedIndex = DDL_CodeQuestion.Items.IndexOf(DDL_CodeQuestion.Items.FindByValue(.CodeQuestion))
+                        DDL_CodeQuestion.Enabled = False
                         txt_Instructions.Text = .Instructions
                         txt_Controles.Text = .Controles
                         txt_Messages.Text = .Messages
@@ -284,7 +285,7 @@ Partial Class GestionQuestionnaire_Frm_QuestionSpecificationControleADD
         If Request.QueryString([Global].ACTION) IsNot Nothing Then
             Select Case Request.QueryString([Global].ACTION)
                 Case [Global].HideMenuHeader
-                    RadAjaxManager1.ResponseScripts.Add("CloseAndRefreshListe();")
+                    RadAjaxManager1.ResponseScripts.Add("CloseAndRefreshListeQuestionSpecificationControle();")
                 Case Else
                     Response.Redirect([Global].GetPath_PageMere(PAGE_MERE))
             End Select

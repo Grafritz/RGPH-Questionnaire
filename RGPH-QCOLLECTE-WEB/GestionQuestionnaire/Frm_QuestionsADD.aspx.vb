@@ -38,6 +38,12 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
     Dim GetOut As Boolean = False           ' LA VARIABLE SERVANT DE TEST POUR REDIRIGER L'UTILISATEUR VERS LA PAGE DE CONNEXION
     Dim PAGE_MERE As Long = 0 ' PAS TROP IMPORTANT...
     Dim PAGE_TITLE As String = ""
+
+    Private Const Question As String = "Question"
+    Private Const Reponse As String = "Reponse"
+    Private Const Specifications As String = "Specifications"
+
+    Private Const SESSION_PAGE_TAB_1 As String = "SESSION_PAGE_QADD_TAB_1"
 #End Region
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -60,8 +66,16 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
                 'rbtnAddQuestions.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_QuestionsADD.aspx', 950, 650)); return false;")
                 'BtnADDNew.Attributes.Add("onclick", "javascript:Open_Window('Frm_QuestionsADD.aspx', '_self',500,400); return false;") 
                 LOAD_ALL_DATA()
+
+                If Session(SESSION_PAGE_TAB_1) IsNot Nothing Then
+                    ShowOrHidePlaceHolder(Session(SESSION_PAGE_TAB_1).ToString)
+                Else
+                    Me.Session(SESSION_PAGE_TAB_1) = Question
+                    ShowOrHidePlaceHolder(Question)
+                End If
             End If
         End If
+
     End Sub
 
 #Region "SECURITE"
@@ -226,6 +240,7 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
                 txt_CodeQuestions_Hid.Text = _id
                 Dim obj As New Cls_Questions(_id)
                 If obj.ID > 0 Then
+                    Label_SousTitre.Text = " " & obj.CodeQuestionEtLibelle ' & "" & Libelle
                     PanelChoixReponse.Visible = True
                     'rbtnAddPossibiliteReponse.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & ", 850, 550)); return false;")
                     LinkButton_NewReponse.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
@@ -272,7 +287,7 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
         Try
             Dim objs1 As List(Of Cls_TypeModule) = Cls_TypeModule.SearchAll
             With DDL_TypeModule
-                .Datasource = objs1
+                .DataSource = objs1
                 .DataValueField = "ID"
                 .DataTextField = "IdEtTypeModule"
                 .DataBind()
@@ -528,6 +543,64 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
 #End Region
 
 
+#Region "TABULATION /  ONGLETS / EVENTS"
+    Private Sub ShowOrHidePlaceHolder(ByVal _placeHolderName As String)
+
+        li_Question.Attributes.Add("class", "")
+        i_Question.Attributes.Add("class", "fa fa-folder")
+        DIV_Content_Question.Attributes.Add("class", "tab-pane cont")
+        DIV_Content_Question.Visible = False
+
+        li_Reponse.Attributes.Add("class", "")
+        i_Reponse.Attributes.Add("class", "fa fa-folder")
+        DIV_Content_Reponse.Attributes.Add("class", "tab-pane cont")
+        DIV_Content_Reponse.Visible = False
+
+        li_Specifications.Attributes.Add("class", "")
+        i_Specifications.Attributes.Add("class", "fa fa-folder")
+        DIV_Content_Specifications.Attributes.Add("class", "tab-pane cont")
+        DIV_Content_Specifications.Visible = False
+
+
+        Select Case _placeHolderName
+            Case Question
+                li_Question.Attributes.Add("class", "active")
+                i_Question.Attributes.Add("class", "fa fa-folder-open")
+                DIV_Content_Question.Attributes.Add("class", "tab-pane active cont")
+                DIV_Content_Question.Visible = True
+
+            Case Reponse
+                li_Reponse.Attributes.Add("class", "active")
+                i_Reponse.Attributes.Add("class", "fa fa-folder-open")
+                DIV_Content_Reponse.Attributes.Add("class", "tab-pane active cont")
+                DIV_Content_Reponse.Visible = True
+
+            Case Specifications
+                li_Specifications.Attributes.Add("class", "active")
+                i_Specifications.Attributes.Add("class", "fa fa-folder-open")
+                DIV_Content_Specifications.Attributes.Add("class", "tab-pane active cont")
+                DIV_Content_Specifications.Visible = True
+
+        End Select
+    End Sub
+
+    Protected Sub LinkButton_Question_Click(sender As Object, e As EventArgs) Handles LinkButton_Question.Click
+        Me.Session(SESSION_PAGE_TAB_1) = Question
+        ShowOrHidePlaceHolder(Question)
+    End Sub
+
+    Protected Sub LinkButton_Reponse_Click(sender As Object, e As EventArgs) Handles LinkButton_Reponse.Click
+        Me.Session(SESSION_PAGE_TAB_1) = Reponse
+        ShowOrHidePlaceHolder(Reponse)
+    End Sub
+
+    Protected Sub LinkButton_Specifications_Click(sender As Object, e As EventArgs) Handles LinkButton_Specifications.Click
+        Me.Session(SESSION_PAGE_TAB_1) = Specifications
+        ShowOrHidePlaceHolder(Specifications)
+    End Sub
+#End Region
+
+
 #Region "RADGRID EVENTS"
 
 #Region "RADGRID EVENTS REPONSES"
@@ -633,7 +706,7 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
                 imagedelete.ToolTip = "Effacer"
                 imageediter.ToolTip = "Editer"
                 imagedelete.CommandArgument = CType(DataBinder.Eval(e.Item.DataItem, "ID"), String)
-                imageediter.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_QuestionSpecificationControleADD.aspx?ID=" & CType(DataBinder.Eval(e.Item.DataItem, "ID"), Long) & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650));")
+                imageediter.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_QuestionSpecificationControleADD.aspx?ID=" & CType(DataBinder.Eval(e.Item.DataItem, "ID"), Long) & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
                 REM Privilege
                 'imageediter.Visible = Cls_Privilege.VerifyRightOnObject(Btn_Save, User_Connected.IdGroupeuser)
                 'imagedelete.Visible = Cls_Privilege.VerifyRightOnObject(Btn_Delete, User_Connected.IdGroupeuser)
