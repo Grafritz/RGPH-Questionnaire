@@ -58,9 +58,15 @@
                 var bounds = window1.getWindowBounds();
                 window1.moveTo(bounds.x + 'px', "50px");
             }
-
+            
+            function CloseAndRefreshListeReponse() {
+                GetRadWindow().BrowserWindow.refreshListeReponse();
+                GetRadWindow().close();
+            }
+            
             function CloseAndRefreshListe() {
                 GetRadWindow().BrowserWindow.refreshMe();
+                GetRadWindow().BrowserWindow.refreshListeReponse();
                 GetRadWindow().close();
             }
             function GetRadWindow() {

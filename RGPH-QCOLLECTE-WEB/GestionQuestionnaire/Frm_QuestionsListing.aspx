@@ -65,9 +65,9 @@
                 var _id = rdGrid.get_masterTableView().get_dataItems()[listItemIndex].get_element().cells[0].innerHTML
                 switch (clickedItemValue) {
                     case "Editer":
-                        ShowAddUpdateForm('Frm_QuestionsADD.aspx?ID=' + _id + '&ACTION=HideMenuHeader', 950, 550); break;
+                        ShowAddUpdateFormMaximized('Frm_QuestionsADD.aspx?ID=' + _id + '&ACTION=HideMenuHeader', 950, 550); break;
                     case "Delete":
-                        ShowAddUpdateForm('Frm_QuestionsADD.aspx?ID=' + _id + '&ACTION=HideMenuHeader', 950, 550); break;
+                        ShowAddUpdateFormMaximized('Frm_QuestionsADD.aspx?ID=' + _id + '&ACTION=HideMenuHeader', 950, 550); break;
                     default:
                         break;
                 }
@@ -96,7 +96,7 @@
                 listItemIndex = index;
                 var rdGrid = $find("<%=rdgQuestions.ClientID %>");
                 var _id = rdGrid.get_masterTableView().get_dataItems()[listItemIndex].get_element().cells[0].innerHTML
-                ShowAddUpdateForm('Frm_QuestionsADD.aspx?ID=' + _id + '&ACTION=HideMenuHeader', 950, 550);
+                ShowAddUpdateFormMaximized('Frm_QuestionsADD.aspx?ID=' + _id + '&ACTION=HideMenuHeader', 950, 550);
             }
 
             function refreshMe() {
