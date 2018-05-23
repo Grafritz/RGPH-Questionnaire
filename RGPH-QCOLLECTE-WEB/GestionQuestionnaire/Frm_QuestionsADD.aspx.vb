@@ -240,7 +240,7 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
                 txt_CodeQuestions_Hid.Text = _id
                 Dim obj As New Cls_Questions(_id)
                 If obj.ID > 0 Then
-                    Label_SousTitre.Text = " " & obj.CodeQuestionEtLibelle ' & "" & Libelle
+                    Label_SousTitre.Text = " : <span style='color:red;'>" & obj.CodeQuestionEtLibelle & "</span>"
                     PanelChoixReponse.Visible = True
                     'rbtnAddPossibiliteReponse.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & ", 850, 550)); return false;")
                     LinkButton_NewReponse.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
@@ -483,7 +483,6 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
             If id2 <= 0 Then
                 Response.Redirect("~/GestionQuestionnaire/Frm_QuestionsADD.aspx?ID=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "")
             Else
-
                 PanelChoixReponse.Visible = True
                 LinkButton_NewReponse.Attributes.Add("onclick", "javascript:void(ShowAddUpdateFormMaximized('Frm_Questions_ReponsesADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
                 LinkButton_NewSpecifications.Attributes.Add("onclick", "javascript:void(ShowAddUpdateFormMaximized('Frm_QuestionSpecificationControleADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")

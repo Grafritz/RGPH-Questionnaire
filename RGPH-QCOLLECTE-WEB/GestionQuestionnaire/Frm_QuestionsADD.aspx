@@ -138,6 +138,12 @@
                     <telerik:AjaxUpdatedControl ControlID="Panel_First" LoadingPanelID="RadAjaxLoadingPanel1" />
                 </UpdatedControls>
             </telerik:AjaxSetting>
+            <telerik:AjaxSetting AjaxControlID="Btn_SaveInfo">
+                <UpdatedControls>
+                    <telerik:AjaxUpdatedControl ControlID="Panel_Msg" LoadingPanelID="RadAjaxLoadingPanel1" />
+                    <telerik:AjaxUpdatedControl ControlID="Panel_First" LoadingPanelID="RadAjaxLoadingPanel1" />
+                </UpdatedControls>
+            </telerik:AjaxSetting>
         </AjaxSettings>
     </telerik:RadAjaxManager>
     <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" />
@@ -169,7 +175,7 @@
 
                 <asp:ValidationSummary ID="ValidationSummary1" ValidationGroup="GPSave" runat="server" CssClass="alert alert-danger alert-dismissable" ShowMessageBox="true" ShowSummary="true" />
 
-                <asp:Panel ID="Panel_First" runat="server" CssClass="panel panel-default panel-body" Style="margin: 5px;">
+                <asp:Panel ID="Panel_First" runat="server" CssClass="panel1 panel-default1 panel-body1" Style="margin: 5px;">
                     <asp:Panel runat="server" ID="PanelChoixReponse">
                         <div class="tab-container">
                             <ul class="nav nav-tabs">
@@ -210,7 +216,7 @@
                                                         ErrorMessage="Type Module Obligatoire !" InitialValue="0" SetFocusOnError="true" Display="Dynamic" Text="*"
                                                         ValidationGroup="GPSave" CssClass="text-danger" />
                                                 </label>
-                                                <asp:DropDownList ID="DDL_TypeModule" CssClass="select2" Width="100%" runat="server">
+                                                <asp:DropDownList ID="DDL_TypeModule" CssClass="form-control" Width="100%" runat="server">
                                                 </asp:DropDownList>
                                             </div>
                                             <div style="clear: both;"></div>
@@ -319,7 +325,7 @@
                                                 <label>
                                                     Type Question
                                                 </label>
-                                                <asp:DropDownList ID="DDL_TypeQuestion" AutoPostBack="true" CssClass="select2" Width="100%" runat="server">
+                                                <asp:DropDownList ID="DDL_TypeQuestion" AutoPostBack="true" CssClass="form-control" Width="100%" runat="server">
                                                 </asp:DropDownList>
                                             </div>
                                             <div style="clear: both;"></div>

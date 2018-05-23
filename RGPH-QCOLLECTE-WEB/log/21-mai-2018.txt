@@ -1,10 +1,0 @@
-
-Chemin Erreur : 
-05/21/2018 12:56:05
-Erreur dans: http://localhost/RGPH-QCollect/GestionQuestionnaire/Frm_QuestionSpecificationControleADD.aspx?ID=1&ACTION=HideMenuHeader&rwndrnd=0.28717933903336257. Message Erreur:[duverseau.jeanfritz@gmail.com ] : Parameter count does not match Parameter Value count.System.ArgumentException: Parameter count does not match Parameter Value count.
-   at BRAIN_DEVLOPMENT.DataAccessLayer.SqlHelper.AssignParameterValues(SqlParameter[] commandParameters, Object[] parameterValues) in P:\_Travaux_IHSI\ProjetWEB\RGPH-Questionnaire\ClassLibraryPRINCIPAL\ClassLibraryPRINCIPAL\DataAccesLayer\SQLHelper.vb:line 39
-   at BRAIN_DEVLOPMENT.DataAccessLayer.SqlHelper.ExecuteScalar(String connectionString, String spName, Object[] parameterValues) in P:\_Travaux_IHSI\ProjetWEB\RGPH-Questionnaire\ClassLibraryPRINCIPAL\ClassLibraryPRINCIPAL\DataAccesLayer\SQLHelper.vb:line 232
-   at RGPH_QCOLLECTE_Library.Cls_QuestionSpecificationControle.Update(String usr) in P:\_Travaux_IHSI\ProjetWEB\RGPH-Questionnaire\RGPH-QCOLLECTE-Library\Questionnaire\Cls_QuestionSpecificationControle.vb:line 229
-   at RGPH_QCOLLECTE_Library.Cls_QuestionSpecificationControle.Save(String usr) in P:\_Travaux_IHSI\ProjetWEB\RGPH-Questionnaire\RGPH-QCOLLECTE-Library\Questionnaire\Cls_QuestionSpecificationControle.vb:line 305
-   at GestionQuestionnaire_Frm_QuestionSpecificationControleADD.SAVE_QUESTIONSPECIFICATIONCONTROLE() in P:\_Travaux_IHSI\ProjetWEB\RGPH-Questionnaire\RGPH-QCOLLECTE-WEB\GestionQuestionnaire\Frm_QuestionSpecificationControleADD.aspx.vb:line 262
-__________________________
