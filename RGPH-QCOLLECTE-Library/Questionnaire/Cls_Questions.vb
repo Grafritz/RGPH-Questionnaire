@@ -260,12 +260,29 @@ Public Class Cls_Questions
         End Set
     End Property
 
-
     Public ReadOnly Property TypeQuestionSTR As String
         Get
             Return TypeQuestionOBJ.IDEtTypeQuestion
         End Get
     End Property
+
+    Public ReadOnly Property IsHaveSpecification As String
+        Get
+            Dim col As Long = Get_CountSpecificationControle_ByCodeQuestion(_CodeQuestion)
+            Return IIf(col > 0, "<i class='fa fa-thumb-tack' style='color:red;' title='Controle de Specification: " & col & "' >" & IIf(col > 1, ":" & col, "") & "</i>", "")
+        End Get
+    End Property
+
+    Public Shared Function Get_CountSpecificationControle_ByCodeQuestion(ByVal CodeQuestion As String) As Long
+        Dim Nbr As Long = 0
+        Try
+            Nbr = Convert.ToInt32(SqlHelper.ExecuteScalar(SqlHelperParameterCache.BuildConfigDB(), "SP_Count_SpecificationControle_ByCodeQuestion", CodeQuestion))
+            Return Nbr
+        Catch ex As Rezo509Exception
+            'ErreurLog.WriteError("[" & Username & "] -- >(Class:Annonce) - Methode:Get_NumberAnnonces_IsNotAnnuler_ByUser :-->" & ex.Message)
+        End Try
+        Return Nbr
+    End Function
 
     <AttributLogData(True, 9)>
     Public Property CaratereAccepte As Integer

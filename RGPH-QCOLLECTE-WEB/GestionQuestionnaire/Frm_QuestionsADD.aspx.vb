@@ -339,7 +339,7 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
                 .DataValueField = "Code"
                 .DataTextField = "CodeEtContrainte"
                 .DataBind()
-                .Items.Insert(0, New ListItem(" - Choisir(" & objs1.Count & ") - ", 0))
+                .Items.Insert(0, New ListItem(" - AUCUN (" & objs1.Count & ") - ", 0))
                 .SelectedIndex = -1
                 '.Items.Sort()
                 '.Items.Insert(0, New RadComboBoxItem(" - Choisir -", ""))

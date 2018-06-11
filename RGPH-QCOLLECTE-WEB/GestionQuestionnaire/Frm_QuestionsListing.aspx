@@ -1,4 +1,5 @@
-<%@ Page Title=" Questions" Language="VB" MasterPageFile="~/MasterPages/DashboardCZMasterPage.master" AutoEventWireup="false" MaintainScrollPositionOnPostback="true" CodeFile="Frm_QuestionsListing.aspx.vb" Inherits="Frm_QuestionsListing" %>
+<%@ Page Title=" Questions" Language="VB" MasterPageFile="~/MasterPages/DashboardCZMasterPage.master" AutoEventWireup="false" 
+    MaintainScrollPositionOnPostback="true" CodeFile="Frm_QuestionsListing.aspx.vb" Inherits="Frm_QuestionsListing" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <telerik:RadCodeBlock ID="RadCodeBlock1" runat="server">
@@ -250,10 +251,14 @@
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
                                     </telerik:GridBoundColumn>
-                                    <telerik:GridBoundColumn DataField="Libelle" UniqueName="Libelle" HeaderText=" Libelle"
+                                    <telerik:GridTemplateColumn DataField="Libelle" UniqueName="Libelle" HeaderText=" Libelle"
                                         FilterControlAltText="Filter Libelle column" FilterControlWidth="95%" ShowFilterIcon="false"
                                         AllowFiltering="true" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains">
-                                    </telerik:GridBoundColumn>
+                                        <ItemTemplate>
+                                            <asp:Literal ID="LiteralIsHaveSpecification1" runat="server" Text='<%#Bind("IsHaveSpecification") %>' />
+                                            <asp:Literal ID="LiteralLibelle1" runat="server" Text='<%#Bind("Libelle") %>' />
+                                        </ItemTemplate>
+                                    </telerik:GridTemplateColumn>
                                     <telerik:GridBoundColumn DataField="DetailsQuestion" UniqueName="DetailsQuestion" HeaderText=" Details Question"
                                         FilterControlAltText="Filter DetailsQuestion column" FilterControlWidth="95%" ShowFilterIcon="false"
                                         AllowFiltering="true" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains">

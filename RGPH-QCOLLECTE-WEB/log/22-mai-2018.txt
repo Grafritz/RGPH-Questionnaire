@@ -1,25 +1,0 @@
-
-Chemin Erreur : 
-05/22/2018 13:28:50
-Erreur dans: http://localhost/RGPH-QCollect/GestionQuestionnaire/Frm_QuestionsADD.aspx?ID=82&ACTION=HideMenuHeader&rwndrnd=0.20522309991085108. Message Erreur:[duverseau.jeanfritz@gmail.com ] : The UPDATE statement conflicted with the REFERENCE constraint "FK_Tbl_Question_Module_Tbl_Questions". The conflict occurred in database "RGPH_QCollecte_db", table "dbo.Tbl_Question_Module", column 'CodeQuestion'.
-The statement has been terminated.System.Data.SqlClient.SqlException (0x80131904): The UPDATE statement conflicted with the REFERENCE constraint "FK_Tbl_Question_Module_Tbl_Questions". The conflict occurred in database "RGPH_QCollecte_db", table "dbo.Tbl_Question_Module", column 'CodeQuestion'.
-The statement has been terminated.
-   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
-   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
-   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
-   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
-   at System.Data.SqlClient.SqlDataReader.get_MetaData()
-   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
-   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
-   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
-   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
-   at System.Data.SqlClient.SqlCommand.ExecuteScalar()
-   at BRAIN_DEVLOPMENT.DataAccessLayer.SqlHelper.ExecuteScalar(SqlConnection connection, CommandType commandType, String commandText, SqlParameter[] commandParameters) in P:\_Travaux_IHSI\ProjetWEB\RGPH-Questionnaire\ClassLibraryPRINCIPAL\ClassLibraryPRINCIPAL\DataAccesLayer\SQLHelper.vb:line 253
-   at BRAIN_DEVLOPMENT.DataAccessLayer.SqlHelper.ExecuteScalar(String connectionString, CommandType commandType, String commandText, SqlParameter[] commandParameters) in P:\_Travaux_IHSI\ProjetWEB\RGPH-Questionnaire\ClassLibraryPRINCIPAL\ClassLibraryPRINCIPAL\DataAccesLayer\SQLHelper.vb:line 215
-   at BRAIN_DEVLOPMENT.DataAccessLayer.SqlHelper.ExecuteScalar(String connectionString, String spName, Object[] parameterValues) in P:\_Travaux_IHSI\ProjetWEB\RGPH-Questionnaire\ClassLibraryPRINCIPAL\ClassLibraryPRINCIPAL\DataAccesLayer\SQLHelper.vb:line 235
-   at RGPH_QCOLLECTE_Library.Cls_Questions.Update(String usr) in P:\_Travaux_IHSI\ProjetWEB\RGPH-Questionnaire\RGPH-QCOLLECTE-Library\Questionnaire\Cls_Questions.vb:line 416
-   at RGPH_QCOLLECTE_Library.Cls_Questions.Save(String usr) in P:\_Travaux_IHSI\ProjetWEB\RGPH-Questionnaire\RGPH-QCOLLECTE-Library\Questionnaire\Cls_Questions.vb:line 530
-   at GestionQuestionnaire_Frm_QuestionsADD.SAVE_QUESTIONS() in P:\_Travaux_IHSI\ProjetWEB\RGPH-Questionnaire\RGPH-QCOLLECTE-WEB\GestionQuestionnaire\Frm_QuestionsADD.aspx.vb:line 474
-ClientConnectionId:40219594-a3dd-4259-b4b8-0b2ce262c5c1
-Error Number:547,State:0,Class:16
-__________________________

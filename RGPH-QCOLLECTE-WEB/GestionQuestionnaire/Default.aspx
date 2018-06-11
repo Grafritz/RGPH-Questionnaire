@@ -281,7 +281,10 @@
                                         <telerik:GridTemplateColumn HeaderText="Type Module" UniqueName="Type_Module">
                                             <ItemTemplate>
                                                 <asp:CheckBox ID="CheckBox_TypeModule" runat="server" Text='<%#Bind("TypeModuleSTR") %>' />
-                                                <asp:TextBox ID="txt_IDTypeModule" runat="server" Text='<%#Bind("ID") %>' Visible="false"></asp:TextBox></ItemTemplate></telerik:GridTemplateColumn><telerik:GridTemplateColumn HeaderText="Formulaire(Module)" UniqueName="Module">
+                                                <asp:TextBox ID="txt_IDTypeModule" runat="server" Text='<%#Bind("ID") %>' Visible="false"></asp:TextBox>
+                                            </ItemTemplate>
+                                        </telerik:GridTemplateColumn>
+                                        <telerik:GridTemplateColumn HeaderText="Formulaire(Module)" UniqueName="Module">
                                             <ItemTemplate>
                                                 <asp:CheckBoxList ID="CheckBoxList_Module_Formulaire" runat="server" />
                                             </ItemTemplate>
@@ -306,11 +309,18 @@
                         <asp:LinkButton ID="LinkButton_ExporterQuestionsEtReponses" runat="server" CssClass="btn btn-success" ValidationGroup="GPSave">
                             <i class="fa fa-save"></i>
                             <asp:Literal ID="Literal_ExporterQuestionsEtReponses" runat="server" Text="Exporter" />
-                        </asp:LinkButton><asp:Label ID="label_Module" runat="server"></asp:Label></section></asp:Panel><!-- FORM LOGIN --><BRAIN:CULogin2 runat="server" ID="LoginWUC" Visible="false" />
+                        </asp:LinkButton><asp:Label ID="label_Module" runat="server"></asp:Label>
+                    </section>
+                </asp:Panel>
+                <!-- FORM LOGIN -->
+                <BRAIN:CULogin2 runat="server" ID="LoginWUC" Visible="false" />
                 <div class="md-overlay"></div>
             </section>
 
-            <asp:Literal runat="server" ID="LiteralStyleCSS"></asp:Literal></div></div><telerik:RadWindowManager ID="RadWindowManager1" runat="server" VisibleStatusbar="false" EnableViewState="false">
+            <asp:Literal runat="server" ID="LiteralStyleCSS"></asp:Literal>
+        </div>
+    </div>
+    <telerik:RadWindowManager ID="RadWindowManager1" runat="server" VisibleStatusbar="false" EnableViewState="false">
         <Windows>
             <telerik:RadWindow ID="AddUpdateDialog" runat="server" Title="" IconUrl="~/Images/favicon.ico" Left="75px" ReloadOnShow="true"
                 ShowContentDuringLoad="false" Modal="true" OnClientClose="RadWindowClosing" Behaviors="Reload, Move, Resize, Maximize, Close"
