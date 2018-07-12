@@ -240,11 +240,11 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
                 txt_CodeQuestions_Hid.Text = _id
                 Dim obj As New Cls_Questions(_id)
                 If obj.ID > 0 Then
-                    Label_SousTitre.Text = " " & obj.CodeQuestionEtLibelle ' & "" & Libelle
+                    Label_SousTitre.Text = " : <span style='color:red;'>" & obj.CodeQuestionEtLibelle & "</span>"
                     PanelChoixReponse.Visible = True
                     'rbtnAddPossibiliteReponse.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & ", 850, 550)); return false;")
                     LinkButton_NewReponse.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
-                    LinkButton_NewSpecifications.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_QuestionSpecificationControleADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
+                    LinkButton_NewSpecifications.Attributes.Add("onclick", "javascript:void(ShowAddUpdateFormMaximized('Frm_QuestionSpecificationControleADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
 
                     Btn_SaveInfo.Visible = Cls_Privilege.VerifyRightOnObject(Btn_Edit, User_Connected.IdGroupeuser)
                     With obj
@@ -339,7 +339,7 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
                 .DataValueField = "Code"
                 .DataTextField = "CodeEtContrainte"
                 .DataBind()
-                .Items.Insert(0, New ListItem(" - Choisir(" & objs1.Count & ") - ", 0))
+                .Items.Insert(0, New ListItem(" - AUCUN (" & objs1.Count & ") - ", 0))
                 .SelectedIndex = -1
                 '.Items.Sort()
                 '.Items.Insert(0, New RadComboBoxItem(" - Choisir -", ""))
@@ -483,7 +483,6 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
             If id2 <= 0 Then
                 Response.Redirect("~/GestionQuestionnaire/Frm_QuestionsADD.aspx?ID=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "")
             Else
-
                 PanelChoixReponse.Visible = True
                 LinkButton_NewReponse.Attributes.Add("onclick", "javascript:void(ShowAddUpdateFormMaximized('Frm_Questions_ReponsesADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
                 LinkButton_NewSpecifications.Attributes.Add("onclick", "javascript:void(ShowAddUpdateFormMaximized('Frm_QuestionSpecificationControleADD.aspx?IDQuestion=" & obj.ID & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
@@ -694,7 +693,7 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
                 'Dim _lnk As HyperLink = DirectCast(gridDataItem.FindControl("hlk"), HyperLink)
                 'Dim _lbl_ID As Label = DirectCast(gridDataItem.FindControl("lbl_ID"), Label)
                 '_lnk.Attributes.Clear()
-                '_lnk.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?ID=" & CLng(_lbl_ID.Text) & "', 750, 400));")
+                '_lnk.Attributes.Add("onclick", "javascript:void(ShowAddUpdateFormMaximized('Frm_Questions_ReponsesADD.aspx?ID=" & CLng(_lbl_ID.Text) & "', 750, 400));")
             End If
 
             If (gridDataItem IsNot Nothing) Then
@@ -706,7 +705,7 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
                 imagedelete.ToolTip = "Effacer"
                 imageediter.ToolTip = "Editer"
                 imagedelete.CommandArgument = CType(DataBinder.Eval(e.Item.DataItem, "ID"), String)
-                imageediter.Attributes.Add("onclick", "javascript:void(ShowAddUpdateForm('Frm_QuestionSpecificationControleADD.aspx?ID=" & CType(DataBinder.Eval(e.Item.DataItem, "ID"), Long) & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
+                imageediter.Attributes.Add("onclick", "javascript:void(ShowAddUpdateFormMaximized('Frm_QuestionSpecificationControleADD.aspx?ID=" & CType(DataBinder.Eval(e.Item.DataItem, "ID"), Long) & "&" & [Global].ACTION & "=" & [Global].HideMenuHeader & "',900,650)); return false;")
                 REM Privilege
                 'imageediter.Visible = Cls_Privilege.VerifyRightOnObject(Btn_Save, User_Connected.IdGroupeuser)
                 'imagedelete.Visible = Cls_Privilege.VerifyRightOnObject(Btn_Delete, User_Connected.IdGroupeuser)
@@ -732,7 +731,7 @@ Partial Class GestionQuestionnaire_Frm_QuestionsADD
     Protected Sub RadAjaxManager1_AjaxRequest(ByVal sender As Object, ByVal e As Telerik.Web.UI.AjaxRequestEventArgs) Handles RadAjaxManager1.AjaxRequest
         Try
             Select Case e.Argument
-                Case "Reload"
+                Case "refreshListeReponse"
                     BindGrid(True)
                 Case "refreshListeSpecificationControle"
                     BindGrid_Specification(True)

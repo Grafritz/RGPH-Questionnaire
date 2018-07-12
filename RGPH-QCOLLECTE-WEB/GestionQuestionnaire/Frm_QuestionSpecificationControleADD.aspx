@@ -48,37 +48,37 @@
             }
             function RadWindowClosing() {
                 $find("<%= RadAjaxManager1.ClientID %>").ajaxRequest("Reload");
-    }
+            }
 
-    function RadWindowClientResizeEnd() {
-        var manager = GetRadWindowManager();
-        var window1 = manager.getActiveWindow();
-        window1.center();
-        var bounds = window1.getWindowBounds();
-        window1.moveTo(bounds.x + 'px', "50px");
-    }
+            function RadWindowClientResizeEnd() {
+                var manager = GetRadWindowManager();
+                var window1 = manager.getActiveWindow();
+                window1.center();
+                var bounds = window1.getWindowBounds();
+                window1.moveTo(bounds.x + 'px', "50px");
+            }
 
-    function CloseAndRefreshListeQuestionSpecificationControle() {
-        GetRadWindow().BrowserWindow.refreshListeSpecificationControle();
-        GetRadWindow().close();
-    }
-    function GetRadWindow() {
-        var oWindow = null;
-        if (window.radWindow) oWindow = window.radWindow; //Will work in Moz in all cases, including clasic dialog
-        else if (window.frameElement.radWindow) oWindow = window.frameElement.radWindow; //IE (and Moz as well)
-        return oWindow;
-    }
+            function CloseAndRefreshListeQuestionSpecificationControle() {
+                GetRadWindow().BrowserWindow.refreshListeSpecificationControle();
+                GetRadWindow().close();
+            }
+            function GetRadWindow() {
+                var oWindow = null;
+                if (window.radWindow) oWindow = window.radWindow; //Will work in Moz in all cases, including clasic dialog
+                else if (window.frameElement.radWindow) oWindow = window.frameElement.radWindow; //IE (and Moz as well)
+                return oWindow;
+            }
         </script>
     </telerik:RadCodeBlock>
     <%--<telerik:RadScriptManager ID="RadScriptManager1"  runat="server"></telerik:RadScriptManager>--%>
     <telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>
-            <%--<telerik:AjaxSetting AjaxControlID="Btn_SaveInfo">
+            <telerik:AjaxSetting AjaxControlID="Btn_SaveInfo">
            <UpdatedControls>
                <telerik:AjaxUpdatedControl ControlID="Panel_Msg" LoadingPanelID="RadAjaxLoadingPanel1" />
-               <telerik:AjaxUpdatedControl ControlID="Panel_First" LoadingPanelID="RadAjaxLoadingPanel1" />
+               <%--<telerik:AjaxUpdatedControl ControlID="Panel_First" LoadingPanelID="RadAjaxLoadingPanel1" />--%>
            </UpdatedControls>
-       </telerik:AjaxSetting>--%>
+       </telerik:AjaxSetting>
         </AjaxSettings>
     </telerik:RadAjaxManager>
     <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" />
@@ -111,7 +111,7 @@
                 <asp:ValidationSummary ID="ValidationSummary1" ValidationGroup="GPSave" runat="server" CssClass="alert alert-danger alert-dismissable" ShowMessageBox="true" ShowSummary="true" />
 
                 <asp:Panel ID="Panel_First" runat="server" CssClass="panel panel-default panel-body" Style="margin: 5px;">
-                    
+
                     <div id="divEntete" runat="server" visible="false" class="alert alert-info">
                         <div class="form-group">
                             <div class="col-sm-2">
@@ -141,9 +141,9 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">
                                 Code Question
-   <asp:RequiredFieldValidator ID="RFV_CodeQuestion" runat="server" ControlToValidate="DDL_CodeQuestion"
-       ErrorMessage="_ Code Question Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
-       ValidationGroup="GPSave" CssClass="text-danger" />
+                               <asp:RequiredFieldValidator ID="RFV_CodeQuestion" runat="server" ControlToValidate="DDL_CodeQuestion"
+                                   ErrorMessage="_ Code Question Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
+                                   ValidationGroup="GPSave" CssClass="text-danger" />
                                 <asp:RequiredFieldValidator ID="RFV1_CodeQuestion" runat="server" ControlToValidate="DDL_CodeQuestion"
                                     ErrorMessage="_ Code Question Obligatoire !" InitialValue="0" SetFocusOnError="true" Display="Dynamic" Text="*"
                                     ValidationGroup="GPSave" CssClass="text-danger" />
@@ -155,57 +155,50 @@
 
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">
-                                Instructions
+                            <div class="col-sm-12">
+                                <label>
+                                    Instructions
                                <asp:RequiredFieldValidator ID="RFV_Instructions" runat="server" ControlToValidate="txt_Instructions"
                                    ErrorMessage="Instructions Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
                                    ValidationGroup="GPSave" CssClass="text-danger" />
-                            </label>
-                            <div class="col-sm-10">
-                                <asp:TextBox ID="txt_Instructions" TextMode="MultiLine" CssClass="form-control" Width="100%" runat="server" placeholder="Instructions..."></asp:TextBox>
+                                </label>
+                                <asp:TextBox ID="txt_Instructions" TextMode="MultiLine" CssClass="form-control" Text="_" Width="98%" Height="150px" runat="server" placeholder="Instructions..."></asp:TextBox>
+                                <ajaxToolkit:HtmlEditorExtender ID="HtmlEditorExtender2" runat="server" TargetControlID="txt_Instructions" />
                             </div>
-
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">
-                                Controles
-                                <%--<asp:RequiredFieldValidator ID="RFV_Controles" runat="server" ControlToValidate="txt_Controles"
-                                    ErrorMessage="Controles Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
-                                    ValidationGroup="GPSave" CssClass="text-danger" />--%>
-                            </label>
-                            <div class="col-sm-10">
-                                <asp:TextBox ID="txt_Controles" TextMode="MultiLine" CssClass="form-control" Width="100%" runat="server" placeholder="Controles..."></asp:TextBox>
+                            <div class="col-sm-12">
+                                <label>
+                                    Controles
+                                </label>
+                                <asp:TextBox ID="txt_Controles" TextMode="MultiLine" CssClass="form-control" Width="98%" Height="250px" runat="server" placeholder="Controles..."></asp:TextBox>
+                                <ajaxToolkit:HtmlEditorExtender ID="HtmlEditorExtender1" runat="server" TargetControlID="txt_Controles" />
                             </div>
-
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">
-                                Messages
-                               <%--<asp:RequiredFieldValidator ID="RFV_Messages" runat="server" ControlToValidate="txt_Messages"
-                                   ErrorMessage="Messages Obligatoire !" SetFocusOnError="true" Display="Dynamic" Text="*"
-                                   ValidationGroup="GPSave" CssClass="text-danger" />--%>
-                            </label>
-                            <div class="col-sm-10">
-                                <asp:TextBox ID="txt_Messages" TextMode="MultiLine" CssClass="form-control" Width="100%" runat="server" placeholder="Messages..."></asp:TextBox>
+                            <div class="col-sm-12">
+                                <label>
+                                    Messages
+                                </label>
+                                <asp:TextBox ID="txt_Messages" TextMode="MultiLine" CssClass="form-control" Width="98%" Height="150px" runat="server" placeholder="Messages..."></asp:TextBox>
+                                <ajaxToolkit:HtmlEditorExtender ID="HtmlEditorExtender_Messages" runat="server" TargetControlID="txt_Messages" />
                             </div>
-
                         </div>
                         <div id="DIV_SaveInfo" runat="server" style="margin: 5px 0px; text-align: left;">
                             <label class="col-sm-2 control-label">
-                              
                             </label>
                             <div class="col-sm-10">
-                            <span id="span_SaveInfo" runat="server">
-                                <asp:LinkButton ID="Btn_SaveInfo" runat="server" CssClass="btn btn-primary" ValidationGroup="GPSave">
+                                <span id="span_SaveInfo" runat="server">
+                                    <asp:LinkButton ID="Btn_SaveInfo" runat="server" CssClass="btn btn-primary" ValidationGroup="GPSave">
                                     <i class="fa fa-save" ></i> Enregistrer
-                                </asp:LinkButton>
-                            </span>
+                                    </asp:LinkButton>
+                                </span>
 
-                            &nbsp;
+                                &nbsp;
                             <asp:LinkButton ID="Btn_Annuler" CausesValidation="false" runat="server" CssClass="btn btn-danger">
                                 <i class="fa  fa-reply-all" ></i> Annuler
                             </asp:LinkButton>
-                        </div>
+                            </div>
                         </div>
                     </div>
                 </asp:Panel>

@@ -195,6 +195,16 @@ Partial Class GestionQuestionnaire_Frm_Questions_ReponsesADD
                     Btn_SaveInfo_AndClose.Visible = Btn_SaveInfo.Visible
 
                     With obj
+
+                        divEntete.Visible = True
+
+                        DIV_QSuivant.Visible = obj.CodeQuestionOBJ.EstSautReponse
+                        LabelCodeQuestion.Text = "<br />" & .CodeQuestion
+                        LabelLibelleQuestion.Text = "<br />" & .CodeQuestionOBJ.Libelle
+                        LabelTypeQuestion.Text = "<br />" & .CodeQuestionOBJ.TypeQuestionSTR
+                        LabelEstSautReponse.Text = "<br />" & .CodeQuestionOBJ.EstSautReponse
+
+
                         DDL_CodeQuestion.SelectedIndex = DDL_CodeQuestion.Items.IndexOf(DDL_CodeQuestion.Items.FindByValue(.CodeQuestion))
                         txt_CodeUniqueReponse.Text = .CodeUniqueReponse
                         txt_CodeReponse.Text = .CodeReponse
@@ -207,7 +217,7 @@ Partial Class GestionQuestionnaire_Frm_Questions_ReponsesADD
                     End With
                 End If
 
-            ElseIf Request.QueryString("IDQuestion") IsNot Nothing Then
+                ElseIf Request.QueryString("IDQuestion") IsNot Nothing Then
                 Dim _id As Long = TypeSafeConversion.NullSafeLong(Request.QueryString("IDQuestion"))
                 Dim obj As New Cls_Questions(_id)
                 If obj.ID > 0 Then

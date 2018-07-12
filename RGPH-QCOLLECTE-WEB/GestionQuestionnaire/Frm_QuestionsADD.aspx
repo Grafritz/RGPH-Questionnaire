@@ -64,7 +64,7 @@
                 return false;
             }
             function RadWindowClosing() {
-                $find("<%= RadAjaxManager1.ClientID %>").ajaxRequest("Reload");
+                //$find("<%= RadAjaxManager1.ClientID %>").ajaxRequest("Reload");
             }
 
             function RadWindowClientResizeEnd() {
@@ -76,30 +76,33 @@
             }
 
             function refreshMe() {
-                $find("<%= RadAjaxManager1.ClientID %>").ajaxRequest("Reload");
+                //$find("<%= RadAjaxManager1.ClientID %>").ajaxRequest("refreshListeReponse");
             }
 
+            function refreshListeReponse() {
+                $find("<%= RadAjaxManager1.ClientID %>").ajaxRequest("refreshListeReponse");
+            }
             function refreshListeSpecificationControle() {
                 $find("<%= RadAjaxManager1.ClientID %>").ajaxRequest("refreshListeSpecificationControle");
             }
 
 
-            var listItemIndex = null;
+            <%--var listItemIndex = null;
             function MenuItemClicked(sender, eventArgs) {
                 var clickedItemValue = eventArgs.get_item().get_value();
                 var rdGrid = $find("<%=rdgQuestions_Reponses.ClientID %>");
                 var _id = rdGrid.get_masterTableView().get_dataItems()[listItemIndex].get_element().cells[0].innerHTML
                 switch (clickedItemValue) {
                     case "Editer":
-                        ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?ID=' + _id + '&ACTION=HideMenuHeader', 950, 550); break;
+                        ShowAddUpdateFormMaximized('Frm_Questions_ReponsesADD.aspx?ID=' + _id + '&ACTION=HideMenuHeader', 950, 550); break;
                     case "Delete":
-                        ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?ID=' + _id + '&ACTION=HideMenuHeader', 950, 550); break;
+                        ShowAddUpdateFormMaximized('Frm_Questions_ReponsesADD.aspx?ID=' + _id + '&ACTION=HideMenuHeader', 950, 550); break;
                     default:
                         break;
                 }
-            }
+            }--%>
 
-            function RowContextMenu(sender, eventArgs) {
+            <%--function RowContextMenu(sender, eventArgs) {
                 var menu = $find("<%= ContextMenu.ClientID %>");
                 var evt = eventArgs.get_domEvent();
                 if (evt.target.tagName == "INPUT" || evt.target.tagName == "A") { return; }
@@ -114,16 +117,16 @@
                     evt.stopPropagation();
                     evt.preventDefault();
                 }
-            }
+            }--%>
 
-            function RowDblClick(sender, eventArgs) {
+           <%-- function RowDblClick(sender, eventArgs) {
                 var index = eventArgs.get_itemIndexHierarchical();
                 document.getElementById("radGridClickedRowIndex").value = index;
                 listItemIndex = index;
                 var rdGrid = $find("<%=rdgQuestions_Reponses.ClientID %>");
                 var _id = rdGrid.get_masterTableView().get_dataItems()[listItemIndex].get_element().cells[0].innerHTML
-                ShowAddUpdateForm('Frm_Questions_ReponsesADD.aspx?ID=' + _id + '&ACTION=HideMenuHeader', 950, 550);
-            }
+                ShowAddUpdateFormMaximized('Frm_Questions_ReponsesADD.aspx?ID=' + _id + '&ACTION=HideMenuHeader', 950, 550);
+            }--%>
         </script>
     </telerik:RadCodeBlock>
     <%--<telerik:RadScriptManager ID="RadScriptManager1"  runat="server"></telerik:RadScriptManager>--%>
@@ -132,8 +135,13 @@
             <telerik:AjaxSetting AjaxControlID="RadAjaxManager1">
                 <UpdatedControls>
                     <telerik:AjaxUpdatedControl ControlID="Panel_Msg" LoadingPanelID="RadAjaxLoadingPanel1" />
-                    <telerik:AjaxUpdatedControl ControlID="DIV_Content_Reponse" LoadingPanelID="RadAjaxLoadingPanel1" />
-                    <telerik:AjaxUpdatedControl ControlID="DIV_Content_Specifications" LoadingPanelID="RadAjaxLoadingPanel1" />
+                    <telerik:AjaxUpdatedControl ControlID="Panel_First" LoadingPanelID="RadAjaxLoadingPanel1" />
+                </UpdatedControls>
+            </telerik:AjaxSetting>
+            <telerik:AjaxSetting AjaxControlID="Btn_SaveInfo">
+                <UpdatedControls>
+                    <telerik:AjaxUpdatedControl ControlID="Panel_Msg" LoadingPanelID="RadAjaxLoadingPanel1" />
+                    <telerik:AjaxUpdatedControl ControlID="Panel_First" LoadingPanelID="RadAjaxLoadingPanel1" />
                 </UpdatedControls>
             </telerik:AjaxSetting>
         </AjaxSettings>
@@ -167,7 +175,7 @@
 
                 <asp:ValidationSummary ID="ValidationSummary1" ValidationGroup="GPSave" runat="server" CssClass="alert alert-danger alert-dismissable" ShowMessageBox="true" ShowSummary="true" />
 
-                <asp:Panel ID="Panel_First" runat="server" CssClass="panel panel-default panel-body" Style="margin: 5px;">
+                <asp:Panel ID="Panel_First" runat="server" CssClass="panel1 panel-default1 panel-body1" Style="margin: 5px;">
                     <asp:Panel runat="server" ID="PanelChoixReponse">
                         <div class="tab-container">
                             <ul class="nav nav-tabs">
@@ -208,7 +216,7 @@
                                                         ErrorMessage="Type Module Obligatoire !" InitialValue="0" SetFocusOnError="true" Display="Dynamic" Text="*"
                                                         ValidationGroup="GPSave" CssClass="text-danger" />
                                                 </label>
-                                                <asp:DropDownList ID="DDL_TypeModule" CssClass="select2" Width="100%" runat="server">
+                                                <asp:DropDownList ID="DDL_TypeModule" CssClass="form-control" Width="100%" runat="server">
                                                 </asp:DropDownList>
                                             </div>
                                             <div style="clear: both;"></div>
@@ -317,7 +325,7 @@
                                                 <label>
                                                     Type Question
                                                 </label>
-                                                <asp:DropDownList ID="DDL_TypeQuestion" AutoPostBack="true" CssClass="select2" Width="100%" runat="server">
+                                                <asp:DropDownList ID="DDL_TypeQuestion" AutoPostBack="true" CssClass="form-control" Width="100%" runat="server">
                                                 </asp:DropDownList>
                                             </div>
                                             <div style="clear: both;"></div>
@@ -459,10 +467,10 @@
                                             </MasterTableView>
                                             <GroupingSettings CaseSensitive="False" />
                                             <ClientSettings AllowDragToGroup="True" AllowColumnsReorder="True">
-                                                <ClientEvents OnRowContextMenu="RowContextMenu" OnRowDblClick="RowDblClick" />
+                                                <%--<ClientEvents OnRowContextMenu="RowContextMenu" OnRowDblClick="RowDblClick" />--%>
                                                 <Selecting AllowRowSelect="true" />
                                             </ClientSettings>
-                                            <HeaderContextMenu CssClass="GridContextMenu GridContextMenu_Default" />
+                                            <%--<HeaderContextMenu CssClass="GridContextMenu GridContextMenu_Default" />--%>
                                             <PagerStyle PageSizeControlType="RadComboBox" />
                                             <FilterMenu EnableImageSprites="False"></FilterMenu>
                                         </telerik:RadGrid>
@@ -523,10 +531,10 @@
                                             </MasterTableView>
                                             <GroupingSettings CaseSensitive="False" />
                                             <ClientSettings AllowDragToGroup="True" AllowColumnsReorder="True">
-                                                <ClientEvents OnRowContextMenu="RowContextMenu" OnRowDblClick="RowDblClick" />
+                                                <%--<ClientEvents OnRowContextMenu="RowContextMenu" OnRowDblClick="RowDblClick" />--%>
                                                 <Selecting AllowRowSelect="true" />
                                             </ClientSettings>
-                                            <HeaderContextMenu CssClass="GridContextMenu GridContextMenu_Default" />
+                                            <%--<HeaderContextMenu CssClass="GridContextMenu GridContextMenu_Default" />--%>
                                             <PagerStyle PageSizeControlType="RadComboBox" />
                                             <FilterMenu EnableImageSprites="False"></FilterMenu>
                                         </telerik:RadGrid>
@@ -553,12 +561,11 @@
         </Windows>
     </telerik:RadWindowManager>
 
-    <telerik:RadContextMenu ID="ContextMenu" runat="server" OnClientItemClicked="MenuItemClicked" EnableRoundedCorners="true" EnableShadows="true">
+    <%--<telerik:RadContextMenu ID="ContextMenu" runat="server" OnClientItemClicked="MenuItemClicked" EnableRoundedCorners="true" EnableShadows="true">
         <Items>
             <telerik:RadMenuItem Visible="true" Value="Editer" Text="Visualiser / Modifier" ImageUrl="~/images/_edit.png" HoveredImageUrl="~/images/_edit.png" />
-            <%--<telerik:RadMenuItem Visible="false" Value="Delete" Text="Supprimer" ImageUrl="~/images/delete.png" HoveredImageUrl="~/images/delete.png" />--%>
         </Items>
-    </telerik:RadContextMenu>
+    </telerik:RadContextMenu>--%>
 
     <input id="txtWindowPage" type="hidden" />
 </asp:Content>
